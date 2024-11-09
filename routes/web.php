@@ -10,15 +10,16 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'authenticate'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'store']);
 Route::get('oauth/google', [AuthController::class, 'redirectToGoogle'])->name('oauth.google');
 Route::get('oauth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::get('/', [AuthController::class, 'logout'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 });
 
 Route::get('optimize', function () {

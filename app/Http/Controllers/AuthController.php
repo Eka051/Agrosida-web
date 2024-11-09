@@ -35,7 +35,7 @@ class AuthController extends Controller
        return redirect()->route('login')->with('success', 'Akun berhasil dibuat');
     }
 
-    public function autenthicate(Request $request) 
+    public function authenticate(Request $request) 
     {
         $credentials = $request->validate([
             'username' => 'required|string',
@@ -86,14 +86,12 @@ class AuthController extends Controller
             if ($findUser) {
                 Auth::login($findUser);
 
-                return redirect('/dashboard');
-
                 if ($findUser->isAdmin()) {
-                    return redirect('/admin/dashboard');
+                    return redirect('admin/dashboard');
                 } elseif ($findUser->isSeller()) {
-                    return redirect('/seller/dashboard');
+                    return redirect('seller/dashboard');
                 } else {
-                    return redirect('/dashboard');
+                    return redirect('user/dashboard');
                 }
 
             } else {
@@ -109,7 +107,7 @@ class AuthController extends Controller
 
                 Auth::login($newUser);
 
-                return redirect('/dashboard');
+                return redirect('dashboard');
             }
         } catch (Exception $e) {
             dd($e->getMessage());
