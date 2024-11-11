@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('gauth_id')->nullable();
-            $table->string('gauth_type')->nullable();
+        Schema::create('transaction_details', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -22,9 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('gauth_id');
-            $table->dropColumn('gauth_type');
-        });
+        Schema::dropIfExists('transaction_details');
     }
 };

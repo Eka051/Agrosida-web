@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-use Exception;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
         return view('auth.register');
+    }
+
+    public function login()
+    {
+        return view('auth.login');
     }
 
     public function store(Request $request)
@@ -25,11 +31,12 @@ class AuthController extends Controller
            'password' => 'required|min:8|confirmed',
        ]);
 
-       Auth::create([
-           'name' => $request->name,
-           'username' => $request->username,
-           'email' => $request->email,
-           'password' => bcrypt($request->password),
+       User::create([
+            'user_id' => Str::uuid(),
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
        ]);
 
        return redirect()->route('login')->with('success', 'Akun berhasil dibuat');
@@ -86,9 +93,9 @@ class AuthController extends Controller
             if ($findUser) {
                 Auth::login($findUser);
 
-                if ($findUser->isAdmin()) {
+                if ($findUser->role->name == 'admin') {
                     return redirect('admin/dashboard');
-                } elseif ($findUser->isSeller()) {
+                } elseif ($findUser->name == 'seller') {
                     return redirect('seller/dashboard');
                 } else {
                     return redirect('user/dashboard');
@@ -96,18 +103,20 @@ class AuthController extends Controller
 
             } else {
                 $newUser = new User([
+                    'user_id' => Str::uuid(),
                     'name' => $user->name,
                     'email' => $user->email,
                     'gauth_id' => $user->id,
                     'gauth_type' => 'google',
                     'password' => bcrypt('password'),
+                    'role_id' => $user->role_id,
                 ]);
 
                 $newUser->save();
 
                 Auth::login($newUser);
 
-                return redirect('dashboard');
+                return redirect('user/dashboard');
             }
         } catch (Exception $e) {
             dd($e->getMessage());
