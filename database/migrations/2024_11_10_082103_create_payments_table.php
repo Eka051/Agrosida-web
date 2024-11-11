@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('order_id');
             $table->string('status');
             $table->double('total');
-            $table->string('payment_type')->enum('bank_transfer', 'gopay', 'shopeepay');
             $table->foreignId('transaction_id')->constrained('transactions');
             $table->timestamps();
         });
