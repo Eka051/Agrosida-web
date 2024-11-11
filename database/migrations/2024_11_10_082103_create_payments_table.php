@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('order_id');
             $table->string('status');
             $table->double('total');
-            $table->foreignId('transaction_id')->constrained('transactions');
+            // $table->foreignId('transaction_id')->constrained('transactions');
             $table->timestamps();
         });
     }

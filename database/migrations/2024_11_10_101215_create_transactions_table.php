@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id()->primary();
+            $table->enum('status', ['pending', 'completed', 'failed']);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
