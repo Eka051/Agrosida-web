@@ -1,6 +1,6 @@
 <?php
 
-use Symfony\Component\Routing\Route;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('oauth/google', [AuthController::class, 'redirectToGoogle'])->name('oauth.google');
