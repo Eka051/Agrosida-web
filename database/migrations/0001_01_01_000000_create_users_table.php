@@ -20,8 +20,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('gauth_id')->nullable();
             $table->string('gauth_type')->nullable();
-            $table->foreignId('role_id')->constrained('roles', 'role_id');
-            $table->foreignId('address_id')->constrained('addresses', 'id');
             $table->timestamp('email_verified_at')->nullable()->useCurrent();
         });
 

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id()->primary();
             $table->string('name')->unique();
-            // $table->foreignId('user_id')->constrained('users');
-            // $table->foreignId('id')->constrained('addresses');
             $table->timestamps();
         });
     }

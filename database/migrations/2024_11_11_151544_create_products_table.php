@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('image');
             $table->enum('dicontinued', [0, 1]);
             $table->timestamps();
-            // $table->foreignId('category_id')->constrained('categories');
         });
     }
 
