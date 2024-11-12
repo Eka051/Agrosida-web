@@ -13,7 +13,7 @@
             </ul>
         </div>
         <div class="hidden md:flex items-center">
-            <a href="" class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>
+            <a href="{{ route('login') }}" class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>
         </div>
         <div class="md:hidden">
             <button id="hamburger-btn" class="text-white focus:outline-none">

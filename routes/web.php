@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Seller\SellerController;
 
 Route::get('/', function () {
-    return view('landing');
+    return view('auth.login');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -40,3 +40,5 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     echo 'optimize clear';
 });
+
+require __DIR__.'/auth.php';
