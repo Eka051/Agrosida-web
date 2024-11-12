@@ -17,10 +17,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $primaryKey = 'user_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'role_id',
+        'address_id',
+        'gauth_id',
+        'gauth_type',
     ];
 
     /**
@@ -48,11 +57,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function oauthproviders()
-    {
-        return $this->hasMany(OauthProvider::class);
-    }
 }
