@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('user_id')->primary();
             $table->string('name');
@@ -20,7 +21,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('gauth_id')->nullable();
             $table->string('gauth_type')->nullable();
-            $table->timestamp('email_verified_at')->nullable()->useCurrent();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

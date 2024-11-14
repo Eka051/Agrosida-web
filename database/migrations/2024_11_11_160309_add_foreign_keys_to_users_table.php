@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained('roles', 'role_id');
-            $table->foreignId('address_id')->constrained('addresses', 'id');
-        });
+        Schema::disableForeignKeyConstraints();
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->foreignId('role_id')->constrained('roles', 'role_id');
+        //     $table->foreignId('address_id')->constrained('addresses', 'id');
+        // });
     }
 
     /**

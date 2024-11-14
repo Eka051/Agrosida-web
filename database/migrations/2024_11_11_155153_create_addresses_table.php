@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('address_id')->primary();
             $table->string('country')->default('Indonesia');

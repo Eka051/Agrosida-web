@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
@@ -8,14 +10,9 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Seller\SellerController;
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('landing');
 });
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'authenticate']);
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'store']);
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
@@ -40,5 +37,3 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     echo 'optimize clear';
 });
-
-require __DIR__.'/auth.php';
