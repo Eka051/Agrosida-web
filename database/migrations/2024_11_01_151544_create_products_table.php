@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->foreignId('category_id')->constrained('categories.category_id');
+            $table->foreignId('category_id')->constrained('categories', 'category_id');
             $table->double('price');
             $table->integer('stock');
+            $table->string('file_path');
             $table->string('description');
-            $table->string('image');
             $table->enum('dicontinued', [0, 1]);
             $table->timestamps();
         });
