@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id('payment_id');
-            $table->string('order_id');
-            $table->string('status');
-            $table->double('total');
+        Schema::create('addresses', function (Blueprint $table) {
+            $table->bigIncrements('address_id')->primary();
+            $table->string('country')->default('Indonesia');
+            $table->string('province');
+            $table->string('city');
+            $table->string('street_address');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('addresses');
     }
 };

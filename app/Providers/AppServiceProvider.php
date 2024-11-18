@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // foreach (glob(app_path('routes') . '/*.php') as $file) { require_once $file; }
+
         Route::middleware('web')
              ->group(base_path('routes/web.php'));
 

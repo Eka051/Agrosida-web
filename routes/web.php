@@ -16,15 +16,15 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     });
 
     Route::middleware(['role:seller'])->group(function () {
-        Route::get('/seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
+        Route::get('seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
     });
 
     Route::middleware(['role:user'])->group(function () {
-        Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+        Route::get('user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     });
 });
 

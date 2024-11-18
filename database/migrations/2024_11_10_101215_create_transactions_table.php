@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id('transaction_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'completed', 'failed']);
             $table->timestamp('created_at')->useCurrent();
         });

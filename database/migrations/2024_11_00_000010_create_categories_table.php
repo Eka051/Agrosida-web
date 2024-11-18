@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->bigIncrements('address_id')->primary();
-            $table->string('country')->default('Indonesia');
-            $table->string('province');
-            $table->string('city');
-            $table->string('street_address');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id('category_id');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('categories');
     }
 };

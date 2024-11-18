@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id('transaction_details_id');
+            $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
             $table->integer('quantity');
             $table->double('price');
+            $table->foreignId('product_id')->constrained('products');
+            $table->timestamps();
         });
     }
 

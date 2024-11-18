@@ -6,8 +6,8 @@ use App\Http\Controllers\Auth\OauthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\PasswordResetController;
 
-Route::get('auth/google', [OauthController::class, 'redirectToGoogle'])->name('oauth.google');
-Route::get('auth/google/callback', [OauthController::class, 'handleGoogleCallback'])->name('oauth.google.callback');
+Route::get('/oauth/google', [OauthController::class, 'redirectToGoogle'])->name('oauth.google');
+Route::get('/oauth/google/callback', [OauthController::class, 'handleGoogleCallback']);
 
 Route::middleware('web')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
