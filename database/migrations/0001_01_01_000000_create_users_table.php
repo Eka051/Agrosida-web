@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles');
-            $table->foreignId('address_id')->nullable()->constrained('addresses');
+            $table->foreignId('role_id')->constrained('roles.role_id');
+            $table->foreignId('address_id')->nullable()->constrained('addresses.address_id');
             $table->rememberToken();
             $table->string('gauth_id')->nullable();
             $table->string('gauth_type')->nullable();
