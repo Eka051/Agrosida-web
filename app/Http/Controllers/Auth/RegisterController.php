@@ -29,6 +29,7 @@ class RegisterController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role_id' => 2,
        ]);
 
        return redirect()->route('login')->with('success', 'Akun berhasil dibuat');

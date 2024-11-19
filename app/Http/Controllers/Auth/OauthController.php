@@ -21,14 +21,14 @@ class OauthController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
-            $findUser = User::where('gauth_id', $user->id)->first();
+            $foundUser = User::where('gauth_id', $user->id)->first();
 
-            if ($findUser) {
-                Auth::login($findUser);
+            if ($foundUser) {
+                Auth::login($foundUser);
 
-                if ($findUser->role->name == 'admin') {
+                if ($foundUser->role->name == 'admin') {
                     return redirect('admin/dashboard');
-                } elseif ($findUser->name == 'seller') {
+                } elseif ($foundUser->name == 'seller') {
                     return redirect('seller/dashboard');
                 } else {
                     return redirect('user/dashboard');
@@ -47,12 +47,13 @@ class OauthController extends Controller
 
                 $newUser->save();
 
-                Auth::login($newUser);
+                User::login($newUser);
 
                 return redirect('user/dashboard');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }
