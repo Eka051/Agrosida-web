@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(Router $router): void
     {
         // foreach (glob(app_path('routes') . '/*.php') as $file) { require_once $file; }
 
@@ -31,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Route::middleware('api')
              ->prefix('api')
              ->group(base_path('routes/api.php'));
+        
+        $router->aliasMiddleware('role', \App\Http\Middleware\RoleMiddleware::class);
     }
 }
