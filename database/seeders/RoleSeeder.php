@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
@@ -14,10 +15,47 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('roles')->insert([
-            ['name' => 'admin'],
-            ['name' => 'user'],
-            ['name' => 'seller'],
+        Role::findOrCreate('Admin');
+        Role::findOrCreate('User');
+        Role::findOrCreate('Seller');
+
+        Permission::findOrCreate('manage-users');
+        Permission::findOrCreate('manage-sellers');
+        Permission::findOrCreate('manage-products');
+        Permission::findOrCreate('manage-categories');
+        Permission::findOrCreate('manage-transaction');
+
+        Permission::findOrCreate('view-transactions');
+        Permission::findOrCreate('view-products');
+        Permission::findOrCreate('make-transactions');
+
+        Permission::findOrCreate('addProductsToCart');
+        Permission::findOrCreate('viewCart');
+
+        $adminRole = Role::findByName('Admin');
+        // dd($adminRole);
+        $adminRole->givePermissionTo([
+            'manage-users',
+            'manage-sellers',
+            'manage-products',
+            'manage-categories',
+            'manage-transaction',
         ]);
+
+        $sellerRole = Role::findByName('Seller');
+        $sellerRole->givePermissionTo([
+            'manage-products',
+            'manage-transaction',
+        ]);
+
+        $userRole = Role::findByName('User');
+        $userRole->givePermissionTo([
+            'view-products',
+            'make-transactions',
+            'view-transactions',
+            'addProductsToCart',
+            'viewCart',
+        ]);
+
     }
 }

@@ -18,19 +18,29 @@ class RegisterController extends Controller
     {
        $request->validate([
            'name' => 'required',
-           'username' => 'required|unique:users',
-           'email' => 'required|email',
+           'username' => 'required|string|unique:users',
            'password' => 'required|min:8|confirmed',
        ]);
 
-       User::create([
+        $data = $request->all();
+
+        if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
+            $data['email'] = $data['username'];
+            $data['username'] = null;
+        } else {
+            $data['email'] = null;
+        }
+
+
+       $user = User::create([
             'user_id' => Str::uuid(),
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => 2,
        ]);
+       $user->assignRole('user');
+
 
        return redirect()->route('login')->with('success', 'Akun berhasil dibuat');
     }

@@ -2,7 +2,7 @@
 @section('title', 'Login')
 @section('content')
 
-<form action="{{ route('login') }}" method="POST">
+<form action="{{ route('login.authenticate') }}" method="POST">
     @csrf
     <div class="mt-20">
         <div class="flex justify-center m-auto">
@@ -30,11 +30,11 @@
                     </div>
                     <div class="mt-2 flex items-center justify-between">
                         <label class="inline-flex items-center">
-                            <input type="checkbox" class="text-greenprifrom-greenPrimary rounded">
+                            <input type="checkbox" class="text-greenPrimary from-greenPrimary rounded">
                             <span class="ml-2 text-gray-600">Ingat saya</span>
                         </label>
 
-                        <a href="#" class="text-greenprifrom-greenPrimary font-semibold focus:outline-none focus:underline hover:underline">Lupa Password?</a>
+                        <a href="#" class="text-greenPrimary font-semibold focus:outline-none focus:underline hover:underline">Lupa Password?</a>
                     </div>
                     <div class="mt-4 flex justify-center">
                         <button type="submit" class="bg-greenSecondary from-greenPrimary w-[22rem] h-12 text-white text-lg font-medium rounded-lg hover:bg-blue-700 hover:text-white focus:outline-none focus:bg-blue-700">Login</button>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="mt-4 flex justify-center">
                         <a href="{{ route('oauth.google') }}" class="w-[22rem] h-12 bg-white border border-gray-300 text-lg font-medium rounded-lg hover:bg-gray-100 flex items-center justify-center focus:outline-gray-400">
-                            {{-- <span class="text-2xl iconify ml-2 mr-[0.5rem]" data-icon="devicon:google"></span> --}}
+                            <span class="text-2xl iconify ml-2 mr-[0.5rem]" data-icon="devicon:google"></span>
                             <span class="icon-[devicon--google]" style="width: 1.2rem; height: 1.2rem;"></span>
                             Masuk dengan Google
                         </a>

@@ -23,6 +23,30 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        
+        $validated = $request->validate([
+            'product_name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'dicontinued' => 'required|in:0,1'
+        ]);
+
+        try {
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $name = time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $name);
+                $validated['file_path'] = $name;
+            }
+
+            Product::create($validated);
+            return redirect()->route('seller.products.index')->with('success', 'Product added successfully');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to add product');
+        }
     }
 }

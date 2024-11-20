@@ -35,7 +35,7 @@
         animation: rotate 5s linear infinite;
     }
 </style>
-<form action="{{ route('register') }}" method="POST">
+<form action="{{ route('register.store') }}" method="POST">
     @csrf
     <div class="mt-20">
         <div class="flex items-center justify-center">
@@ -62,28 +62,40 @@
                     <div class="px-16 mt-8">
                         <div>
                             <label for="name" class="block font-semibold text-lg">Nama Lengkap</label>
-                            <input type="text" name="name" id="name" placeholder="Masukkan nama lengkap"
-                                autofocus required
+                            <input type="text" name="name" id="name" placeholder="Masukkan nama lengkap" autofocus
+                                required
                                 class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                            @error('name')
+                            <p class="text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-4">
                             <label for="username" class="block font-semibold text-lg">Username</label>
                             <input type="text" name="username" id="username" placeholder="Masukkan username" autofocus
                                 required
                                 class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                            @error('username')
+                            <p class="text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-4">
                             <label for="password" class="block font-semibold text-lg">Password</label>
                             <input type="password" name="password" id="password" placeholder="Masukkan password"
                                 autofocus required
                                 class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                            @error('password')
+                            <p class="text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-4">
                             <label for="passwod_confirmation" class="block font-semibold text-lg">Konfirmasi
                                 Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Konfirmasi password"
-                                autofocus required
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                placeholder="Konfirmasi password" autofocus required
                                 class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                            @error('password_confirmation')
+                            <p class="text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-8 flex justify-center">
                             <button type="submit"

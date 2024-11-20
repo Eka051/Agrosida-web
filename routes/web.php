@@ -13,6 +13,7 @@ Route::get('/', function () {
     return view('landing');
 });
 
+// Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
@@ -25,9 +26,9 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
 });
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('login', [AuthController::class, 'authenticate']);
+Route::post('login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 Route::get('register', [RegisterController::class, 'register'])->name('register');
-Route::post('register', [RegisterController::class, 'store']);
+Route::post('register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('forgot/password', [PasswordResetController::class, 'index'])->name('forgot.password');
 
 Route::get('optimize', function () {

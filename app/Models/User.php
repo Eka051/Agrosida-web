@@ -3,11 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
+    use HasRoles;
     protected $primaryKey = 'user_id';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -28,7 +29,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'role_id',
         'address_id',
         'gauth_id',
         'gauth_type',
@@ -57,11 +57,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function roles()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
-
     protected static function boot()
     {
         parent::boot();
@@ -69,21 +64,6 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->user_id = (string) Str::uuid();
         });
-    }
-
-    public function isAdmin()
-    {
-        return $this->role_id === 1;
-    }
-
-    public function isUser()
-    {
-        return $this->role_id === 2;
-    }
-
-    public function isSeller()
-    {
-        return $this->role_id === 3;
     }
 
 }

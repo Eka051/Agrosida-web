@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -42,17 +41,16 @@ class OauthController extends Controller
                     'gauth_id' => $user->id,
                     'gauth_type' => 'google',
                     'password' => bcrypt('password'),
-                    'role_id' => $user->role_id,
                 ]);
+                $newUser->assignRole('user');
 
                 $newUser->save();
 
-                User::login($newUser);
+                Auth::login($newUser);
 
-                return redirect('user/dashboard');
+                return redirect()->route('user.dashboard');
             }
         } catch (Exception $e) {
-            // dd($e->getMessage());
             return back()->with('error', $e->getMessage());
         }
     }

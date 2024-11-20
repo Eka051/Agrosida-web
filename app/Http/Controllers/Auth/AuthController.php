@@ -32,20 +32,20 @@ class AuthController extends Controller
 
         if(Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            $user = User::user();
+            $user = Auth::user();
 
-            if($user->isAdmin()) {
-                return redirect()->intended('admin/dashboard')->with('success', 'Login berhasil');
-            } elseif ($user->isSeller()) {
-                return redirect()->intended('seller/dashboard')->with('success', 'Login berhasil');
+            if($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard')->with('success', 'Login berhasil');
+            } elseif ($user->hasRole('seller')) {
+                return redirect()->route('seller.dashboard')->with('success', 'Login berhasil');
             } else {
-                return redirect()->intended('user/dashboard')->with('success', 'Login berhasil');
+                return redirect()->route('user.dashboard')->with('success', 'Login berhasil');
             }
-        }
+            }
 
         return back()->withErrors([
-            'email' => 'Data yang dimasukkan tidak sesuai',
-        ])->onlyInput('email');
+            'login' => 'Data yang dimasukkan tidak sesuai',
+        ])->onlyInput('login');
     }
 
     public function logout(Request $request)
