@@ -23,17 +23,23 @@
                     <div>
                         <label for="username" class="block font-semibold text-lg">Username</label>
                         <input type="text" name="username" id="username" placeholder="Masukkan username" autofocus required class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                        @error('username')
+                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                            
+                        @enderror
                     </div>
                     <div class="mt-4">
                         <label for="password" class="block font-semibold text-lg">Password</label>
                         <input type="password" name="password" id="password" placeholder="Masukkan password" required class="w-[22rem] h-10 rounded-lg border border-gray-300 bg-gray-100 pl-4 focus:outline-gray-200 focus:bg-white">
+                        @error('password')
+                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mt-2 flex items-center justify-between">
                         <label class="inline-flex items-center">
-                            <input type="checkbox" class="text-greenPrimary from-greenPrimary rounded">
+                            <input type="checkbox" name="remember" class="text-greenPrimary from-greenPrimary rounded">
                             <span class="ml-2 text-gray-600">Ingat saya</span>
                         </label>
-
                         <a href="#" class="text-greenPrimary font-semibold focus:outline-none focus:underline hover:underline">Lupa Password?</a>
                     </div>
                     <div class="mt-4 flex justify-center">

@@ -20,7 +20,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    use HasRoles;
     protected $primaryKey = 'user_id';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -29,7 +28,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'address_id',
         'gauth_id',
         'gauth_type',
     ];
@@ -64,6 +62,24 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->user_id = (string) Str::uuid();
         });
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id');
+    }
+
+    public function assignRole($roleName)
+    {
+        $role = Role::where('name', $roleName)->first();
+        if ($role) {
+            $this->roles()->attach($role);
+        }
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->exists();
     }
 
 }

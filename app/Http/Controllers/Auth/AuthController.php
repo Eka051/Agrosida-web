@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -17,35 +18,32 @@ class AuthController extends Controller
 
     public function authenticate(Request $request) 
     {
-        $input = $request->input('login');
-
-        $request->validate([
-            'login' => 'required',
-            'password' => 'required|min:8',
+        $credentials = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
-        $loginType = filter_var($input, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        $credentials = [
-            $loginType => $input,
-            'password' => $request->password,
-        ];
-
-        if(Auth::attempt($credentials, $request->filled('remember'))) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $user = Auth::user();
-
-            if($user->hasRole('admin')) {
-                return redirect()->route('admin.dashboard')->with('success', 'Login berhasil');
-            } elseif ($user->hasRole('seller')) {
-                return redirect()->route('seller.dashboard')->with('success', 'Login berhasil');
-            } else {
-                return redirect()->route('user.dashboard')->with('success', 'Login berhasil');
-            }
-            }
+            return redirect()->route('admin.dashboard');
+        }
 
         return back()->withErrors([
-            'login' => 'Data yang dimasukkan tidak sesuai',
-        ])->onlyInput('login');
+            'username' => 'Akun tidak ditemukan',
+        ]);
+
+        // $credentials = $request->validate([
+        //     'username' => ['required'],
+        //     'password' => ['required'],
+        // ]);
+
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
+        //     return redirect()->route('admin.dashboard'); 
+        //     #intended is a method that redirects the user to the URL they were trying to access before being caught by the authentication middleware.
+        // }
+
+        // return back();
     }
 
     public function logout(Request $request)

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class OauthController extends Controller
 {
@@ -24,13 +25,18 @@ class OauthController extends Controller
 
             if ($foundUser) {
                 Auth::login($foundUser);
-
-                if ($foundUser->role->name == 'admin') {
-                    return redirect('admin/dashboard');
-                } elseif ($foundUser->name == 'seller') {
-                    return redirect('seller/dashboard');
+                if (Auth::check()) {
+                    \Log::info('User successfully logged in: ' . Auth::user()->email);
                 } else {
-                    return redirect('user/dashboard');
+                    \Log::warning('User login failed');
+                }
+
+                if ($foundUser->hasRole('admin')) {
+                    return redirect()->route('admin.dashboard');
+                } elseif ($foundUser->hasRole('seller')) {
+                    return redirect()->route('seller.dashboard');
+                } else {
+                    return redirect()->route('user.dashboard');
                 }
 
             } else {
@@ -40,11 +46,16 @@ class OauthController extends Controller
                     'email' => $user->email,
                     'gauth_id' => $user->id,
                     'gauth_type' => 'google',
-                    'password' => bcrypt('password'),
+                    'password' => bcrypt(Str::random(16)),
                 ]);
                 $newUser->assignRole('user');
 
                 $newUser->save();
+
+                DB::table('users_roles')->insert([
+                    'user_id' => $newUser->user_id,
+                    'role_id' => 2,
+                ]);
 
                 Auth::login($newUser);
 

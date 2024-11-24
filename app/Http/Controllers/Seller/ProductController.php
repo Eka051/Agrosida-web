@@ -43,10 +43,10 @@ class ProductController extends Controller
             }
 
             Product::create($validated);
-            return redirect()->route('seller.products.index')->with('success', 'Product added successfully');
+            return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan');
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to add product');
+            return redirect()->back()->with('error', 'Gagal menambahkan produk');
         }
     }
 }
