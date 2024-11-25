@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
-        return view('seller.products', compact('products'));
+        return view('products', compact('products'));
     }
 
     public function addProduct()

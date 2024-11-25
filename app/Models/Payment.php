@@ -13,13 +13,9 @@ class Payment extends Model
         'status',
     ];
 
-    public function transaction()
-    {
-        return $this->belongsTo(Transaction::class, 'transaction_id', 'transaction_id');
-    }
-
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'order_id');
     }
+
 }

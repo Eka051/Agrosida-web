@@ -1,3 +1,4 @@
+@extends('components.navbar')
 @extends('components.template')
 @section('title', 'Register')
 @section('content')

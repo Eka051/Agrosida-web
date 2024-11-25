@@ -10,7 +10,6 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 <body>
-    @include('components.navbar')
     @section('title', 'content')
     @yield('content')
     

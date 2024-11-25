@@ -10,7 +10,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('user.userDashboard');
+        $name = auth()->user()->name;
+        return view('user.userDashboard')->with('name', $name);
     }
 
     public function editProfile(Request $request)
