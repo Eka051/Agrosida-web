@@ -3,16 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasRoles;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasRoles, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -62,24 +62,6 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->user_id = (string) Str::uuid();
         });
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id');
-    }
-
-    public function assignRole($roleName)
-    {
-        $role = Role::where('name', $roleName)->first();
-        if ($role) {
-            $this->roles()->attach($role);
-        }
-    }
-
-    public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
     }
 
 }

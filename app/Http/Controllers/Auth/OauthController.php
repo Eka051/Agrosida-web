@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,16 +21,14 @@ class OauthController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
-            $foundUser = User::where('gauth_id', $user->id)->first();
+            $googleUser = Socialite::driver('google')->user();
+            $foundUser = User::where('gauth_id', $googleUser->id)
+                            ->where('gauth_type', 'google')
+                            ->first();
 
             if ($foundUser) {
                 Auth::login($foundUser);
-                if (Auth::check()) {
-                    \Log::info('User successfully logged in: ' . Auth::user()->email);
-                } else {
-                    \Log::warning('User login failed');
-                }
+                \Log::info('User masuk dengan email: ' . $foundUser->email);
 
                 if ($foundUser->hasRole('admin')) {
                     return redirect()->route('admin.dashboard');
@@ -38,31 +37,37 @@ class OauthController extends Controller
                 } else {
                     return redirect()->route('user.dashboard');
                 }
-
             } else {
-                $newUser = new User([
-                    'user_id' => Str::uuid(),
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'gauth_id' => $user->id,
-                    'gauth_type' => 'google',
-                    'password' => bcrypt(Str::random(16)),
-                ]);
-                $newUser->assignRole('user');
+                DB::beginTransaction();
+                try {
+                    $newUser = User::create([
+                        'user_id' => Str::uuid(),
+                        'name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                        'gauth_id' => $googleUser->id,
+                        'gauth_type' => 'google',
+                        'password' => bcrypt(Str::random(16)),
+                    ]);
 
-                $newUser->save();
+                    $newUser->assignRole('user');
 
-                DB::table('users_roles')->insert([
-                    'user_id' => $newUser->user_id,
-                    'role_id' => 2,
-                ]);
+                    DB::commit();
 
-                Auth::login($newUser);
+                    Auth::login($newUser);
+                    \Log::info('User baru, masuk via Google: ' . $newUser->email);
 
-                return redirect()->route('user.dashboard');
+                    return redirect()->route('user.dashboard');
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    \Log::error('Error membuat user baru: ' . $e->getMessage());
+                    throw $e;
+                }
             }
         } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+            \Log::error('Google OAuth error: ' . $e->getMessage());
+            return redirect()
+                ->route('login')
+                ->with('error', 'Gagal login menggunakan Google. Silakan coba lagi.');
         }
     }
 }

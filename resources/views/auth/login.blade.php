@@ -60,6 +60,15 @@
                     <div class="text-center mt-8">
                         <p class="text-lg">Belum memiliki akun? <a href="/register" class="text-blue-400 font-semibold hover:underline focus:outline-none focus:underline">Register</a></p>
                     </div>
+                    @if ($errors->any())
+                    <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li class="mb-2">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -25,25 +26,22 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+
+            $user = Auth::user();
+           
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->hasRole('seller')) {
+                return redirect()->route('seller.dashboard');
+            } else {
+                return redirect()->route('user.dashboard');
+            }
         }
 
         return back()->withErrors([
-            'username' => 'Akun tidak ditemukan',
+            'username' => 'Akun tidak ditemukan atau password salah.',
         ]);
 
-        // $credentials = $request->validate([
-        //     'username' => ['required'],
-        //     'password' => ['required'],
-        // ]);
-
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate();
-        //     return redirect()->route('admin.dashboard'); 
-        //     #intended is a method that redirects the user to the URL they were trying to access before being caught by the authentication middleware.
-        // }
-
-        // return back();
     }
 
     public function logout(Request $request)
