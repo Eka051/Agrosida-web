@@ -12,6 +12,5 @@
     @include('components.navbar')
     @section('title', 'content')
     @yield('content')
-    
 </body>
 </html>

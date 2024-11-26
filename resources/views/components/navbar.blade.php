@@ -1,4 +1,4 @@
-<header class="w-full bg-greenSecondary py-4 fixed top-0 z-50">
+<header class="w-full bg-greenSecondary py-4 fixed top-0 left-0 right-0 z-50">
     <nav class="container mx-auto flex items-center justify-between px-4">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('img/LOGO-AGROSIDA.png') }}" alt="logo-agrosida" class="w-14">
@@ -6,7 +6,7 @@
         </div>
         <div class="hidden md:flex items-center justify-center mr-36">
             <ul class="flex space-x-8">
-                <li><a href="/" class="text-white hover:text-greenPrimary">Beranda</a></li>
+                <li><a href="{{ route('seller.beranda') }}" class="text-white hover:text-greenPrimary">Beranda</a></li>
                 <li><a href="/tentang" class="text-white hover:text-greenPrimary">Layanan</a></li>
                 <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>
                 <li><a href="/kontak" class="text-white hover:text-greenPrimary">Tentang Kami</a></li>
