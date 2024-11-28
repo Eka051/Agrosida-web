@@ -3,7 +3,7 @@
 @section('title', 'Register')
 @section('content')
 
-<style>
+{{-- <style>
     @keyframes rotate-bounce {
         0% {
             transform: scale(0.3) rotate(0deg);
@@ -35,8 +35,8 @@
     .rotate-animation {
         animation: rotate 5s linear infinite;
     }
-</style>
-<form action="{{ route('register.store') }}" method="POST">
+</style> --}}
+<form action="{{ route('register.storeSeller') }}" method="POST">
     @csrf
     <div class="mt-20">
         <div class="flex items-center justify-center">
