@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,17 +20,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        User::insert([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'dianekaraharjo@gmail.com',
-            'password' => bcrypt('agrosida2024'),
+        
+    
+        $this->call([
+            RoleSeeder::class,
+            AdminSeeder::class,
         ]);
 
-        Role::insert([
-            ['name' => 'admin'],
-            ['name' => 'user'],
-            ['name' => 'seller'],
-        ]);
+        // $this->call(RoleSeeder::class);
+
     }
 }

@@ -20,4 +20,27 @@ class TransactionController extends Controller
             'gross_amount' => $request->input('total_harga'),
         ];
     }
+
+    public function notificationHandler(Request $request)
+    {
+        $payload = $request->getContent();
+        $notification = json_decode($payload);
+
+        $transaction = $notification->transaction_status;
+        $type = $notification->payment_type;
+        $orderId = $notification->order_id;
+        $fraud = $notification->fraud_status;
+
+        return response()->json([
+            'transaction' => $transaction,
+            'type' => $type,
+            'orderId' => $orderId,
+            'fraud' => $fraud,
+        ]);
+    }
+
+    public function finishRedirect()
+    {
+        return redirect()->route('user.transaction.index')->with('success', 'Payment success');
+    }
 }
