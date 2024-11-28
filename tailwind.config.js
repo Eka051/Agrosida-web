@@ -11,6 +11,7 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        'node_modules/preline/dist/*.js',
     ],
     theme: {
         extend: {
@@ -22,9 +23,11 @@ export default {
                 greenSecondary : '#114232',
                 yellowPrimary : '#FFEB3B',
                 yellowSecondary : '#FFC107',
-                
+                primaryBg : '#E2F7CA'
             }
         },
     },
-    plugins: [],
+    plugins: [
+        require('preline/plugin'),
+    ],
 };

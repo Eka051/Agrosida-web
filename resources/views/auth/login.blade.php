@@ -1,36 +1,90 @@
+@extends('components.navbar')
 @extends('components.template')
-@section('title', 'Login')
+@section('title', 'Login - AGROSIDA')
 @section('content')
-<div class="flex justify-center items-center min-h-screen bg-green-50">
-    <div class="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-green-200">
-        <h2 class="text-2xl font-semibold text-center text-green-600 mb-6">Login</h2>
 
-        @if(session('success'))
-        <p class="alert alert-success text-green-600">{{ session('success') }}</p>
-        @endif
-        @if($errors->any())
-        @foreach($errors->all() as $err)
-        <p class="alert alert-danger text-red-600">{{ $err }}</p>
-        @endforeach
-        @endif
+<div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-green-600 px-4">
+    <!-- Header Section -->
+    <div class="text-center text-white mb-8">
+        <h1 class="text-4xl font-bold">Selamat Datang di AGROSIDA</h1>
+        <p class="text-lg mt-2">Website untuk kalkulasi penggunaan pestisida dan marketplace pestisida.</p>
+    </div>
 
-        <form action="{{ route('landing') }}" method="POST">
+    <!-- Login Form Section -->
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
+        <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
+        <form action="{{ route('login.authenticate') }}" method="POST">
             @csrf
+            <!-- Username Input -->
             <div class="mb-4">
-                <label for="username" class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
-                <input id="username" class="form-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500" type="text" name="username" value="{{ old('username') }}" required />
+                <label for="username" class="block text-gray-700 font-semibold mb-1">Username</label>
+                <input type="text" name="username" id="username" placeholder="Masukkan username" 
+                       class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                @error('username')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
-                <input id="password" class="form-input mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500" type="password" name="password" required />
+            <!-- Password Input -->
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 font-semibold mb-1">Password</label>
+                <input type="password" name="password" id="password" placeholder="Masukkan password" 
+                       class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                @error('password')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="flex justify-between items-center">
-                <button class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 mx-1" type="submit">Login</button>
-                <a class="w-full text-center py-2 px-4 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 mx-1" href="{{ route('landing') }}">Kembali</a>
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="flex items-center">
+                    <input type="checkbox" name="remember" class="h-4 w-4 text-green-400 focus:ring-green-400 border-gray-300 rounded">
+                    <span class="ml-2 text-gray-600">Ingat saya</span>
+                </label>
+                <a href="#" class="text-green-500 text-sm hover:underline">Lupa Password?</a>
             </div>
+
+            <!-- Login Button -->
+            <button type="submit" 
+                    class="w-full bg-green-500 text-white p-3 rounded-lg font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                Login
+            </button>
         </form>
+
+        <!-- Divider -->
+        <div class="flex items-center my-4">
+            <hr class="flex-grow border-gray-300">
+            <span class="text-gray-500 mx-2">atau</span>
+            <hr class="flex-grow border-gray-300">
+        </div>
+
+        <!-- Google OAuth -->
+        <a href="{{ route('oauth.google') }}" 
+           class="w-full bg-white border border-gray-300 text-gray-700 p-3 rounded-lg flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400">
+            <span class="iconify mr-2 text-xl" data-icon="logos:google"></span>
+            Masuk dengan Google
+        </a>
+
+        <!-- Register Link -->
+        <div class="text-center mt-6">
+            <p class="text-sm">Belum memiliki akun? 
+                <a href="/register" class="text-green-500 font-semibold hover:underline">Register</a>
+            </p>
+        </div>
     </div>
 </div>
+
+<!-- SweetAlert Error Notification -->
+@if ($errors->any())
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: 'Username atau password salah. Silakan coba lagi.',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+</script>
+@endif
+
 @endsection
