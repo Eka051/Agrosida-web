@@ -12,6 +12,7 @@
 </head>
 <body>
     @section('title', 'content')
+    @include('components.navbar')
     @yield('content')
 </body>
 </html>

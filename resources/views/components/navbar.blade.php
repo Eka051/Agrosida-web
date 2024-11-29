@@ -6,14 +6,23 @@
         </div>
         <div class="hidden md:flex items-center justify-center mr-36">
             <ul class="flex space-x-8">
-                <li><a href="{{ route('seller.beranda') }}" class="text-white hover:text-greenPrimary">Beranda</a></li>
+                <li><a href="{{ route('seller.dashboard') }}" class="text-white hover:text-greenPrimary">Beranda</a>
+                </li>
                 <li><a href="/tentang" class="text-white hover:text-greenPrimary">Layanan</a></li>
                 <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>
                 <li><a href="/kontak" class="text-white hover:text-greenPrimary">Tentang Kami</a></li>
             </ul>
         </div>
         <div class="hidden md:flex items-center">
-            <a href="{{ route('login') }}" class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>
+            @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="bg-red-500 py-2 rounded-md px-6 text-white font-semibold">Logout</button>
+            </form>
+            @else
+            <a href="{{ route('login') }}"
+                class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>
+            @endauth
         </div>
         <div class="md:hidden">
             <button id="hamburger-btn" class="text-white focus:outline-none">
@@ -27,7 +36,15 @@
             <li><a href="/tentang" class="text-white hover:text-greenPrimary">Tentang</a></li>
             <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>
             <li><a href="/kontak" class="text-white hover:text-greenPrimary">Kontak</a></li>
-            <a href="" class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>
+            @auth
+            <form action="{{ route('logout') }}">
+                <p class="bg-red-500 py-2 rounded-md px-6 text-white font-semibold">Logout</p>
+            </form>
+            @else
+            <form action="{{ route('login') }}">
+                <p class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</p>
+            </form>
+            @endauth
         </ul>
     </div>
 </header>
@@ -36,5 +53,5 @@
     document.getElementById('hamburger-btn').addEventListener('click', function() {
         const menu = document.getElementById('mobile-menu');
         menu.classList.toggle('hidden');
-    });
+        });
 </script>

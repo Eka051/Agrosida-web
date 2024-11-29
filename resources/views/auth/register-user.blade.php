@@ -36,7 +36,7 @@
         animation: rotate 5s linear infinite;
     }
 </style> --}}
-<form action="{{ route('register.storeSeller') }}" method="POST">
+<form action="{{ route('register-user') }}" method="POST">
     @csrf
     <div class="mt-20">
         <div class="flex items-center justify-center">

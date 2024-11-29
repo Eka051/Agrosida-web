@@ -68,7 +68,7 @@
         <!-- Register Link -->
         <div class="text-center mt-6">
             <p class="text-sm">Belum memiliki akun? 
-                <a href="/register" class="text-green-500 font-semibold hover:underline">Register</a>
+                <a href="{{ route('register-user') }}" class="text-green-500 font-semibold hover:underline">Register</a>
             </p>
         </div>
     </div>

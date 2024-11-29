@@ -19,68 +19,41 @@
                 <table class="table-auto w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 text-sm uppercase tracking-wider">
-                            <th class="px-4 py-2 border">ID</th>
+                            {{-- <th class="px-4 py-2 border">ID</th> --}}
                             <th class="px-4 py-2 border">Nama</th>
                             <th class="px-4 py-2 border">Email</th>
                             <th class="px-4 py-2 border">Role</th>
-                            <th class="px-4 py-2 border">Status</th>
                             <th class="px-4 py-2 border">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data Statis Pengguna -->
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2 border text-gray-800">1</td>
-                            <td class="px-4 py-2 border text-gray-800">John Doe</td>
-                            <td class="px-4 py-2 border text-gray-800">johndoe@example.com</td>
-                            <td class="px-4 py-2 border text-gray-800 capitalize">admin</td>
-                            <td class="px-4 py-2 border text-gray-800">
-                                <span class="px-2 py-1 text-sm rounded-lg bg-green-100 text-green-700">
-                                    Aktif
-                                </span>
-                            </td>
-                            <td class="px-4 py-2 border">
-                                <div class="flex space-x-2">
-                                    <button typr="button" 
-                                       class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600" onclick="window.location.href='{{route('admin.editpengguna')}}'">
-                                        Edit
-                                    </button>
-                                    <button type="button" 
-                                            class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600">
-                                        Hapus
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2 border text-gray-800">2</td>
-                            <td class="px-4 py-2 border text-gray-800">Jane Smith</td>
-                            <td class="px-4 py-2 border text-gray-800">janesmith@example.com</td>
-                            <td class="px-4 py-2 border text-gray-800 capitalize">user</td>
-                            <td class="px-4 py-2 border text-gray-800">
-                                <span class="px-2 py-1 text-sm rounded-lg bg-red-100 text-red-700">
-                                    Nonaktif
-                                </span>
-                            </td>
-                            <td class="px-4 py-2 border">
-                                <div class="flex space-x-2">
-                                    <button typr="button" 
-                                       class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600" onclick="window.location.href='{{route('admin.editpengguna')}}'">
-                                        Edit
-                                    </button>
-                                    <button type="button" 
-                                            class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600" onclick="window.location.href='{{route('admin.editpengguna')}}'">
-                                        Hapus
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- Jika ada pengguna -->
+                        @forelse($users as $user)
+                            @if(!$user->hasRole('admin'))
+                            <tr class="hover:bg-gray-100">
+                                {{-- <td class="px-4 py-2 border text-gray-800">{{ $user->user_id }}</td> --}}
+                                <td class="px-4 py-2 border text-gray-800">{{ $user->name }}</td>
+                                <td class="px-4 py-2 border text-gray-800">{{ $user->email }}</td>
+                                <td class="px-4 py-2 border text-gray-800 capitalize">{{ $user->getRoleNames() }}</td>
+                                <form action="{{ route('admin.delete-user', ['user_id' => $user->user_id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                   <td class="px-4 py-2 border">
+                                       <button type="submit" class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600">
+                                           Hapus
+                                       </button>
+                                   </td>
+                               </form>
+                            </tr>
+                            @endif
+                        @empty
                         <!-- Jika tidak ada pengguna -->
                         <tr>
                             <td colspan="6" class="px-4 py-6 text-center text-gray-500">
                                 Tidak ada pengguna terdaftar.
                             </td>
                         </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

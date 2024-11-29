@@ -21,6 +21,13 @@ class RoleMiddleware
         if (!Auth::user()) {
             return redirect()->route('login')->with('error', 'You are not authorized to access this page');
         }
+
+        Log::info('User ID ' . Auth::user()->user_id . ' mengakses halaman ' . $request->fullUrl() . ' Role: ' . Auth::user()->hasRole($roles));
+
+        if(!Auth::user()->hasRole($roles)) {
+            abort(403, 'Tidak diizinkan untuk mengakses halaman ini');
+        }
+
         return $next($request);
     }
 }

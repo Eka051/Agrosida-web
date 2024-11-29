@@ -13,10 +13,12 @@ Route::middleware('guest')->group(function () {
     Route::get('oauth/google/callback', [OauthController::class, 'handleGoogleCallback'])->name('oauth.google.callback');
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'authenticate'])->name('login.authenticate');
-    Route::get('register', [RegisterController::class, 'registerUser'])->name('register-user');
-    Route::post('register', [RegisterController::class, 'store'])->name('register.store');
-    Route::get('register', [RegisterController::class, 'registerSeller'])->name('register-seller');
-    Route::post('register', [RegisterController::class, 'storeSeller'])->name('register.storeSeller');
+
+    Route::get('register/user', [RegisterController::class, 'registerUser'])->name('register-user');
+    Route::post('register/user', [RegisterController::class, 'store'])->name('register.storeUser');
+    
+    Route::get('register/seller', [RegisterController::class, 'registerSeller'])->name('register-seller');
+    Route::post('register/seller', [RegisterController::class, 'storeSeller'])->name('register.storeSeller');
     Route::get('forgot-password', [PasswordResetController::class, 'index'])->name('forgot.password');
 });
 

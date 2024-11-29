@@ -24,4 +24,10 @@ trait HasRoles
         return $this->roles()->where('name', $role)->exists();
     }
 
+    public function getRoleNames()
+    {
+        return $this->roles->pluck('name')->join(', ');
+    }
+
+
 }

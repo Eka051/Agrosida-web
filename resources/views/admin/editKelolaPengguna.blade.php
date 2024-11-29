@@ -59,7 +59,7 @@
 
                 <!-- Tombol Simpan -->
                 <div class="flex justify-end">
-                    <a href="/admin/kelola-pengguna" 
+                    <a href="#" 
                         class="bg-gray-500 text-white px-6 py-2 rounded-md text-sm mr-4 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
                         Batal
                     </a>

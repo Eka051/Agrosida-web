@@ -22,7 +22,6 @@ class CategoryController extends Controller
         } else {
             Category::create([
                 'name' => $request->name,
-                'description' => $request->description,
             ]);
 
             return redirect()->route('seller.category.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -36,7 +35,6 @@ class CategoryController extends Controller
 
         $category->update([
             'name' => $request->name,
-            'description' => $request->description,
         ]);
 
         return redirect()->route('seller.category.index')->with('success', 'Kategori berhasil diubah');

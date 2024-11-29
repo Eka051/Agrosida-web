@@ -12,7 +12,8 @@
     <!-- Form Edit Kategori -->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg p-6">
-            <form action="#" method="POST" class="space-y-6">
+            <form action="{{ route('admin.edit-kategori') }}" method="POST" class="space-y-6">
+                @method('PUT')
                 <!-- ID Kategori -->
                 <div>
                     <label for="id_kategori" class="block text-xl font-medium text-gray-700">ID Kategori</label>
