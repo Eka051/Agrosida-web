@@ -14,6 +14,19 @@
         -moz-appearance: textfield;
     }
 </style>
+
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div class="landing-page bg-gray-100 min-h-screen">
     <!-- Hero Section -->
     <section class="hero-section bg-gradient-to-r from-greenPrimary to-green-600 text-white pt-32 pb-20 relative overflow-hidden">
@@ -107,19 +120,7 @@
     </section>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const numberInputs = document.querySelectorAll('input[type="number"]');
-            numberInputs.forEach((input) => {
-                // Hilangkan spinner
-                input.style.appearance = "none";
-                input.style.MozAppearance = "textfield";
-                input.style.WebkitAppearance = "none";
-
-                // Cegah scroll dengan mouse wheel
-                input.addEventListener("wheel", (event) => event.preventDefault());
-            });
-
-            // Event listener untuk kalkulasi
+    // Event listener untuk kalkulasi
             const calculateButton = document.getElementById("calculate");
             calculateButton.addEventListener("click", function () {
                 const length = parseFloat(document.getElementById("length").value) || 0;
