@@ -12,7 +12,7 @@
     <!-- Daftar Pesanan untuk Diproses -->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <div class="p-4 bg-blue-500 text-white font-bold text-lg border-b">
+            <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">
                 Pesanan yang Perlu Diproses
             </div>
             <div class="overflow-x-auto">

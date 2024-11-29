@@ -14,5 +14,8 @@
         <li class="mb-4">
             <a href="{{ route('seller.kalkulasipestisida') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.kalkulasipestisida' ? 'bg-green-500 text-white' : '' }}">Kalkulasi Pestisida</a>
         </li>
+        <li>
+            <a href="{{route('user.profil')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.profil' ? 'bg-green-500 text-white' : '' }}">Profil</a>
+        </li>
     </ul>
 </aside>

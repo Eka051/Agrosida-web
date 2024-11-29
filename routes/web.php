@@ -25,6 +25,9 @@ Route::prefix('seller')->name('seller.')->group(function () {
     Route::get('/editproduk', function () {
         return view('seller/editproduk');
     })->name('editproduk');
+    Route::get('/profil', function () {
+        return view('user/userProfil');
+    })->name('profil');
 });
 
 Route::prefix('user')->name('user.')->group(function () {
@@ -43,6 +46,9 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/kalkulasipestisida', function () {
         return view('user/kalkulasiPestisidaUser');
     })->name('kalkulasipestisida');
+    Route::get('/profil', function () {
+        return view('user/userProfil');
+    })->name('profil');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
