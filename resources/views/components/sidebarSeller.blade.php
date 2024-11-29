@@ -3,7 +3,7 @@
     <h2 class="text-xl font-bold mb-6">Menu</h2>
     <ul>
         <li class="mb-4">
-            <a href="{{ route('seller.beranda') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
+            <a href="{{ route('seller.beranda=') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
         </li>
         <li class="mb-4">
             <a href="{{ route('seller.pesanan') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.pesanan' ? 'bg-green-500 text-white' : '' }}">Pesanan</a>

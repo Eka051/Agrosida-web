@@ -4,7 +4,7 @@
         AGROSIDA
     </div>
     <nav class="mt-6">
-        <ul class="space-y-2">
+        {{-- <ul class="space-y-2">
             <li>
                 <a href="{{route('admin.beranda')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'admin.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
             </li>
@@ -26,6 +26,6 @@
             <li>
                 <a href="{{route('admin.kalkulasipestisida')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'admin.kalkulasipestisida' ? 'bg-green-500 text-white' : '' }}">Kalkulasi Pestisida</a>
             </li>
-        </ul>
+        </ul> --}}
     </nav>
 </aside>
