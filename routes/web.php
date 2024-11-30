@@ -10,9 +10,16 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Admin\UserManagementController;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
-    return view('landing');
+    return view('info-product');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
