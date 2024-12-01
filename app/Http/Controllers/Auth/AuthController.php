@@ -24,7 +24,14 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $loginType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $attempt = [
+            $loginType => $credentials['username'],
+            'password' => $credentials['password'],
+        ];
+
+        if (Auth::attempt($attempt)) {
             $request->session()->regenerate();
 
             $user = Auth::user();
@@ -39,7 +46,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'username' => 'Akun tidak ditemukan atau password salah.',
+            'username' => 'Akun tidak ditemukan atau password salah. Silahkan coba lagi!',
         ]);
 
     }

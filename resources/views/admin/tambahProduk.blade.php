@@ -1,5 +1,5 @@
 @extends('components.template')
-@include('components.sidebarSeller')
+@include('components.sidebarAdmin')
 @section('title', 'Tambah Produk')
 
 @section('content')
@@ -35,15 +35,17 @@
                         </select>
 
                         <!-- Tombol untuk Menambahkan Kategori Baru -->
-                        <button type="button" id="addCategoryBtn" class="text-sm text-greenSecondary hover:text-greenPrimary mt-2 absolute top-1 right-2">Tambah Kategori Baru</button>
+                        <button type="button" id="addCategoryBtn" class="text-sm text-blue-600 hover:text-blue-800 mt-2 absolute top-1 right-2">Tambah Kategori Baru</button>
                     </div>
 
+                    <!-- Input kategori baru, disembunyikan sampai tombol ditekan -->
                     <div id="newCategoryDiv" class="hidden mt-2">
                         <label for="new_category" class="block text-xl font-medium text-gray-700">Kategori Baru</label>
                         <input type="text" id="new_category" name="new_category" class="mt-1 py-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="Masukkan nama kategori baru">
                     </div>
                 </div>
 
+                <!-- Harga Produk -->
                 <div>
                     <label for="price" class="block text-xl font-medium text-gray-700">Harga (Rp)</label>
                     <input type="text" name="price" id="price" required 
@@ -51,12 +53,14 @@
                         placeholder="Contoh: 50.000" onkeyup="formatPrice()">
                 </div>
 
+                <!-- Deskripsi Produk -->
                 <div>
                     <label for="description" class="block text-xl font-medium text-gray-700">Deskripsi</label>
                     <textarea name="description" id="description" rows="4" required
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="Masukkan deskripsi produk"></textarea>
                 </div>
 
+                <!-- Upload Gambar Produk -->
                 <div>
                     <label for="product_image" class="block text-xl font-medium text-gray-700">Gambar Produk</label>
                     <input type="file" name="product_image" id="product_image" accept="image/*" required enctype="multipart/form-data"
@@ -113,15 +117,16 @@
         }
     });
 
-    
-</script>
-@if(session('success'))
+    @if (session('success'))
     <script>
         Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
+            title: 'Produk Berhasil Ditambahkan!',
             text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'Tutup'
         });
     </script>
 @endif
+
+</script>
 @endsection

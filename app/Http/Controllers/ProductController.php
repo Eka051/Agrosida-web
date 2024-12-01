@@ -7,19 +7,26 @@ use App\Models\Category;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->get();
-        return view('admin.mengelolaProduk', compact('products'));
+        $search = $request->get('search');
+        $products = Product::with('category')
+            ->when($search, function($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                ->orWhereHas('category', function($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%");
+                });
+            })->get();
+        return view('admin.mengelolaProduk', compact('products', ));
     }
 
     public function addProduct()
     {
-        return view('seller.tambahProduk');
+        $categories = Category::all();
+        return view('seller.tambahProduk', compact('categories'));
     }
 
     public function store(Request $request)
@@ -29,7 +36,7 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,category_id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'dicontinued' => 'required|in:0,1'
         ]);
@@ -82,18 +89,31 @@ class ProductController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Product $product)
     {
-        $validated = $request->validate([
-            'product_id' => 'required|exists:products,id'
-        ]);
-
+        DB::beginTransaction();
         try {
-            $product = Product::find($validated['product_id']);
             $product->delete();
+            DB::commit();
             return redirect()->route('admin.view-product')->with('success', 'Produk berhasil dihapus');
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menghapus produk');
         }
     }
+
+    public function discontinue(Product $product)
+    {
+        DB::beginTransaction();
+        try {
+            $product->dicontinued = 1;
+            $product->save();
+            DB::commit();
+            return redirect()->route('seller.product')->with('success', 'Produk berhasil dihentikan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menghentikan produk');
+        }
+    }
+    
 }

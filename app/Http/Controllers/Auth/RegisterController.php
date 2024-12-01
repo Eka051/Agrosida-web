@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Store;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,26 +12,17 @@ class RegisterController extends Controller
 {
     public function registerUser()
     {
-        return view('auth.register-user');
+        return view('auth.register');
     }
 
     public function store(Request $request)
     {
        $request->validate([
            'name' => 'required',
+           'email' => 'required|email|unique:users',
            'username' => 'required|string|unique:users',
            'password' => 'required|min:8|confirmed',
        ]);
-
-        $data = $request->all();
-
-        if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
-            $data['email'] = $data['username'];
-            $data['username'] = null;
-        } else {
-            $data['email'] = null;
-        }
-
 
        $user = User::create([
             'user_id' => Str::uuid(),
@@ -42,30 +34,18 @@ class RegisterController extends Controller
        $user->assignRole('user');
 
 
-       return redirect()->route('login')->with('success', 'Akun berhasil dibuat');
-    }
-
-    public function registerSeller()
-    {
-        return view('auth.register-seller');
+       return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silahkan login');
     }
 
     public function storeSeller(Request $request)
     {
         $request->validate([
+            'store_name' => 'required|string|unique:stores,name',
             'name' => 'required',
             'username' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
-
-        $data = $request->all();
-
-        if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
-            $data['email'] = $data['username'];
-            $data['username'] = null;
-        } else {
-            $data['email'] = null;
-        }
 
         $seller = User::create([
             'user_id' => Str::uuid(),
@@ -75,6 +55,11 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
         $seller->assignRole('seller');
+
+        Store::create([
+            'name' => $request->store_name,
+            'user_id' => $seller->user_id,
+        ]);
 
         return redirect()->route('login')->with('success', 'Akun Seller berhasil dibuat');
     }

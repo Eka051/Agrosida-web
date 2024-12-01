@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('file_path');
             $table->string('description');
-            $table->enum('dicontinued', [0, 1]);
+            $table->enum('dicontinued', [0, 1])->default(0);
+            $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
             $table->timestamps();
         });
     }

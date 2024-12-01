@@ -10,7 +10,9 @@ class UserManagementController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
         return view('admin.kelolaPengguna', compact('users'));
     }
 
@@ -20,9 +22,8 @@ class UserManagementController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->back()->with('success', 'User berhasil dihapus');
+            return redirect()->back()->with('success', 'User berhasil dihapus!');
         }
 
-        return redirect()->back()->with('error', 'User tidak ditemukan');
     }
 }

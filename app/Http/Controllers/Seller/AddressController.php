@@ -22,7 +22,6 @@ class AddressController extends Controller
         } else {
             Address::create([
                 'name' => $request->name,
-                'description' => $request->description,
             ]);
 
             return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil ditambahkan');

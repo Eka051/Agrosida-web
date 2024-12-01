@@ -10,13 +10,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Admin\UserManagementController;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Seller\SellerController;
-use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
     return view('info-product');
@@ -29,12 +22,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/kategori', [CategoryController::class, 'index'])->name('admin.kategori');
     Route::put('admin/edit-kategori', [CategoryController::class, 'edit'])->name('admin.edit-kategori');
     Route::get('admin/product', [ProductController::class, 'index'])->name('admin.view-product');
+    Route::get('admin/product/add-product', [ProductController::class, 'addProduct'])->name('admin.add-product');
+    // Route::post('admin/product/create', [ProductController::class, 'store'])->name('admin.save-product');
+    Route::delete('admin/product/delete/{product_id}', [ProductController::class, 'delete'])->name('admin.delete-product');
+    Route::put('admin/product/edit/{product_id}', [ProductController::class, 'edit'])->name('admin.edit-product');
+    Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
-    Route::get('seller/product', [ProductController::class, 'addProduct'])->name('seller.product');
-    Route::post('seller/product/create', [ProductController::class, 'store'])->name('seller.add-product');
+    Route::get('seller/product', [ProductController::class, 'addProduct'])->name('seller.add-product');
+    Route::post('seller/product/create', [ProductController::class, 'store'])->name('seller.save-product');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -52,4 +50,4 @@ Route::get('optimize', function () {
     echo 'optimize clear';
 });
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';

@@ -14,27 +14,12 @@
         <div class="bg-white shadow rounded-lg p-6">
             <form action="{{ route('admin.edit-kategori') }}" method="POST" class="space-y-6">
                 @method('PUT')
-                <!-- ID Kategori -->
-                <div>
-                    <label for="id_kategori" class="block text-xl font-medium text-gray-700">ID Kategori</label>
-                    <input type="text" id="id_kategori" name="id_kategori" readonly 
-                        value="KAT001" 
-                        class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                </div>
-
                 <!-- Nama Kategori -->
                 <div>
                     <label for="nama_kategori" class="block text-xl font-medium text-gray-700">Nama Kategori</label>
                     <input type="text" id="nama_kategori" name="nama_kategori" required
                         value="Pestisida"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                </div>
-
-                <!-- Deskripsi Kategori -->
-                <div>
-                    <label for="deskripsi_kategori" class="block text-xl font-medium text-gray-700">Deskripsi</label>
-                    <textarea id="deskripsi_kategori" name="deskripsi_kategori" rows="4" required
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">Kategori untuk produk pestisida</textarea>
                 </div>
 
                 <!-- Tombol Simpan -->

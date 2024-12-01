@@ -15,76 +15,83 @@
         <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
         <form action="{{ route('login.authenticate') }}" method="POST">
             @csrf
-            <!-- Username Input -->
             <div class="mb-4">
                 <label for="username" class="block text-gray-700 font-semibold mb-1">Username</label>
-                <input type="text" name="username" id="username" placeholder="Masukkan username" 
+                <input type="text" name="username" id="username" placeholder="Masukkan username atau email" 
                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
-                @error('username')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
-            <!-- Password Input -->
             <div class="mb-4">
-                <label for="password" class="block text-gray-700 font-semibold mb-1">Password</label>
-                <input type="password" name="password" id="password" placeholder="Masukkan password" 
-                       class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
-                @error('password')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <label for="password" class="block font-semibold text-lg">Password</label>
+                <div class="relative">
+                    <input type="password" name="password" id="password" placeholder="Masukkan password" required
+                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                    <span class="absolute right-4 top-3 cursor-pointer toggle-password text-2xl" 
+                          data-target="password" 
+                          data-icon="fluent:eye-24-regular" 
+                          data-icon-hide="fluent:eye-off-24-regular">
+                        <span class="iconify" data-icon="fluent:eye-24-regular"></span>
+                    </span>
+                </div>
             </div>
-
-            <!-- Remember Me & Forgot Password -->
-            <div class="flex items-center justify-between mb-4">
-                <label class="flex items-center">
-                    <input type="checkbox" name="remember" class="h-4 w-4 text-green-400 focus:ring-green-400 border-gray-300 rounded">
-                    <span class="ml-2 text-gray-600">Ingat saya</span>
-                </label>
-                <a href="#" class="text-green-500 text-sm hover:underline">Lupa Password?</a>
+            <div>
+                <a href="#" class="text-green-500 text-base font-semibold hover:underline">Lupa Password?</a>
             </div>
+            <div class="flex items-center my-4">
+                <hr class="flex-grow border-gray-300">
+                <span class="text-gray-500 mx-2">atau</span>
+                <hr class="flex-grow border-gray-300">
+            </div>
+    
+            <a href="{{ route('oauth.google') }}"
+               class="w-full font-medium text-lg bg-white border border-gray-300 text-gray-700 p-3 rounded-lg flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400">
+                <span class="iconify mr-2" data-icon="logos:google-icon" data-width="24" data-height="24"></span>
+                Masuk dengan Google
+            </a>
 
-            <!-- Login Button -->
             <button type="submit" 
-                    class="w-full bg-green-500 text-white p-3 rounded-lg font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                    class="w-full mt-4 bg-green-500 text-white p-3 text-lg rounded-lg font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
                 Login
             </button>
+            <div class="text-center mt-3">
+                <p class="text-lg">Belum memiliki akun? <a href="{{ route('register') }}"
+                        class="text-greenPrimary font-semibold hover:underline hover:text-greenSecondary focus:outline-none focus:underline">Register</a>
+                </p>
+            </div>
         </form>
-
-        <!-- Divider -->
-        <div class="flex items-center my-4">
-            <hr class="flex-grow border-gray-300">
-            <span class="text-gray-500 mx-2">atau</span>
-            <hr class="flex-grow border-gray-300">
-        </div>
-
-        <!-- Google OAuth -->
-        <a href="{{ route('oauth.google') }}" 
-           class="w-full bg-white border border-gray-300 text-gray-700 p-3 rounded-lg flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400">
-            <span class="iconify mr-2 text-xl" data-icon="logos:google"></span>
-            Masuk dengan Google
-        </a>
-
-        <!-- Register Link -->
-        <div class="text-center mt-6">
-            <p class="text-sm">Belum memiliki akun? 
-                <a href="{{ route('register-user') }}" class="text-green-500 font-semibold hover:underline">Register</a>
-            </p>
-        </div>
     </div>
 </div>
 
-<!-- SweetAlert Error Notification -->
 @if ($errors->any())
 <script>
     Swal.fire({
         icon: 'error',
         title: 'Login Gagal',
-        text: 'Username atau password salah. Silakan coba lagi.',
-        confirmButtonColor: '#3085d6',
+        text: '{{ $errors->first() }}',
+        confirmButtonColor: '#A2E554',
         confirmButtonText: 'OK'
     });
 </script>
 @endif
+
+<script>
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const targetId = toggle.getAttribute('data-target');
+            const target = document.getElementById(targetId);
+            const icon = toggle.querySelector('.iconify');
+            const iconShow = toggle.getAttribute('data-icon');
+            const iconHide = toggle.getAttribute('data-icon-hide');
+
+            if (target.type === 'password') {
+                target.type = 'text';
+                if (icon) icon.setAttribute('data-icon', iconHide);
+            } else {
+                target.type = 'password';
+                if (icon) icon.setAttribute('data-icon', iconShow);
+            }
+        });
+    });
+</script>
 
 @endsection

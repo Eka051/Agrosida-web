@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Routing\Controller;
 
 class CategoryController extends Controller
@@ -15,7 +13,7 @@ class CategoryController extends Controller
         return view('category.index');
     }
 
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $category = Category::where('name', $request->name)->first();
 

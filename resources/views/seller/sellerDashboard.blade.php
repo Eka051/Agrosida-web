@@ -19,7 +19,7 @@
     <section class="py-8">
         <div class="flex justify-between items-center mx-4">
             <h2 class="text-2xl font-semibold text-gray-800">Produk Anda</h2>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="window.location.href='{{route('seller.tambahproduk')}}'">Tambah Produk</button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="window.location.href='{{ route('seller.dashboard') }}'">Tambah Produk</button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mt-6 mx-4">
             <!-- Product Cards -->
@@ -29,7 +29,7 @@
                     <h3 class="mt-4 font-medium text-gray-800">Product Name</h3>
                     <p class="text-blue-600">$20.00</p>
                     <div class="flex justify-center mt-4 space-x-2">
-                        <button class="bg-yellow-500 text-white px-4 py-1 rounded" onclick="window.location.href='{{route('seller.editproduk')}}'">Edit</button>
+                        <button class="bg-yellow-500 text-white px-4 py-1 rounded" onclick="window.location.href=''">Edit</button>
                         <button class="bg-red-500 text-white px-4 py-1 rounded">Delete</button>
                     </div>
                 </div>
