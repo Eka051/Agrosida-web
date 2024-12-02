@@ -33,7 +33,7 @@
                             <td class="px-4 py-2 border text-gray-800">20 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp 500.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white rounded-md">
                                     Selesai
                                 </span>
                             </td>
@@ -49,7 +49,7 @@
                             <td class="px-4 py-2 border text-gray-800">18 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp 350.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">
                                     Proses
                                 </span>
                             </td>
@@ -65,7 +65,7 @@
                             <td class="px-4 py-2 border text-gray-800">15 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp 700.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white rounded-md">
                                     Dibatalkan
                                 </span>
                             </td>

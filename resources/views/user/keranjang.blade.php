@@ -70,7 +70,7 @@
             <div class="text-lg font-semibold text-gray-800">
                 Total: Rp350,000
             </div>
-            <a href="/checkout" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
+            <a href="{{route('user.checkout')}}" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
                 Lanjut ke Checkout
             </a>
         </div>

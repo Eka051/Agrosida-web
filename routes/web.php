@@ -26,7 +26,7 @@ Route::prefix('seller')->name('seller.')->group(function () {
         return view('seller/editproduk');
     })->name('editproduk');
     Route::get('/profil', function () {
-        return view('user/userProfil');
+        return view('seller/sellerProfil');
     })->name('profil');
 });
 
@@ -73,12 +73,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/editkategori', function () {
         return view('admin/editKategoriProduk');
     })->name('editkategori');
+    Route::get('/tambahkategori', function () {
+        return view('admin/tambahKategoriProduk');
+    })->name('tambahkategori');
     Route::get('/produk', function () {
         return view('admin/mengelolaProduk');
     })->name('produk');
     Route::get('/editproduk', function () {
         return view('admin/editKelolaProduk');
     })->name('editproduk');
+    Route::get('/tambahproduk', function () {
+        return view('admin/tambahProduk');
+    })->name('tambahproduk');
     Route::get('/transaksi', function () {
         return view('admin/mengelolaTransaksi');
     })->name('transaksi');

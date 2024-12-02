@@ -12,9 +12,6 @@
                 <a href="{{route('user.keranjang')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.keranjang' ? 'bg-green-500 text-white' : '' }}">Keranjang Belanja</a>
             </li>
             <li>
-                <a href="{{route('user.checkout')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.checkout' ? 'bg-green-500 text-white' : '' }}">Checkout Produk</a>
-            </li>
-            <li>
                 <a href="{{route('user.riwayatpesanan')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.riwayatpesanan' ? 'bg-green-500 text-white' : '' }}">Riwayat Pesanan</a>
             </li>
             <li>

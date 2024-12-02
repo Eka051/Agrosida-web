@@ -37,12 +37,12 @@
                             <td class="px-4 py-2 border text-gray-800">Rp1.200.000</td>
                             <td class="px-4 py-2 border text-gray-800">Credit Card</td>
                             <td class="px-4 py-2 border">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white rounded-md">
                                     Completed
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
-                                <a href="/transactions/TXN12345" class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                <a href="/transactions/TXN12345" class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                     Detail
                                 </a>
                             </td>
@@ -54,12 +54,12 @@
                             <td class="px-4 py-2 border text-gray-800">Rp500.000</td>
                             <td class="px-4 py-2 border text-gray-800">Bank Transfer</td>
                             <td class="px-4 py-2 border">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">
                                     Pending
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
-                                <a href="/transactions/TXN12346" class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                <a href="/transactions/TXN12346" class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                     Detail
                                 </a>
                             </td>
@@ -71,12 +71,12 @@
                             <td class="px-4 py-2 border text-gray-800">Rp300.000</td>
                             <td class="px-4 py-2 border text-gray-800">PayPal</td>
                             <td class="px-4 py-2 border">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white rounded-md">
                                     Canceled
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
-                                <a href="/transactions/TXN12347" class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                <a href="/transactions/TXN12347" class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                     Detail
                                 </a>
                             </td>

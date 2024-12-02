@@ -34,8 +34,7 @@
                             <td class="px-4 py-2 border text-gray-800">Rp 150.000</td>
                             <td class="px-4 py-2 border text-gray-800">50</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editproduk/1" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600" onclick="window.location.href='{{route('admin.editproduk')}}'">
+                                <a href="{{route('admin.editproduk')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapusproduk/1" 
@@ -50,8 +49,7 @@
                             <td class="px-4 py-2 border text-gray-800">Rp 200.000</td>
                             <td class="px-4 py-2 border text-gray-800">30</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editproduk/2" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
+                                <a href="{{route('admin.editproduk')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapusproduk/2" 
@@ -66,8 +64,7 @@
                             <td class="px-4 py-2 border text-gray-800">Rp 250.000</td>
                             <td class="px-4 py-2 border text-gray-800">20</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editproduk/3" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
+                                <a href="{{route('admin.editproduk')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapusproduk/3" 
@@ -92,8 +89,7 @@
     <!-- Tombol Tambah Produk -->
     <section class="py-8 mx-4">
         <div class="flex justify-end">
-            <a href="/tambahproduk"
-               class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600">
+            <a href="{{route('admin.tambahproduk')}}" class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600">
                 Tambah Produk
             </a>
         </div>

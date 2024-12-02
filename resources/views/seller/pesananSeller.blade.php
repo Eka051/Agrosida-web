@@ -35,14 +35,14 @@
                             <td class="px-4 py-2 border text-gray-800">25 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp1.000.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">
                                     Pending
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
                                 <div class="flex space-x-2">
                                     <a href="#" 
-                                       class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                       class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
                                     <form action="#" method="POST">
@@ -63,14 +63,14 @@
                             <td class="px-4 py-2 border text-gray-800">26 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp750.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-blue-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-blue-500 text-white rounded-md">
                                     Shipped
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
                                 <div class="flex space-x-2">
                                     <a href="#" 
-                                       class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                       class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
                                     <form action="#" method="POST">
@@ -91,14 +91,14 @@
                             <td class="px-4 py-2 border text-gray-800">27 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp500.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white rounded-md">
                                     Completed
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
                                 <div class="flex space-x-2">
                                     <a href="#" 
-                                       class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                       class="bg-blue-500 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
                                     <form action="#" method="POST">

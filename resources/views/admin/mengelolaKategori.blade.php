@@ -32,8 +32,7 @@
                             <td class="px-4 py-2 border text-gray-800">Pestisida</td>
                             <td class="px-4 py-2 border text-gray-800">Kategori untuk produk pestisida</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editkategori/1" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                <a href="{{route('admin.editkategori')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapuskategori/1" 
@@ -47,8 +46,7 @@
                             <td class="px-4 py-2 border text-gray-800">Alat Pertanian</td>
                             <td class="px-4 py-2 border text-gray-800">Kategori untuk produk alat pertanian</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editkategori/2" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                <a href="{{route('admin.editkategori')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapuskategori/2" 
@@ -62,8 +60,7 @@
                             <td class="px-4 py-2 border text-gray-800">Bibit Tanaman</td>
                             <td class="px-4 py-2 border text-gray-800">Kategori untuk produk bibit tanaman</td>
                             <td class="px-4 py-2 border">
-                                <a href="/editkategori/3" 
-                                   class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600" onclick="window.location.href='{{route('admin.editkategori')}}'">
+                                <a href="{{route('admin.editkategori')}}" class="bg-yellow-500 text-white px-4 py-1 rounded text-sm hover:bg-yellow-600">
                                    Edit
                                 </a>
                                 <a href="/hapuskategori/3" 
@@ -88,8 +85,7 @@
     <!-- Tambah Kategori Button -->
     <section class="py-4 mx-4">
         <div class="flex justify-end">
-            <a href="/tambahkategori" 
-               class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <a href="{{route('admin.tambahkategori')}}"  class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
                Tambah Kategori
             </a>
         </div>
