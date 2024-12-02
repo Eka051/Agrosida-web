@@ -73,6 +73,17 @@
     });
 </script>
 @endif
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Pendaftaran Berhasil',
+        text: '{{ session('success') }}',
+        confirmButtonColor: '#A2E554',
+        confirmButtonText: 'OK'
+    });
+</script>
+@endif
 
 <script>
     document.querySelectorAll('.toggle-password').forEach(toggle => {

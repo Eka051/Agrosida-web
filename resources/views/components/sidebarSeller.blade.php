@@ -3,13 +3,13 @@
     <h2 class="text-xl font-bold mb-6">Menu</h2>
     <ul>
         <li class="mb-4">
-            <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
+            <a href="{{ route('seller.dashboard') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
         </li>
         <li class="mb-4">
-            <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.pesanan' ? 'bg-green-500 text-white' : '' }}">Pesanan</a>
+            <a href="{{ route('seller.view-order') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.pesanan' ? 'bg-green-500 text-white' : '' }}">Pesanan</a>
         </li>
         <li class="mb-4">
-            <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.transaksi' ? 'bg-green-500 text-white' : '' }}">Transaksi</a>
+            <a href="{{ route('seller.view-transaction') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.transaksi' ? 'bg-green-500 text-white' : '' }}">Transaksi</a>
         </li>
         <li class="mb-4">
             <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'seller.kalkulasipestisida' ? 'bg-green-500 text-white' : '' }}">Kalkulasi Pestisida</a>

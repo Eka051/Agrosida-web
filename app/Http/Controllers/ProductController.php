@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Product;
 use App\Models\Category;
-use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -20,7 +23,7 @@ class ProductController extends Controller
                     $query->where('name', 'like', "%{$search}%");
                 });
             })->get();
-        return view('admin.mengelolaProduk', compact('products', ));
+        return view('admin.mengelolaProduk', compact('products'));
     }
 
     public function addProduct()
@@ -29,6 +32,7 @@ class ProductController extends Controller
         return view('seller.tambahProduk', compact('categories'));
     }
 
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,84 +40,120 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,category_id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'dicontinued' => 'required|in:0,1'
+            'category_id' => 'nullable|exists:categories,category_id',
+            'new_category' => 'nullable|string|max:255|required_without:category_id',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         try {
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
-                $image->move($destinationPath, $name);
-                $validated['file_path'] = $name;
+            $file = $request->file('image');
+            $name = time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('products', $name);
+
+            $product = Product::create([
+                'product_name' => $validated['product_name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'stock' => $validated['stock'],
+                'category_id' => $validated['category_id'],
+                'created_by' => auth()->user()->user_id,
+                'image_path' => str_replace('public/', '', $path),
+            ]);
+
+            if (!$validated['category_id'] && $validated['new_category']) {
+                $category = Category::firstOrCreate(['name' => $validated['new_category']]);
+                $product->update(['category_id' => $category->category_id]);
             }
 
-            Product::create($validated);
-            return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan');
+            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil ditambahkan.');
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menambahkan produk');
+            Log::error('Error saat menambahkan produk: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menambahkan produk. Silakan coba lagi.');
         }
+
     }
 
-    public function edit(Request $request, Product $product)
+    public function delete($id)
     {
-        $request->validate([
-            'product_name' => 'required|max:255',
-            'description' => 'required',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'dicontinued' => 'required|in:0,1'
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $product->update($request->all());
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
-                $image->move($destinationPath, $name);
-                $product->file_path = $name;
-                $product->save();
-            }
-            DB::commit();
-            return redirect()->route('admin.view-product')->with('success', 'Produk berhasil diubah');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal mengubah produk');
-        }
-    }
-
-    public function delete(Product $product)
-    {
-        DB::beginTransaction();
-        try {
+        $product = Product::findOrFail($id);
+        if($product){
             $product->delete();
-            DB::commit();
-            return redirect()->route('admin.view-product')->with('success', 'Produk berhasil dihapus');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal menghapus produk');
+            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihapus');
         }
     }
-
-    public function discontinue(Product $product)
+   
+    public function discontinue($id)
     {
         DB::beginTransaction();
         try {
-            $product->dicontinued = 1;
+            $product = Product::findOrFail($id);
+            $product->discontinued = 1;
             $product->save();
             DB::commit();
-            return redirect()->route('seller.product')->with('success', 'Produk berhasil dihentikan');
+            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihentikan');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menghentikan produk');
         }
     }
-    
+
+    public function editProduk($id)
+    {
+        $product = Product::find($id)->first();
+        $categories = Category::all();
+        return view('seller.editProduk', compact('product', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'product_name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'nullable|exists:categories,category_id',
+            'new_category' => 'nullable|string|max:255|required_without:category_id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        try {
+            $product = Product::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $name = time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('products', $name);
+                Storage::delete('public/' . $product->image_path);
+                $product->image_path = str_replace('public/', '', $path);
+            }
+
+            $product->update([
+                'product_name' => $validated['product_name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'stock' => $validated['stock'],
+                'category_id' => $validated['category_id'],
+            ]);
+
+            if (!$validated['category_id'] && $validated['new_category']) {
+                $category = Category::firstOrCreate(['name' => $validated['new_category']]);
+                $product->update(['category_id' => $category->category_id]);
+            }
+
+            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil diubah.');
+
+        } catch (\Exception $e) {
+            Log::error('Error saat mengubah produk: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal mengubah produk. Silakan coba lagi.');
+        }
+    }
+
 }
+

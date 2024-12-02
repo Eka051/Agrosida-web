@@ -8,6 +8,16 @@ use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        return view('user.transaction.index');
+    }
+
+    public function showTransactionFromUser()
+    {
+        return view('seller.transaksiSeller');
+    }
+
     public function processPayment(Request $request)
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY');

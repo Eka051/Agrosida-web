@@ -14,13 +14,6 @@
                class="px-4 py-2 border rounded w-full focus:ring-2 focus:ring-green-500 focus:outline-none">
         <button type="submit" class="mt-4 bg-green-500 text-white px-8 py-2 rounded hover:bg-green-600">Cari</button>
     </form>
-
-    <div class="mx-5 mt-4">
-        <a href="{{ route('admin.add-product') }}" class="bg-greenPrimary text-white px-6 py-3 rounded-lg shadow-lg hover:bg-greenSecondary">
-            Tambah Produk
-        </a>
-    </div>
-
     <!-- Tabel Produk -->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg overflow-hidden">

@@ -35,19 +35,19 @@
                             <td class="px-4 py-2 border text-gray-800">25 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp1.000.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm rounded-md font-semibold bg-yellow-500 text-white">
                                     Pending
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
-                                <div class="flex space-x-2">
+                                <div class="inline-flex">
                                     <a href="#" 
-                                       class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
+                                       class="bg-blue-500 text-white px-4 py-2 justify-center rounded-md text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
-                                    <form action="#" method="POST">
+                                    <form action="#" method="">
                                         @csrf
-                                        <select name="status" class="border rounded px-2 py-1 text-sm" onchange="this.form.submit()">
+                                        <select name="status" class="border rounded-md px-2 py-1 text-sm" onchange="this.form.submit()">
                                             <option value="Pending" selected>Pending</option>
                                             <option value="Shipped">Shipped</option>
                                             <option value="Completed">Completed</option>
@@ -63,7 +63,7 @@
                             <td class="px-4 py-2 border text-gray-800">26 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp750.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-blue-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold rounded-md bg-blue-500 text-white">
                                     Shipped
                                 </span>
                             </td>
@@ -73,7 +73,7 @@
                                        class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
-                                    <form action="#" method="POST">
+                                    <form action="#" method="">
                                         @csrf
                                         <select name="status" class="border rounded px-2 py-1 text-sm" onchange="this.form.submit()">
                                             <option value="Pending">Pending</option>
@@ -91,7 +91,7 @@
                             <td class="px-4 py-2 border text-gray-800">27 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp500.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white">
+                                <span class="inline-block px-3 py-1 text-sm rounded-md font-semibold bg-green-500 text-white">
                                     Completed
                                 </span>
                             </td>
@@ -101,7 +101,7 @@
                                        class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600">
                                         Detail
                                     </a>
-                                    <form action="#" method="POST">
+                                    <form action="#" method="">
                                         @csrf
                                         <select name="status" class="border rounded px-2 py-1 text-sm" onchange="this.form.submit()">
                                             <option value="Pending">Pending</option>
@@ -113,7 +113,6 @@
                             </td>
                         </tr>
 
-                        <!-- Jika tidak ada pesanan -->
                         <tr>
                             <td colspan="6" class="px-4 py-6 text-center text-gray-500">
                                 Tidak ada pesanan saat ini.

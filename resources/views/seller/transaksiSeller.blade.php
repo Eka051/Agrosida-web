@@ -3,13 +3,11 @@
 @section('title', 'Transaksi Seller')
 @section('content')
 <div class="ml-56 flex-1">
-    <!-- Hero Section -->
     <section class="bg-primaryBg p-8 text-center mt-20">
         <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Transaksi Anda</h1>
         <p class="text-gray-600 mt-2 lg:text-lg">Pantau dan kelola transaksi yang dilakukan pelanggan Anda</p>
     </section>
 
-    <!-- Tabel Transaksi -->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">

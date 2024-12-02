@@ -11,9 +11,21 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function userOrder()
     {
         return view('user.order');
+    }
+
+    public function userOrderDetail($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('user.order-detail', compact('order'));
+    }
+
+    public function showOrderFromUser()
+    {
+        $orders = Order::where('user_id', Auth::id())->get();
+        return view('seller.pesananSeller', compact('orders'));
     }
 
     public function store(Request $request)
