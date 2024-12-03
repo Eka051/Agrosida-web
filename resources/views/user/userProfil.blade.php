@@ -29,12 +29,12 @@
                 
                 <h2 class="text-xl font-bold text-gray-800 mt-4">Alamat</h2>
                 <p class="text-gray-600 mt-1">Jalan Mawar No. 123, Jakarta, Indonesia</p>
-
+            
                 <!-- Edit Profile Button -->
-                <button class="mt-6 px-6 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition">
+                <a href="{{route('user.profiledit')}}" class="mt-6 block px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition w-32 text-center">
                     Edit Profil
-                </button>
-            </div>
+                </a>
+            </div>    
         </div>
     </section>
 </div>

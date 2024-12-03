@@ -1,5 +1,5 @@
 @extends('components.template')
-@include('components.sidebarSeller') <!-- Menggunakan sidebar khusus untuk seller -->
+@include('components.sidebarSeller') 
 @section('title', 'Profil Seller')
 @section('content')
 <div class="ml-56 flex-1">
@@ -17,7 +17,7 @@
                 <img src="https://via.placeholder.com/150" alt="Seller Picture" class="w-full h-full object-cover">
             </div>
             <!-- Profile Details -->
-            <div class="flex-1 lg:ml-6 mt-6 lg:mt-0">
+            <div class="flex flex-col lg:ml-6 mt-6 lg:mt-0">
                 <h2 class="text-xl font-bold text-gray-800">Nama Seller</h2>
                 <p class="text-gray-600 mt-1">Agro Tani</p>
                 
@@ -32,11 +32,11 @@
                 
                 <h2 class="text-xl font-bold text-gray-800 mt-4">Deskripsi Toko</h2>
                 <p class="text-gray-600 mt-1">Kami menyediakan pestisida berkualitas untuk kebutuhan pertanian Anda dengan harga bersaing.</p>
-
+            
                 <!-- Edit Profile Button -->
-                <button class="mt-6 px-6 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition">
+                <a href="{{route('seller.editprofil')}}" class="mt-6 px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition w-32 text-center">
                     Edit Profil
-                </button>
+                </a>
             </div>
         </div>
     </section>

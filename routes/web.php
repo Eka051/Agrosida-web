@@ -28,6 +28,9 @@ Route::prefix('seller')->name('seller.')->group(function () {
     Route::get('/profil', function () {
         return view('seller/sellerProfil');
     })->name('profil');
+    Route::get('/editprofil', function () {
+        return view('seller/editProfil');
+    })->name('editprofil');
 });
 
 Route::prefix('user')->name('user.')->group(function () {
@@ -49,6 +52,9 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/profil', function () {
         return view('user/userProfil');
     })->name('profil');
+    Route::get('/profiledit', function () {
+        return view('user/userEditProfil');
+    })->name('profiledit');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
