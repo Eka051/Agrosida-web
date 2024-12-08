@@ -45,9 +45,7 @@ class AuthController extends Controller
             }
         }
 
-        return back()->withErrors([
-            'username' => 'Akun tidak ditemukan atau password salah. Silahkan coba lagi!',
-        ]);
+        return back()->withErrors('Username atau password salah');
 
     }
 

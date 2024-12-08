@@ -15,7 +15,8 @@ class SellerController extends Controller
         $products = Product::whereHas('user', function ($query) use ($user) {
             $query->where('user_id', $user->user_id);
         })
-        ->with(['user.store', 'category']) 
+        ->with(['user.store', 'category'])
+        ->where('discontinued', 0)
         ->get();
         return view('seller.sellerDashboard', compact('products'));
 

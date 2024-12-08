@@ -15,6 +15,7 @@
                 @csrf
                 <div>
                     <label for="image" class="block text-xl font-medium text-gray-700">Gambar Produk</label>
+                    <img id="imgPreview" class="mt-4 w-32 h-32 object-contain rounded-md border hidden">
                     <input type="file" name="image" id="image" 
                         class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
@@ -53,7 +54,7 @@
                     <label for="price" class="block text-xl font-medium text-gray-700">Harga (Rp)</label>
                     <input type="text" name="price" id="price" required
                         class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 shadow-sm focus:border-green-500 focus:ring-green-500"
-                        placeholder="Contoh: 50000" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
+                        placeholder="Contoh: 50000">
                 </div>
             
                 <div>
@@ -91,23 +92,22 @@
     });
 
     document.getElementById('price').addEventListener('input', function() {
-    let value = this.value.replace(/[^0-9]/g, '');
-    if (value) {
-        this.value = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-});
+        let value = this.value.replace(/[^0-9]/g, '');
+        if (value) {
+            this.value = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        } else {
+            this.value = '';
+        }
+    });
 
-</script>
-
-
-
-@if(session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: '{{ session('error') }}',
+    document.getElementById('image').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let imgPreview = document.getElementById('imgPreview');
+            imgPreview.src = e.target.result;
+            imgPreview.classList.remove('hidden');
+        }
+        reader.readAsDataURL(event.target.files[0]);
     });
 </script>
-@endif
 @endsection

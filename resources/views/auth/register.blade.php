@@ -85,7 +85,7 @@
                             </a>
                         </div>
                         <div class="text-center mt-2">
-                            <p class="text-lg">Sudah memiliki akun? <a href="/login"
+                            <p class="text-lg">Sudah memiliki akun? <a href="{{ route('login') }}"
                                     class="text-blue-400 font-semibold hover:underline focus:outline-none focus:underline">Login</a>
                             </p>
                         </div>

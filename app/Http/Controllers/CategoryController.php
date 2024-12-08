@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('category.index');
+        $categories = Category::all();
+        return view('admin.mengelolaKategori', compact('categories'));
     }
 
     public function store(Request $request)
@@ -45,6 +46,6 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->delete();
 
-        return redirect()->route('seller.category.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->view('admin.mengelolaKategori')->with('success', 'Kategori berhasil dihapus');
     }
 }

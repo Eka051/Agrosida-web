@@ -3,13 +3,12 @@
 @section('title', 'Edit Produk')
 @section('content')
 <div class="ml-56 flex-1">
-    <!-- Hero Section -->
+
     <section class="bg-primaryBg p-8 text-center mt-20">
         <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Edit Produk</h1>
         <p class="text-gray-600 mt-2 lg:text-lg">Edit informasi produk yang ada di toko Anda</p>
     </section>
 
-    <!-- Form Edit Produk -->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg p-6">
             <form action="{{ route('seller.update-product', $product->id) }}" method="POST"
@@ -23,7 +22,7 @@
                     @error('image')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
-                    <!-- Current Image (Statis) -->
+
                     <div class="mt-4">
                         <img src="{{ asset('storage/' . $product->image_path) }}" alt="Gambar Produk"
                             class="w-32 h-32 object-cover rounded-md">
@@ -69,9 +68,9 @@
 
                 <div>
                     <label for="price" class="block text-xl font-medium text-gray-700">Harga (Rp)</label>
-                    <input type="number" name="price" id="price" required min="0" step="1000"
+                    <input type="text" name="price" id="price" required
                         class="w-full text-base p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-                        value="{{ old('price', $product->price) }}">
+                        value="Rp {{ old('price', number_format($product->price, 0, ',', '.')) }}">
                     @error('price')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -86,9 +85,6 @@
                     @enderror
                 </div>
 
-                
-
-                <!-- Tombol Simpan -->
                 <div class="flex justify-end">
                     <button type="submit"
                         class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -111,4 +107,15 @@
         });
 </script>
 @endif
+
+<script>
+    document.getElementById('price').addEventListener('input', function() {
+        let value = this.value.replace(/[^0-9]/g, '');
+        if (value) {
+            this.value = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        } else {
+            this.value = '';
+        }
+    });
+</script>
 @endsection

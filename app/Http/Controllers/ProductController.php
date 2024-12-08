@@ -8,17 +8,22 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $products = Product::with('category', 'user')->get();
+        return view('admin.mengelolaProduk', compact('products'));
+    }
+
+    public function search(Request $request)
+    {
         $search = $request->get('search');
         $products = Product::with('category')
             ->when($search, function($query, $search) {
-                return $query->where('name', 'like', "%{$search}%")
+                return $query->where('product_name', 'like', "%{$search}%")
                 ->orWhereHas('category', function($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%");
                 });
@@ -36,53 +41,60 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'product_name' => 'required|max:255',
+            'product_name' => 'required|max:255|unique:products,product_name',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|string|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'nullable|exists:categories,category_id',
-            'new_category' => 'nullable|string|max:255|required_without:category_id',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'new_category' => 'nullable|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
-
+    
         try {
             $file = $request->file('image');
             $name = time() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('products', $name);
+            
+            $validated['price'] = (float) str_replace(['Rp', '.', ' '], '', $validated['price']);
+            
+            $category = $validated['category_id'] ?? 
+                ($validated['new_category']
+                 ? Category::firstOrCreate(['name' => $validated['new_category']])->category_id : null);
+            
+            if(!$category) {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Kategori harus diisi/dipilih!');
+            }
 
-            $product = Product::create([
+            Product::create([
                 'product_name' => $validated['product_name'],
                 'description' => $validated['description'],
                 'price' => $validated['price'],
                 'stock' => $validated['stock'],
-                'category_id' => $validated['category_id'],
+                'category_id' => $category,
                 'created_by' => auth()->user()->user_id,
                 'image_path' => str_replace('public/', '', $path),
             ]);
-
-            if (!$validated['category_id'] && $validated['new_category']) {
-                $category = Category::firstOrCreate(['name' => $validated['new_category']]);
-                $product->update(['category_id' => $category->category_id]);
-            }
-
-            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil ditambahkan.');
-
+    
+            return redirect()
+                ->route('seller.dashboard')
+                ->with('success', 'Produk berhasil ditambahkan.');
+    
         } catch (\Exception $e) {
-            Log::error('Error saat menambahkan produk: ' . $e->getMessage());
-
             return redirect()
                 ->back()
-                ->with('error', 'Gagal menambahkan produk. Silakan coba lagi.');
+                ->with('error', 'Gagal menambahkan produk. Silakan coba lagi. ' . $e->getMessage());
         }
-
     }
+    
 
     public function delete($id)
     {
         $product = Product::findOrFail($id);
         if($product){
             $product->delete();
-            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihapus');
+            return redirect()->route('admin.view-product')->with('success', 'Produk berhasil dihapus');
         }
     }
    
@@ -113,7 +125,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'product_name' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|string|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'nullable|exists:categories,category_id',
             'new_category' => 'nullable|string|max:255|required_without:category_id',
@@ -130,6 +142,8 @@ class ProductController extends Controller
                 Storage::delete('public/' . $product->image_path);
                 $product->image_path = str_replace('public/', '', $path);
             }
+
+            $validated['price'] = (float) str_replace(['Rp', '.', ' '], '', $validated['price']);
 
             $product->update([
                 'product_name' => $validated['product_name'],

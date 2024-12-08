@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
 
     public function index()
     {
-        return view('admin.adminDashboard');
+        $totalProduct = Product::count();
+        $totalOrder = Order::count();
+        $balance = User::where('username', 'admin')->sum('balance');
+        return view('admin.adminDashboard', compact('totalProduct', 'totalOrder', 'balance'));
     }
     
 }

@@ -8,7 +8,7 @@
         <!-- Menu Desktop -->
         <div class="hidden md:flex items-center justify-center space-x-8">
             <ul class="flex space-x-8">
-                <li><a href="{{ route('seller.dashboard') }}" class="text-white hover:text-greenPrimary">Beranda</a>
+                <li><a href="/" class="text-white hover:text-greenPrimary">Beranda</a>
                 </li>
                 <li><a href="/tentang" class="text-white hover:text-greenPrimary">Layanan</a></li>
                 <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>

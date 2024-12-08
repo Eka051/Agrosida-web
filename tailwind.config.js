@@ -1,5 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 
+const { addDynamicIconSelectors } = require('@iconify/tailwind');
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -29,5 +31,8 @@ export default {
     },
     plugins: [
         require('preline/plugin'),
+        addDynamicIconSelectors({
+            include: ['**/*.blade.php'],
+        }),
     ],
 };

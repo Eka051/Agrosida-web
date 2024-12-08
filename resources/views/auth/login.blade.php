@@ -62,29 +62,6 @@
     </div>
 </div>
 
-@if ($errors->any())
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Login Gagal',
-        text: '{{ $errors->first() }}',
-        confirmButtonColor: '#A2E554',
-        confirmButtonText: 'OK'
-    });
-</script>
-@endif
-@if (session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Pendaftaran Berhasil',
-        text: '{{ session('success') }}',
-        confirmButtonColor: '#A2E554',
-        confirmButtonText: 'OK'
-    });
-</script>
-@endif
-
 <script>
     document.querySelectorAll('.toggle-password').forEach(toggle => {
         toggle.addEventListener('click', () => {

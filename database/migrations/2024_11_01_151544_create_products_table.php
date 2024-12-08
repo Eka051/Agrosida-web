@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('image_path')->nullable();
             $table->string('description');
-            $table->enum('discontinued', [0, 1])->default(0);
+            $table->boolean('discontinued')->default(0);
             $table->uuid('created_by')->nullable();
             $table->foreign('created_by')->references('user_id')->on('users')->onDelete('set null');
             $table->timestamps();

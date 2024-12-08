@@ -16,18 +16,23 @@
 
     <section class="py-8">
         <div class="flex justify-between items-center mx-4">
-            <h2 class="text-2xl font-semibold text-gray-800">Produk Anda</h2>
+            <h2 class="text-3xl font-semibold text-gray-800">Produk Anda</h2>
             <button class="bg-blue-500 text-white px-4 py-2 rounded"
                 onclick="window.location.href='{{ route('seller.add-product') }}'">Tambah Produk</button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 gap-14 mt-6 mx-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mt-6 mx-4">
             @foreach ($products as $product)
-            <div class="border rounded-lg p-4 items-center justify-between text-center w-52 bg-white shadow">
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
-                    class="w-44 m-auto">
-                <h3 class="mt-4 font-medium text-gray-800">{{ $product->product_name }}</h3>
-                <p class="text-blue-600">{{ $product->price }}</p>
-                <div class="flex justify-center mt-4 space-x-2">
+            <div class="border rounded-lg p-4 bg-white shadow flex flex-col h-full">
+                <div class="flex justify-center">
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
+                        class="w-full h-40 object-contain">
+                </div>
+                <div class="mt-4 flex-1">
+                    <h3 class="text-base text-gray-800 text-left">{{ $product->product_name }}</h3>
+                    <p class="font-bold text-2xl text-left">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
+                    <p class="text-base font-medium text-left mt-4">Stok: {{ $product->stock }}</p>
+                </div>
+                <div class="flex space-x-2 right-0 mt-4">
                     <a href="{{ route('seller.edit-product', $product->id) }}"
                         class="bg-yellow-500 text-white px-4 py-1 rounded">Edit</a>
                     <button type="button" class="bg-red-500 text-white px-4 py-1 rounded"
@@ -41,17 +46,6 @@
     </section>
 </div>
 
-@if (session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
-        text: '{{ session('success') }}',
-        confirmButtonColor: '#A2E554',
-        confirmButtonText: 'OK'
-    });
-</script>
-@endif
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

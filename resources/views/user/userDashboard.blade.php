@@ -16,28 +16,25 @@
 
     <!-- Products Section -->
     <section class="py-8">
-        <h2 class="text-xl lg:text-2xl font-semibold text-center text-gray-800">Produk</h2>
-        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 mt-6 mx-4">
-            @for ($i = 1; $i <= 12; $i++) <!-- Menampilkan 12 produk -->
-            <div class="border rounded-lg p-4 text-center bg-white shadow">
-                <div class="bg-gray-200 h-24 w-24 mx-auto lg:h-32 lg:w-32"></div>
-                <h3 class="mt-4 text-sm font-medium text-gray-800 lg:text-base">Product Name {{ $i }}</h3>
-                <p class="text-blue-600 text-sm lg:text-base">${{ 15 + $i * 5 }}.00</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mt-6 mx-4">
+            @foreach ($products as $product)
+            <div class="border rounded-lg p-4 bg-white shadow flex flex-col h-full">
+                <div class="flex justify-center">
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
+                        class="w-full h-40 object-contain">
+                </div>
+                <div class="mt-4 flex-1">
+                    <h3 class="text-base text-gray-800 text-left">{{ $product->product_name }}</h3>
+                    <p class="font-bold text-2xl text-left">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
+                    <p class="text-base font-medium text-left mt-4">Stok: {{ $product->stock }}</p>
+                    <p class="text-base font-medium text-left mt-4">{{ $product->user->store->name }}</p>
+                </div>
+                <button class="py-3 rounded-md px-2 bg-greenPrimary text-white font-bold hover:text-white hover:bg-green-700"><a href="{{ route('user.order', [$product->id]) }}">Beli Produk</a></button>
             </div>
-            @endfor
+            @endforeach
         </div>
     </section>
 </div>
 
-@if(session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Login Berhasil',
-        text: '{{ session('success') }}',
-        showConfirmButton: false,
-        timer: 2000
-    });
-</script>
-@endif
+
 @endsection

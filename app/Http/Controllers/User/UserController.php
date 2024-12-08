@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,8 +11,16 @@ class UserController extends Controller
 {
     public function index()
     {
-        $name = auth()->user()->name;
-        return view('user.userDashboard')->with('name', $name);
+        $user = auth()->user();
+        $products = Product::with('category', 'user.store')
+            ->where('discontinued', 0)
+            ->get();
+        return view('user.userDashboard', compact('user', 'products'));
+    }
+    public function orderProduct($id)
+    {
+        $product = Product::find($id);
+        return view('user.order', compact('product'));
     }
 
     public function editProfile(Request $request)

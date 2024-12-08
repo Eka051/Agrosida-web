@@ -1,17 +1,37 @@
 <?php
 
+/*
+ * This file is part of the IndoRegion package.
+ *
+ * (c) Azis Hapidin <azishapidin.com | azishapidin@gmail.com>
+ *
+ */
+
 namespace App\Models;
 
+use AzisHapidin\IndoRegion\Traits\ProvinceTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Province Model.
+ */
 class Province extends Model
 {
-    protected $primaryKey = 'province_id';
-    protected $fillable = ['province_name'];
+    use ProvinceTrait;
+    /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'provinces';
 
-    public function cities()
+    /**
+     * Province has many regencies.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function regencies()
     {
-        return $this->hasMany(City::class, 'city_id');
+        return $this->hasMany(Regency::class);
     }
-
 }

@@ -34,7 +34,7 @@ class RegisterController extends Controller
        $user->assignRole('user');
 
 
-       return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silahkan login');
+       return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silahkan login!');
     }
 
     public function storeSeller(Request $request)

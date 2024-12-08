@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id('payment_id');
-            $table->string('transaction_id');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->double('total');
             $table->timestamps();
         });

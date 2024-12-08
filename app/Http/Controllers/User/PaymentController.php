@@ -80,7 +80,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function handleWebHook(Request $request)
+    public function handleWebHook()
     {
         $notification = new \Midtrans\Notification();
         $transaction = $notification->transaction_status;
@@ -89,20 +89,20 @@ class PaymentController extends Controller
 
         if ($transaction == 'capture') {
             if ($fraud == 'challenge') {
-                DB::table('orders')->where('id', $order_id)->update(['status' => 'Menunggu Pembayaran']);
+                DB::table('orders')->where('order_id', $order_id)->update(['status' => 'pending']);
             } else {
-                DB::table('orders')->where('id', $order_id)->update(['status' => 'Pembayaran Berhasil']);
+                DB::table('orders')->where('order_id', $order_id)->update(['status' => 'completed']);
             }
         } elseif ($transaction == 'settlement') {
-            DB::table('orders')->where('id', $order_id)->update(['status' => 'Pembayaran Berhasil']);
+            DB::table('orders')->where('order_id', $order_id)->update(['status' => 'completed']);
         } elseif ($transaction == 'pending') {
-            DB::table('orders')->where('id', $order_id)->update(['status' => 'Menunggu Pembayaran']);
+            DB::table('orders')->where('order_id', $order_id)->update(['status' => 'pending']);
         } elseif ($transaction == 'deny') {
-            DB::table('orders')->where('id', $order_id)->update(['status' => 'Pembayaran Ditolak']);
+            DB::table('orders')->where('order_id', $order_id)->update(['status' => 'cancelled']);
         } elseif ($transaction == 'expire') {
-            DB::table('orders')->where('id', $order_id)->update(['status' => 'Pembayaran Kadaluarsa']);
+            DB::table('orders')->where('order_id', $order_id)->update(['status' => 'cancelled']);
         } elseif ($transaction == 'cancel') {
-            DB::table('orders')->where('id', $order_id)->update(['status' => 'Pembayaran Dibatalkan']);
+            DB::table('orders')->where('order_id', $order_id)->update(['status' => 'cancelled']);
         }
     }
 

@@ -53,10 +53,10 @@ class OauthController extends Controller
 
                     DB::commit();
 
-                    Auth::login($newUser);
+                    Auth::login($newUser, true);
                     \Log::info("User baru, masuk via Google: {$newUser->email}");
 
-                    return redirect()->route('user.dashboard')->with('success', 'Selamat datang!' . auth()->user()->name);
+                    return redirect()->route('user.dashboard')->with('success', 'Selamat datang! ' . auth()->user()->name);
                 } catch (Exception $e) {
                     DB::rollBack();
                     \Log::error('Error membuat user baru: ' . $e->getMessage());
@@ -68,4 +68,5 @@ class OauthController extends Controller
             return redirect()->route('login')->with('error', 'Gagal login menggunakan Google. Silakan coba lagi.');
         }
     }
+    
 }

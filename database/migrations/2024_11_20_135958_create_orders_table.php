@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('order_id');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->enum('status', ['pending', 'completed', 'cancelled']);
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->foreignId('payment_id')->constrained('payments', 'payment_id');
             $table->timestamps();
         });
