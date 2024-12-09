@@ -23,6 +23,9 @@
             <li>
                 <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'admin.kalkulasipestisida' ? 'bg-green-500 text-white' : '' }}">Kelola Kalkulasi Pestisida</a>
             </li>
+            <li>
+                <a href="{{ route('detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'detect.form' ? 'bg-green-500 text-white' : '' }}">Kelola Kategori Produk</a>
+            </li>
         </ul>
     </nav>
 </aside>

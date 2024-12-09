@@ -39,7 +39,7 @@
           <!-- Actions -->
           <div class="flex items-center gap-4 mb-6">
             <div>
-              <p class="text-gray-600 text-sm">Stok Tersisa: <span class="font-bold text-red-500">100+</span></p>
+              <p class="text-gray-600 text-sm">Stok Tersisa: <span class="font-bold text-red-500">100+</span></p>s
             </div>
             <input type="number" min="1" max="100" value="1" class="w-16 border rounded p-1 text-center">
           </div>

@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DetectionController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\OrderController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
-    return view('info-product');
+    return view('landing');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('admin/category/delete/{id}', [CategoryController::class, 'delete'])->name('admin.delete-category');
     Route::put('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
+
+    Route::get('/detect', [DetectionController::class, 'showForm'])->name('detect.form');
+    Route::post('/detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
