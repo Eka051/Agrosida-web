@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -17,8 +18,7 @@ use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
-    return view('landing');
-    return view('landing');
+    return view('info-product');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -43,17 +43,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
-    Route::get('seller/product', [ProductController::class, 'addProduct'])->name('seller.product');
-    Route::post('seller/product/create', [ProductController::class, 'store'])->name('seller.add-product');
-    Route::get('seller/product/create', [ProductController::class, 'addProduct'])->name('seller.add-product');
-    Route::post('seller/product/save', [ProductController::class, 'store'])->name('seller.save-product');
-    Route::get('seller/edit-product/{id}', [ProductController::class, 'editProduk'])->name('seller.edit-product');
-    Route::put('seller/product/update/{id}', [ProductController::class, 'update'])->name('seller.update-product');
-
-    Route::post('seller/product/delete/{id}', [ProductController::class, 'discontinue'])->name('seller.delete-product');
-
-    Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
-    Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
+    Route::get('seller/product', [ProductController::class, 'product'])->name('seller.product');
+    Route::get('seller/product/create', [ProductController::class, 'addProduct'])->name('seller.product.create');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
