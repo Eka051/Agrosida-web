@@ -15,10 +15,16 @@
             <div>
                 <label for="image" class="block text-sm font-medium text-gray-700">Pilih Gambar</label>
                 <input type="file" name="image" id="image"
-                       class="mt-1 block w-full text-sm border rounded-md shadow-sm @error('image') border-red-500 @enderror" required>
+                       class="mt-1 block w-full text-sm border rounded-md shadow-sm @error('image') border-red-500 @enderror"
+                       onchange="previewImage()" required>
                 @error('image')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
+            </div>
+
+            <!-- Preview Gambar -->
+            <div class="mt-4">
+                <img id="imagePreview" src="" alt="Preview Gambar" class="hidden w-full rounded-md border" />
             </div>
 
             <button type="submit"
@@ -39,9 +45,6 @@
             </div>
         @endif
 
-
-
-
         <!-- Menampilkan Error -->
         @if($errors->any())
         <div class="mt-6 p-4 bg-red-100 border border-red-500 rounded">
@@ -54,4 +57,25 @@
         @endif
     </div>
 </div>
+
+<!-- Tambahkan Script -->
+<script>
+    function previewImage() {
+        const input = document.getElementById('image');
+        const preview = document.getElementById('imagePreview');
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.classList.add('hidden');
+        }
+    }
+</script>
 @endsection

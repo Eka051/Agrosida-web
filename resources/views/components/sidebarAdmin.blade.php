@@ -21,11 +21,15 @@
                 <a href="{{ route('admin.view-category') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'admin.view-category' ? 'bg-green-500 text-white' : '' }}">Kelola Kategori Produk</a>
             </li>
             <li>
-                <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'admin.kalkulasipestisida' ? 'bg-green-500 text-white' : '' }}">Kelola Kalkulasi Pestisida</a>
+                <a href="{{ route('pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'pesticide.form' ? 'bg-green-500 text-white' : '' }}">Kelola Kalkulasi
+                </a>
             </li>
+
             <li>
-                <a href="{{ route('detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'detect.form' ? 'bg-green-500 text-white' : '' }}">Kelola Kategori Produk</a>
+                <a href="{{ route('detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'detect.form' ? 'bg-green-500 text-white' : '' }}">Deteksi Penyakit
+                </a>
             </li>
+
         </ul>
     </nav>
 </aside>

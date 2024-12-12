@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PesticideDosage;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AddressController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\PaymentController;
+use App\Http\Controllers\KalkulasiDosisPestisida;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -33,8 +35,21 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
 
-    Route::get('/detect', [DetectionController::class, 'showForm'])->name('detect.form');
-    Route::post('/detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
+    Route::get('detect', [DetectionController::class, 'showForm'])->name('detect.form');
+    Route::post('detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
+
+    Route::get('pesticide', [KalkulasiDosisPestisida::class, 'showForm'])->name('pesticide.form');
+    Route::post('pesticide', [KalkulasiDosisPestisida::class, 'addPesticide'])->name('addPesticide');
+    Route::post('plant', [KalkulasiDosisPestisida::class, 'addPlant'])->name('addPlant');
+    Route::post('dosage', [KalkulasiDosisPestisida::class, 'addDosage'])->name('addDosage');
+
+    Route::delete('pesticide{id}', [KalkulasiDosisPestisida::class, 'deletePesticide'])->name('admin.deletePesticide');
+    Route::delete('plant{id}', [KalkulasiDosisPestisida::class, 'deletePlant'])->name('admin.deletePlant');
+    Route::delete('dosage{id}', [KalkulasiDosisPestisida::class, 'deleteDosage'])->name('admin.deleteDosage');
+
+
+
+
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
