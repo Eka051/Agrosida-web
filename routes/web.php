@@ -77,6 +77,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('payment/pending', [PaymentController::class, 'pending'])->name('payment.pending');
     Route::get('payment/error', [PaymentController::class, 'error'])->name('payment.error');
+
+    Route::get('pesticide', [KalkulasiDosisPestisida::class, 'showFormUser'])->name('user.kalkulasipestisida');
+
 });
 
 Route::get('test', [KalkulasiDosisPestisida::class, 'getDose_by_Plant']);

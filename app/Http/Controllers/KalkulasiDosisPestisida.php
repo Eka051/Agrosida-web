@@ -35,6 +35,19 @@ class KalkulasiDosisPestisida extends Controller
         ]);
     }
 
+    public function showFormUser()
+    {
+        $pesticides = Pesticide::all(); // Ambil semua data dari model Pesticide
+        $plants = Plant::all();
+        $dosages = Dosage::all();
+
+        return view('user.kalkulasiPestisidaUser', [
+            'pesticides' => $pesticides,
+            'plants' => $plants,
+            'dosages' => $dosages
+        ]);
+    }
+
     public function addPesticide(Request $request)
     {
         // Validasi input
