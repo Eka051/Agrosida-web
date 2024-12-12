@@ -1,12 +1,12 @@
 @extends('components.template')
 @include('components.sidebarAdmin')
-@section('title', 'editTenaman')
+@section('title', 'Edit Pestisida')
 @section('content')
 
 <div class="max-w-lg mx-auto mt-20 bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Tanaman</h2>
 
-    <form action="{{ route('admin.updatePlant', $plant->id) }}" method="POST">
+    <form action="{{ route('admin.updatePesticide', $dosage->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -17,9 +17,9 @@
                 type="text"
                 name="name"
                 id="name"
-                value="{{ $plant->name }}"
+                value="{{ $dosage->name }}"
                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter name"
+                placeholder="Masukkan Nama"
             >
         </div>
 

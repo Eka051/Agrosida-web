@@ -145,32 +145,39 @@
         <div class="bg-white shadow rounded-lg p-6">
             <label for="setting_pestisida" class="block text-xl font-medium text-gray-700">Daftar Pestisida</label>
 
-            <table class="min-w-full mt-6 table-auto border-collapse">
-                <thead>
+            <table class="min-w-full mt-6 table-auto border-collapse rounded-lg overflow-hidden shadow-lg">
+                <thead class="bg-green-500 text-white">
                     <tr>
-                        <th class="px-4 py-2 text-left border-b">ID</th>
-                        <th class="px-4 py-2 text-left border-b">Nama Pestisida</th>
-                        <th class="px-4 py-2 text-left border-b">Aksi</th>
+                        <th class="px-4 py-3 text-left font-semibold">ID</th>
+                        <th class="px-4 py-3 text-left font-semibold">Nama Pestisida</th>
+                        <th class="px-4 py-3 text-left font-semibold">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($pesticides as $pesticide)
-                    <tr>
-                        <td class="px-4 py-2 border-b">{{ $pesticide->id }}</td>
-                        <td class="px-4 py-2 border-b">{{ $pesticide->name }}</td>
-                        <td class="px-4 py-2 border-b">
+                    <tr class="hover:bg-gray-100 transition duration-150">
+                        <td class="px-4 py-2 font-medium text-gray-700">{{ $pesticide->id }}</td>
+                        <td class="px-4 py-2 text-gray-600">{{ $pesticide->name }}</td>
+                        <td class="px-4 py-2 text-gray-600 flex space-x-4">
                             <!-- Form untuk Hapus -->
                             <form action="{{ route('admin.deletePesticide', $pesticide->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this pesticide?')">Hapus</button>
-
-                                <a href="{{ route('admin.editPlant', $pesticide->id) }}" class="px-3 text-red-500 hover:text-red-700">edit</a>
+                                <button type="submit"
+                                        class="text-red-500 hover:text-red-700 focus:outline-none focus:underline"
+                                        onclick="return confirm('Are you sure you want to delete this pesticide?')">
+                                    Hapus
+                                </button>
                             </form>
+
+                            <!-- Link untuk Edit -->
+                            <a href="{{ route('admin.editPesticide', $pesticide->id) }}"
+                               class="text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
+                                Edit
+                            </a>
                         </td>
                     </tr>
                     @endforeach
-
                 </tbody>
             </table>
 
@@ -189,7 +196,7 @@
                     <button type="submit"
                             class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
                         Simpan
-                    </button>
+                    </button>http://agrosida.com/admin/product
                 </div>
             </form>
         </div>
@@ -198,32 +205,33 @@
     <!-- Form Tambah Tanaman-->
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg p-6">
-            <table class="min-w-full mt-6 table-auto border-collapse">
-                <thead>
+            <label for="setting_pestisida" class="block text-xl font-medium text-gray-700">Daftar Tanaman</label>
+
+            <table class="min-w-full mt-6 table-auto border-collapse rounded-lg overflow-hidden shadow-lg">
+                <thead class="bg-green-500 text-white">
                     <tr>
-                        <th class="px-4 py-2 text-left border-b">ID</th>
-                        <th class="px-4 py-2 text-left border-b">Nama Tanaman</th>
-                        <th class="px-4 py-2 text-left border-b">Aksi</th>
+                        <th class="px-4 py-3 text-left font-semibold">ID</th>
+                        <th class="px-4 py-3 text-left font-semibold">Nama Tanaman</th>
+                        <th class="px-4 py-3 text-left font-semibold">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($plants as $plant)
-                        <tr>
-                            <td class="px-4 py-2 border-b">{{ $plant->id}}</td>
-                            <td class="px-4 py-2 border-b">{{ $plant->name }}</td>
-                            <td class="px-4 py-2 border-b">
-                                <!-- Form untuk Hapus -->
-                                <form action="{{ route('admin.deletePlant', $plant->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this pesticide?')">Hapus</button>
-                                </form>
-                                    <a href="{{ route('admin.editPlant', $plant->id) }}" class="px-3 text-red-500 hover:text-red-700">edit</a>
-                                </td>
+                        <tr class="hover:bg-gray-100 transition duration-150">
+                            <td class="px-4 py-2 font-medium text-gray-700">{{ $plant->id }}</td>
+                            <td class="px-4 py-2 text-gray-600">{{ $plant->name }}</td>
+                            <td class="px-4 py-2 text-gray-600 flex space-x-4">
+                            <form action="{{ route('admin.deletePlant', $plant->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none focus:underline" onclick="return confirm('Apakah Anda yakin ingin menghapus tanaman ini?')">Hapus</button>
+                            </form>
+                            <a href="{{ route('admin.editPlant', $plant->id) }}" class="text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">Edit</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+                </table>
 
             <form action="{{ route('addPlant') }}" method="POST" class="space-y-6">
                 @csrf
@@ -249,36 +257,37 @@
      <!-- Form Tambah Formula Dosis -->
      <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg p-6">
-            <table class="min-w-full mt-6 table-auto border-collapse">
-                <thead>
+            <label for="setting_pestisida" class="block text-xl font-medium text-gray-700">Daftar Formula</label>
+
+            <table class="min-w-full mt-6 table-auto border-collapse rounded-lg overflow-hidden shadow-lg">
+                <thead class="bg-green-500 text-white">
                     <tr>
-                        <th class="px-4 py-2 text-left border-b">ID</th>
-                        <th class="px-4 py-2 text-left border-b">Tanaman</th>
-                        <th class="px-4 py-2 text-left border-b">Pestisida</th>
-                        <th class="px-4 py-2 text-left border-b">Dosis ml/m<sup>2</sup></th>
-                        <th class="px-4 py-2 text-left border-b">Aksi</th>
+                        <th class="px-4 py-3 text-left font-semibold">ID</th>
+                        <th class="px-4 py-3 text-left font-semibold">Tanaman</th>
+                        <th class="px-4 py-3 text-left font-semibold">Pestisida</th>
+                        <th class="px-4 py-3 text-left font-semibold">Dosis (ml/m²)</th>
+                        <th class="px-4 py-3 text-left font-semibold">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($dosages as $dosage)
-                        <tr>
-                            <td class="px-4 py-2 border-b">{{ $dosage->id }}</td>
-                            <td class="px-4 py-2 border-b">{{ $dosage->plant->name ?? 'N/A' }}</td> <!-- Menampilkan nama tanaman -->
-                            <td class="px-4 py-2 border-b">{{ $dosage->pesticide->name ?? 'N/A' }}</td> <!-- Menampilkan nama pestisida -->
-                            <td class="px-4 py-2 border-b">{{ $dosage->dosage_per_hectare }}</td>
-                            <td class="px-4 py-2 border-b">
-
-                                <!-- Form untuk Hapus -->
-                                <form action="{{ route('admin.deleteDosage', $dosage->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this dosage?')">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
+                    <tr class="hover:bg-gray-100 transition duration-150">
+                        <td class="px-4 py-2 font-medium text-gray-700">{{ $dosage->id }}</td>
+                        <td class="px-4 py-2 text-gray-600">{{ $dosage->plant->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-2 text-gray-600">{{ $dosage->pesticide->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-2 text-gray-600">{{ $dosage->dosage_per_hectare }}</td>
+                        <td class="px-4 py-2 text-gray-600 flex space-x-4">
+                        <form action="{{ route('admin.deleteDosage', $dosage->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none focus:underline" onclick="return confirm('Apakah Anda yakin ingin menghapus dosis ini?')">Hapus</button>
+                        </form>
+                        <a href="{{ route('admin.editDosage', $dosage->id) }}" class="text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">Edit</a>
+                        </td>
+                    </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             <form action="{{ route('addDosage') }}" method="POST" class="space-y-6">
                 @csrf
                 <!-- Nama Pestisida -->

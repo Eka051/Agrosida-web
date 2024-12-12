@@ -52,6 +52,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('editPlant{id}', [KalkulasiDosisPestisida::class, 'editPlant'])->name('admin.editPlant');
     Route::put('updatePlant{id}', [KalkulasiDosisPestisida::class, 'updatePlant'])->name('admin.updatePlant');
 
+    Route::get('editPesticide{id}', [KalkulasiDosisPestisida::class, 'editPesticide'])->name('admin.editPesticide');
+    Route::put('updatePesticide{id}', [KalkulasiDosisPestisida::class, 'updatePesticide'])->name('admin.updatePesticide');
+
+    Route::get('editDosage{id}', [KalkulasiDosisPestisida::class, 'editDosage'])->name('admin.editDosage');
+    Route::put('updateDosage{id}', [KalkulasiDosisPestisida::class, 'updateDosage'])->name('admin.updateDosage');
+
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {

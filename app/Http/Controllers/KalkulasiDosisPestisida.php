@@ -148,7 +148,7 @@ class KalkulasiDosisPestisida extends Controller
         if (!$plant) {
             abort(404, 'Plant not found');
         }
-        return view('admin.updateCalc', compact('plant'));
+        return view('admin.updatePlant', compact('plant'));
     }
 
 
@@ -159,7 +159,7 @@ class KalkulasiDosisPestisida extends Controller
 
         // Periksa apakah data ditemukan
         if (!$updated_plant) {
-            return back()->with('error', 'Plant not found.');
+            return back()->with('error', 'Tanaman Gagal Terupdate!');
         }
 
         // Update data plant
@@ -168,8 +168,63 @@ class KalkulasiDosisPestisida extends Controller
         ]);
 
         // Redirect ke halaman form atau halaman lain dengan pesan sukses
-        return redirect()->route('pesticide.form')->with('success', 'Plant updated successfully.');
+        return redirect()->route('pesticide.form')->with('success', 'Tanaman Terupdate!');
     }
 
+    public function editPesticide($id) {
+        $pesticide = Pesticide::find($id);
+        if (!$pesticide) {
+            abort(404, 'Plant not found');
+        }
+        return view('admin.updatePesticide', compact('pesticide'));
+    }
+
+
+    public function updatePesticide(Request $request, $id)
+    {
+        // Cari data plant berdasarkan ID
+        $updated_pesticide = Pesticide::find($id);
+
+        // Periksa apakah data ditemukan
+        if (!$updated_pesticide) {
+            return back()->with('error', 'Pestisida Gagal Diupdate!');
+        }
+
+        // Update data plant
+        $updated_pesticide->update([
+            'name' => $request->name,
+        ]);
+
+        // Redirect ke halaman form atau halaman lain dengan pesan sukses
+        return redirect()->route('pesticide.form')->with('success', 'Pestisida Terupdate!');
+    }
+
+    public function editDosage($id) {
+        $dosage = Dosage::find($id);
+        if (!$dosage) {
+            abort(404, 'Dosage not found');
+        }
+        return view('admin.updateDosage', compact('dosage'));
+    }
+
+
+    public function updateDosage(Request $request, $id)
+    {
+        // Cari data plant berdasarkan ID
+        $updated_dosage = Dosage::find($id);
+
+        // Periksa apakah data ditemukan
+        if (!$updated_dosage) {
+            return back()->with('error', 'Dosis Gagal Diupdate!');
+        }
+
+        // Update data plant
+        $updated_dosage->update([
+            'dosage_per_hectare' => $request->dosage_per_hectare,
+        ]);
+
+        // Redirect ke halaman form atau halaman lain dengan pesan sukses
+        return redirect()->route('pesticide.form')->with('success', 'Dosis Terupdate!');
+    }
 
 }
