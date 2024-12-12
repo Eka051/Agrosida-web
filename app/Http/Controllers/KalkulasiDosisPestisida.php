@@ -9,6 +9,19 @@ use App\Models\Pesticide; // Impor model
 
 class KalkulasiDosisPestisida extends Controller
 {
+    public function landing()
+    {
+        $pesticides = Pesticide::all(); // Ambil semua data dari model Pesticide
+        $plants = Plant::all();
+        $dosages = Dosage::all();
+
+        return view('landing', [
+            'pesticides' => $pesticides,
+            'plants' => $plants,
+            'dosages' => $dosages
+        ]);
+    }
+
     public function showForm()
     {
         $pesticides = Pesticide::all(); // Ambil semua data dari model Pesticide

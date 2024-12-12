@@ -17,9 +17,7 @@ use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserManagementController;
 
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', [KalkulasiDosisPestisida::class, 'landing']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
