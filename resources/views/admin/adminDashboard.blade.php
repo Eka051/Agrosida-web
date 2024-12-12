@@ -3,9 +3,9 @@
 @section('title', 'Admin Dashboard')
 @section('content')
 
-<main class="mt-24 ml-56 flex-1 bg-gray-100 min-h-screen">
+<main class="mt-20 ml-56 flex-1 bg-gray-100 min-h-screen">
     <!-- Header -->
-    <div class="bg-greenPrimary text-white py-6 px-8 rounded-lg shadow-md mb-8">
+    <div class="bg-greenPrimary text-white py-6 px-8 rounded-lg shadow-md mb-8 mt-18">
         <h1 class="text-4xl font-bold">Dashboard Admin</h1>
         <p class="text-lg">Selamat datang, kelola marketplace Anda dengan mudah.</p>
     </div>

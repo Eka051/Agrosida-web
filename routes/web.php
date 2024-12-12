@@ -37,24 +37,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('detect', [DetectionController::class, 'showForm'])->name('detect.form');
     Route::post('detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
-
     Route::get('pesticide', [KalkulasiDosisPestisida::class, 'showForm'])->name('pesticide.form');
     Route::post('pesticide', [KalkulasiDosisPestisida::class, 'addPesticide'])->name('addPesticide');
     Route::post('plant', [KalkulasiDosisPestisida::class, 'addPlant'])->name('addPlant');
     Route::post('dosage', [KalkulasiDosisPestisida::class, 'addDosage'])->name('addDosage');
-
     Route::delete('pesticide{id}', [KalkulasiDosisPestisida::class, 'deletePesticide'])->name('admin.deletePesticide');
     Route::delete('plant{id}', [KalkulasiDosisPestisida::class, 'deletePlant'])->name('admin.deletePlant');
     Route::delete('dosage{id}', [KalkulasiDosisPestisida::class, 'deleteDosage'])->name('admin.deleteDosage');
-
     Route::get('dosage/{id}', [KalkulasiDosisPestisida::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
-
     Route::get('editPlant{id}', [KalkulasiDosisPestisida::class, 'editPlant'])->name('admin.editPlant');
     Route::put('updatePlant{id}', [KalkulasiDosisPestisida::class, 'updatePlant'])->name('admin.updatePlant');
-
     Route::get('editPesticide{id}', [KalkulasiDosisPestisida::class, 'editPesticide'])->name('admin.editPesticide');
     Route::put('updatePesticide{id}', [KalkulasiDosisPestisida::class, 'updatePesticide'])->name('admin.updatePesticide');
-
     Route::get('editDosage{id}', [KalkulasiDosisPestisida::class, 'editDosage'])->name('admin.editDosage');
     Route::put('updateDosage{id}', [KalkulasiDosisPestisida::class, 'updateDosage'])->name('admin.updateDosage');
 

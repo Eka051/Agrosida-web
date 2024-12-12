@@ -15,18 +15,6 @@
     }
 </style>
 
-<style>
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
-</style>
-
 <div class="landing-page bg-gray-100 min-h-screen">
     <!-- Hero Section -->
     <section class="hero-section bg-gradient-to-r from-greenPrimary to-green-600 text-white pt-32 pb-20 relative overflow-hidden">
