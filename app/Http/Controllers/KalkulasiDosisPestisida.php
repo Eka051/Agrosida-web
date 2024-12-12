@@ -10,17 +10,17 @@ use App\Models\Pesticide; // Impor model
 class KalkulasiDosisPestisida extends Controller
 {
     public function showForm()
-{
-    $pesticides = Pesticide::all(); // Ambil semua data dari model Pesticide
-    $plants = Plant::all();
-    $dosages = Dosage::all();
+    {
+        $pesticides = Pesticide::all(); // Ambil semua data dari model Pesticide
+        $plants = Plant::all();
+        $dosages = Dosage::all();
 
-    return view('admin.kalkulasiPestisidaAdmin', [
-        'pesticides' => $pesticides,
-        'plants' => $plants,
-        'dosages' => $dosages
-    ]);
-}
+        return view('admin.kalkulasiPestisidaAdmin', [
+            'pesticides' => $pesticides,
+            'plants' => $plants,
+            'dosages' => $dosages
+        ]);
+    }
 
     public function addPesticide(Request $request)
     {
@@ -124,4 +124,52 @@ class KalkulasiDosisPestisida extends Controller
         // Jika pestisida tidak ditemukan, beri pesan error
         return redirect()->back()->with('error', 'Formula tidak ditemukan!');
     }
+
+    public function getPlant_by_Pesticide($id)
+    {
+        $dosages = Dosage::where('pesticide_id', $id)
+            ->with('plant')
+            ->get();
+
+        $tanaman = $dosages->map(function ($dosage) {
+            return [
+                'id' => $dosage->plant_id,
+                'name' => $dosage->plant->name,
+                'dosage_per_hectare' => $dosage->dosage_per_hectare
+            ];
+        })->unique('id');
+
+        return response()->json($tanaman);
+    }
+
+
+    public function editPlant($id) {
+        $plant = Plant::find($id);
+        if (!$plant) {
+            abort(404, 'Plant not found');
+        }
+        return view('admin.updateCalc', compact('plant'));
+    }
+
+
+    public function updatePlant(Request $request, $id)
+    {
+        // Cari data plant berdasarkan ID
+        $updated_plant = Plant::find($id);
+
+        // Periksa apakah data ditemukan
+        if (!$updated_plant) {
+            return back()->with('error', 'Plant not found.');
+        }
+
+        // Update data plant
+        $updated_plant->update([
+            'name' => $request->name,
+        ]);
+
+        // Redirect ke halaman form atau halaman lain dengan pesan sukses
+        return redirect()->route('pesticide.form')->with('success', 'Plant updated successfully.');
+    }
+
+
 }

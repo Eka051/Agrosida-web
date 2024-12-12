@@ -47,8 +47,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('plant{id}', [KalkulasiDosisPestisida::class, 'deletePlant'])->name('admin.deletePlant');
     Route::delete('dosage{id}', [KalkulasiDosisPestisida::class, 'deleteDosage'])->name('admin.deleteDosage');
 
+    Route::get('dosage/{id}', [KalkulasiDosisPestisida::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
 
-
+    Route::get('editPlant{id}', [KalkulasiDosisPestisida::class, 'editPlant'])->name('admin.editPlant');
+    Route::put('updatePlant{id}', [KalkulasiDosisPestisida::class, 'updatePlant'])->name('admin.updatePlant');
 
 });
 
@@ -79,6 +81,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('payment/error', [PaymentController::class, 'error'])->name('payment.error');
 });
 
+Route::get('test', [KalkulasiDosisPestisida::class, 'getDose_by_Plant']);
+
 Route::get('optimize', function () {
     Artisan::call('cache:clear');
     Artisan::call('view:clear');
@@ -88,5 +92,7 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     echo 'optimize clear';
 });
+
+
 
 // require __DIR__ . '/auth.php';
