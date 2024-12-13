@@ -23,7 +23,10 @@ class Province extends Model
      *
      * @var string
      */
-    protected $fillable = ['province_name'];
+    protected $fillable = [
+        'province_id',
+        'province_name',
+    ];
 
 
     /**
@@ -33,6 +36,6 @@ class Province extends Model
      */
     public function city()
     {
-        return $this->hasMany(City::class, 'province_id', 'id');
+        return $this->hasMany(City::class, 'province_id', 'province_id');
     }
 }

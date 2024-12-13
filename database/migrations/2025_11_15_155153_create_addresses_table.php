@@ -11,26 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provinces', function (Blueprint $table) {
-            $table->id();
-            $table->string('province_name');
-            $table->timestamps();
-        });
-
-        Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->string('city_name');
-            $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
-            $table->timestamps();
-        });
-
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->uuid('user_id');
-            $table->string('name');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreignId('province_id')->constrained('provinces');
-            $table->foreignId('city_id')->constrained('cities');
+            $table->string('name');
+            $table->integer('province_id');
+            $table->foreign('province_id')->on('provinces')->references('province_id')->onDelete('cascade');
+            $table->integer('city_id');
+            $table->foreign('city_id')->on('cities')->references('city_id')->onDelete('cascade');
             $table->string('detail_address');
             $table->timestamps();
         });

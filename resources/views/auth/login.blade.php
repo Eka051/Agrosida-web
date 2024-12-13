@@ -16,7 +16,7 @@
         <form action="{{ route('login.authenticate') }}" method="POST">
             @csrf
             <div class="mb-4">
-                <label for="username" class="block text-gray-700 font-semibold mb-1">Username</label>
+                <label for="username" class="block text-gray-700 font-semibold mb-1">Username/Email</label>
                 <input type="text" name="username" id="username" placeholder="Masukkan username atau email" 
                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
             </div>

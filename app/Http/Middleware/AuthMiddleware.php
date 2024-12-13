@@ -17,7 +17,7 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silahkan login terlebih dahulu');
+            return redirect()->route('login');
         }
         return $next($request);
     }

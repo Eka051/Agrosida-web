@@ -22,32 +22,28 @@ class AddressController extends Controller
             $provinces = $response->json()['rajaongkir']['results'];
         }
     
-        $cities = [];
-        if ($request->has('province_id')) {
-            $cities = $this->getCities($request->province_id);
-        }
-        dd($cities);
-    
         $addresses = Address::where('user_id', auth()->user()->user_id)->get();
     
-        return view('user.address', compact('provinces', 'cities', 'addresses'));
+        return view('user.address', compact('provinces', 'addresses'));
     }
     
     /**
      * Fetch cities based on the selected province ID.
      */
-    private function getCities($provinceId)
+    public function getCities(Request $request)
     {
+        $provinceId = $request->input('province_id');
         $response = Http::withHeaders([
             'key' => config('services.rajaongkir.api_key'),
         ])->get("https://api.rajaongkir.com/starter/city?province={$provinceId}");
     
         if ($response->successful() && isset($response['rajaongkir']['results'])) {
-            return $response['rajaongkir']['results'];
+            return response()->json($response['rajaongkir']['results']);
         }
     
-        return [];
+        return response()->json(['error' => 'Failed to fetch cities'], 500);
     }
+    
 
     public function getShippingCost(Request $request)
     {
@@ -122,28 +118,32 @@ class AddressController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'province_id' => 'required',
+            'province' => 'required',
             'city' => 'required',
             'detail_address' => 'required',
         ]);
 
-        $province = Province::firstOrCreate(
-            ['province_name' => $request->province_id]
-        );
+        $province = Province::firstOrCreate([
+            'province_id' => $request->province,
+        ], [
+            'province_name' => $request->province_name,
+        ]);
 
-        $city = City::create([
-            'city_name' => $request->city,
-            'province_id' => $province->id,
+        $city = City::firstOrCreate([
+            'city_id' => $request->city,
+        ], [
+            'city_name' => $request->city_name,
+            'province_id' => $province->province_id,
         ]);
 
         $address = Address::create([
             'user_id' => auth()->user()->user_id,
             'name' => $request->name,
-            'province_id' => $province->id,
-            'city_id' => $city->id,
+            'province_id' => $province->province_id,
+            'city_id' => $city->city_id,
             'detail_address' => $request->detail_address,
-            'additional_info' => $request->street_address,
         ]);
+
         $address->save();
 
         return redirect()->route('user.add-address')->with('success', 'Alamat berhasil ditambahkan');

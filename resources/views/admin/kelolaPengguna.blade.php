@@ -51,16 +51,6 @@
     </section>
 </div>
 
-
-@if(session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: '{{ session('success') }}',
-        });
-    </script>
-@endif
 <script>
     function confirmDelete(actionUrl) {
         Swal.fire({

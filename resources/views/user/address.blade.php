@@ -40,15 +40,12 @@
 
                     {{-- Province --}}
                     <div>
-                        <label for="province_id" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
-                        <select id="province_id" name="province_id"
+                        <label for="province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                        <select id="province" name="province"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Provinsi</option>
                             @foreach($provinces as $province)
-                            <option value="{{ $province['province_id'] }}" {{
-                                old('province_id')==$province['province_id'] ? 'selected' : '' }}>
-                                {{ $province['province'] }}
-                            </option>
+                            <option value="{{ $province['province_id'] }}">{{ $province['province'] }}</option>
                             @endforeach
                         </select>
                         @error('province')
@@ -62,19 +59,11 @@
                         <select id="city" name="city"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Kota/Kabupaten</option>
-                            @foreach($cities as $city)
-                            <option value="{{ $city['city_id'] }}" {{ old('city')==$city['city_id'] ? 'selected' : ''
-                                }}>
-                                {{ $city['city_name'] }}
-                            </option>
-                            @endforeach
                         </select>
                         @error('city')
                         <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
                         @enderror
                     </div>
-
-
                     {{-- Street Address --}}
                     <div>
                         <label for="detail_address" class="block text-sm font-medium text-gray-700 mb-2">Alamat
@@ -158,32 +147,23 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const provinceSelect = document.getElementById('province_id');
-    const citySelect = document.getElementById('city');
+    document.getElementById('province').addEventListener('change', function () {
+        const provinceId = this.value;
+        const citySelect = document.getElementById('city');
 
-    provinceSelect.addEventListener('change', async () => {
-        const provinceId = provinceSelect.value;
-
-        citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>';
-
-        if (provinceId) {
-            try {
-                const response = await fetch(`/get-cities?province_id=${provinceId}`);
-                const data = await response.json();
-
+        fetch(`/api/cities?province_id=${provinceId}`)
+            .then(response => response.json())
+            .then(data => {
+                citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>';
                 data.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city.city_id;
-                    option.textContent = city.city_name;
-                    citySelect.appendChild(option);
+                    citySelect.innerHTML += `<option value="${city.city_id}">${city.city_name}</option>`;
                 });
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('Error fetching cities:', error);
-            }
-        }
+                citySelect.innerHTML = '<option value="" disabled selected>Gagal memuat data</option>';
+            });
     });
-});
-
 </script>
+
 @endsection

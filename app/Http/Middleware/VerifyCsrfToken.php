@@ -10,5 +10,6 @@ class VerifyCsrfToken extends Middleware
         //
         'order/*',
         '/webhook/midtrans',
+        '/get-cities',
     ];
 }

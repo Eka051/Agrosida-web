@@ -23,6 +23,12 @@ class UserController extends Controller
         return view('user.order', compact('product'));
     }
 
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('user.profile-user', compact('user'));
+    }
+
     public function editProfile(Request $request)
     {
         $user = User::find($request->user_id);

@@ -67,6 +67,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('user/address/save', [AddressController::class, 'saveAddress'])->name('user.address.store');
     Route::get('user/address/edit/{id}', [AddressController::class, 'editAddress'])->name('user.address.edit');
     Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
+    Route::get('user/profile', [UserController::class, 'profile'])->name('profile-user');
 
     Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
 });

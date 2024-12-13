@@ -13,7 +13,6 @@ class Address extends Model
         'province_id',
         'city_id',
         'detail_address',
-        
     ];
 
     public function user()
@@ -23,26 +22,12 @@ class Address extends Model
 
     public function province()
     {
-        return $this->belongsTo(Province::class, 'province_id', 'id');
+        return $this->belongsTo(Province::class, 'province_id', 'province_id');
     }
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(City::class, 'city_id', 'city_id');
     }
 
-    public function district()
-    {
-        return $this->belongsTo(District::class, 'district_id', 'id');
-    }
-
-    public function village()
-    {
-        return $this->belongsTo(Village::class, 'village_id', 'id');
-    }
-
-    public function getFullAddressAttribute()
-    {
-        return "{$this->street_address}, {$this->village->village_name}, {$this->district->district_name}, {$this->city->city_name}, {$this->province->province_name}";
-    }
 }
