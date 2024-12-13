@@ -9,7 +9,7 @@
                 <a href="{{route('user.dashboard')}}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.beranda' ? 'bg-green-500 text-white' : '' }}">Beranda</a>
             </li>
             <li>
-                <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.keranjang' ? 'bg-green-500 text-white' : '' }}">Keranjang Belanja</a>
+                <a href="{{ }}" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.keranjang' ? 'bg-green-500 text-white' : '' }}">Keranjang Belanja</a>
             </li>
             <li>
                 <a href="" class="block py-2 px-3 rounded hover:bg-green-500 {{ Route::currentRouteName() === 'user.checkout' ? 'bg-green-500 text-white' : '' }}">Checkout Produk</a>
