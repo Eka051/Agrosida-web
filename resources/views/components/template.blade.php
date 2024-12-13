@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+@php
+    use Illuminate\Support\Facades\Request;
+@endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -26,7 +29,12 @@
 </style>
 <body>
     @section('title', 'content')
-    @include('components.navbar')
+    @if (Request::is('/'))
+        @include('components.navbar')
+    @endif
+    @auth
+        @include('components.nav2')
+    @endauth
     @yield('content')
 </body>
 <script src="./node_modules/lodash/lodash.min.js"></script>
