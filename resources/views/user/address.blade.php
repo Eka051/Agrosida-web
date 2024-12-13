@@ -45,12 +45,13 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Provinsi</option>
                             @foreach($provinces as $province)
-                            <option value="{{ $province['province_id'] }}">{{ $province['province'] }}</option>
+                            <option value="{{ $province['province_id'] }}" data-province="{{ $province['province'] }}">{{ $province['province'] }}</option>
                             @endforeach
                         </select>
                         @error('province')
                         <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
                         @enderror
+                        <input type="hidden" name="province_name" id="province_name">
                     </div>
 
                     {{-- City --}}
@@ -63,6 +64,7 @@
                         @error('city')
                         <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
                         @enderror
+                        <input type="hidden" name="city_name" id="city_name">
                     </div>
                     {{-- Street Address --}}
                     <div>
@@ -148,21 +150,30 @@
 
 <script>
     document.getElementById('province').addEventListener('change', function () {
-        const provinceId = this.value;
-        const citySelect = document.getElementById('city');
+    const selectedOption = this.options[this.selectedIndex];
+    const provinceId = selectedOption.value;
+    const provinceName = selectedOption.getAttribute('data-province');
 
-        fetch(`/api/cities?province_id=${provinceId}`)
-            .then(response => response.json())
-            .then(data => {
-                citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>';
-                data.forEach(city => {
-                    citySelect.innerHTML += `<option value="${city.city_id}">${city.city_name}</option>`;
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching cities:', error);
-                citySelect.innerHTML = '<option value="" disabled selected>Gagal memuat data</option>';
+    document.getElementById('province_name').value = provinceName;
+
+    fetch(`/api/cities?province_id=${provinceId}`)
+        .then(response => response.json())
+        .then(data => {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>'; // Reset options
+
+            data.forEach(city => {
+                citySelect.innerHTML += `<option value="${city.city_id}" data-city="${city.city_name}">${city.city_name}</option>`;
             });
+        })
+        .catch(error => console.error('Error fetching cities:', error));
+    });
+
+    document.getElementById('city').addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const cityName = selectedOption.getAttribute('data-city');
+
+        document.getElementById('city_name').value = cityName;
     });
 </script>
 

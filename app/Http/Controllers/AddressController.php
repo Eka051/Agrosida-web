@@ -118,7 +118,8 @@ class AddressController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'province' => 'required',
+            'province' => 'required', // province_id
+            'province_name' => 'required', // province_name
             'city' => 'required',
             'detail_address' => 'required',
         ]);

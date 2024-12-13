@@ -4,7 +4,7 @@
 @section('content')
 <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
-<div class="ml-56 flex-1">
+<div class="ml-64 flex-1">
     <!-- Hero Section -->
     <section class="bg-primaryBg p-8 text-center mt-20">
         <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Checkout Produk</h1>
@@ -84,9 +84,9 @@
                     <form action="{{ route('user.address.store') }}" method="POST" class="mt-4 space-y-4">
                         @csrf
                         <div>
-                            <label for="address" class="block text-gray-600">Pilih Alamat</label>
+                            <label for="address" class="block mt-2 text-gray-600">Pilih Alamat</label>
                             <select id="address" name="address_id"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 mt-1 bg-gray-100" disabled>
+                                class="w-full mb-5 border border-gray-300 rounded-lg px-4 py-2 mt-1 bg-gray-100" disabled>
                                 {{-- @foreach($addresses as $address)
                                 <option value="{{ $address->id }}">{{ $address->getFullAddressAttribute() }}</option>
                                 @endforeach --}}
