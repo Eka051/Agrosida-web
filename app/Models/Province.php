@@ -23,15 +23,16 @@ class Province extends Model
      *
      * @var string
      */
-    protected $table = 'provinces';
+    protected $fillable = ['province_name'];
+
 
     /**
      * Province has many regencies.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function regencies()
+    public function city()
     {
-        return $this->hasMany(Regency::class);
+        return $this->hasMany(City::class, 'province_id', 'id');
     }
 }

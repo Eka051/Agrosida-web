@@ -4,72 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Address;
-use App\Models\Village;
-use App\Models\District;
 use App\Models\Province;
-use Http;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $provinces = Http::get('https://eka051.github.io/api-wilayah-indonesia/api/provinces.json')->json();
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to load provinces data.']);
+        $response = Http::withHeaders([
+            'key' => config('services.rajaongkir.api_key'),
+        ])->get('https://api.rajaongkir.com/starter/province');
+            
+        $provinces = [];
+        if ($response->successful()) {
+            $provinces = $response->json()['rajaongkir']['results'];
         }
-
-        return view('user.address', compact('provinces'));
+    
+        $cities = [];
+        if ($request->has('province_id')) {
+            $cities = $this->getCities($request->province_id);
+        }
+        dd($cities);
+    
+        $addresses = Address::where('user_id', auth()->user()->user_id)->get();
+    
+        return view('user.address', compact('provinces', 'cities', 'addresses'));
     }
-
+    
     /**
      * Fetch cities based on the selected province ID.
      */
-    public function getCities($provinceId)
+    private function getCities($provinceId)
     {
-        try {
-            $url = "https://eka051.github.io/api-wilayah-indonesia/api/regencies/{$provinceId}.json";
-            $cities = Http::get($url)->json();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch cities.'], 500);
-        }
-
-        return response()->json($cities);
-    }
-
-    /**
-     * Fetch districts based on the selected city ID.
-     */
-    public function getDistricts($cityId)
-    {
-        try {
-            $url = "https://eka051.github.io/api-wilayah-indonesia/api/districts/{$cityId}.json";
-            $districts = Http::get($url)->json();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch districts.'], 500);
-        }
-
-        return response()->json($districts);
-    }
-
-    /**
-     * Fetch villages based on the selected district ID.
-     */
-    public function getVillages($districtId)
-    {
-        try {
-            $url = "https://eka051.github.io/api-wilayah-indonesia/api/villages/{$districtId}.json";
-            $villages = Http::get($url)->json();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch villages.'], 500);
-        }
-
-        return response()->json($villages);
-    }
+        $response = Http::withHeaders([
+            'key' => config('services.rajaongkir.api_key'),
+        ])->get("https://api.rajaongkir.com/starter/city?province={$provinceId}");
     
+        if ($response->successful() && isset($response['rajaongkir']['results'])) {
+            return $response['rajaongkir']['results'];
+        }
     
+        return [];
+    }
+
+    public function getShippingCost(Request $request)
+    {
+        $request->validate([
+            'origin' => 'required',
+            'destination' => 'required',
+            'weight' => 'required|numeric',
+            'courier' => 'required'
+        ]);
+
+        $response = Http::withHeaders([
+            'key' => config('services.rajaongkir.api_key'),
+        ])->post('https://api.rajaongkir.com/starter/cost', [
+            'origin' => $request->origin,
+            'destination' => $request->destination,
+            'weight' => $request->weight,
+            'courier' => $request->courier,
+        ]);
+
+        if ($response->successful()) {
+            return response()->json($response->json());
+        }
+
+        return response()->json(['error' => 'Failed to fetch shipping cost'], 500);
+    }
 
     public function storeAdressSeller(Request $request)
     {
@@ -114,36 +117,36 @@ class AddressController extends Controller
         return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil dihapus');
     }
 
-    public function addAddress()
-    {
-        $address = Address::all();
-        $provinces = Province::all();
-        $cities = City::all();
-        $districts = District::all();
-        $villages = Village::all();
-        return view('user.address', compact('address', 'provinces', 'cities', 'districts', 'villages'));
-    }
 
     public function saveAddress(Request $request)
     {
         $request->validate([
+            'name' => 'required',
             'province_id' => 'required',
-            'city_id' => 'required',
-            'district_id' => 'required',
-            'village_id' => 'required',
-            'street_address' => 'required',
+            'city' => 'required',
+            'detail_address' => 'required',
         ]);
 
-        Address::create([
+        $province = Province::firstOrCreate(
+            ['province_name' => $request->province_id]
+        );
+
+        $city = City::create([
+            'city_name' => $request->city,
+            'province_id' => $province->id,
+        ]);
+
+        $address = Address::create([
             'user_id' => auth()->user()->user_id,
-            'province_id' => $request->province_id,
-            'city_id' => $request->city_id,
-            'district_id' => $request->district_id,
-            'village_id' => $request->village_id,
+            'name' => $request->name,
+            'province_id' => $province->id,
+            'city_id' => $city->id,
+            'detail_address' => $request->detail_address,
             'additional_info' => $request->street_address,
         ]);
+        $address->save();
 
-        return redirect()->view('user.order')->with('success', 'Alamat berhasil ditambahkan');
+        return redirect()->route('user.add-address')->with('success', 'Alamat berhasil ditambahkan');
     }
 
     public function editAddress($id)
@@ -183,7 +186,7 @@ class AddressController extends Controller
 
         $address->delete();
 
-        return redirect()->route('user.dashboard')->with('success', 'Alamat berhasil dihapus');
+        return redirect()->view('user.address')->with('success', 'Alamat berhasil dihapus');
     }
 
     public function getAddress(Request $request)

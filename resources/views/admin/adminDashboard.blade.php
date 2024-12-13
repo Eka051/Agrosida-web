@@ -3,39 +3,71 @@
 @section('title', 'Admin Dashboard')
 @section('content')
 
-<main class="mt-24 ml-56 flex-1 bg-gray-100 min-h-screen">
+<main class="mt-24 ml-56 flex-1 bg-gray-100 min-h-full">
     <!-- Header -->
-    <div class="bg-greenPrimary text-white py-6 px-8 rounded-lg shadow-md mb-8">
+    <div class="ml-5">
         <h1 class="text-4xl font-bold">Dashboard Admin</h1>
-        <p class="text-lg">Selamat datang, kelola marketplace Anda dengan mudah.</p>
+        <p class="text-lg">Selamat datang {{ auth()->user()->name }}, kelola marketplace Anda dengan mudah.</p>
     </div>
 
-    <!-- Cards Summary -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <div class="bg-white p-6 shadow-md border border-gray-200 rounded-lg text-center hover:shadow-lg transition">
-            <div class="flex items-center justify-center mb-4">
-                <i class="fas fa-box-open text-5xl text-blue-500"></i>
-            </div>
-            <h3 class="text-xl font-semibold">Total Produk</h3>
-            <span class="iconify" data-icon="fluent-mdl2:product-variant" data-inline="false" style="width: 36px; height: 36px; color: #000;"></span>
-            <p class="text-3xl font-bold text-blue-600">{{ $totalProduct }} Produk</p>
+    <div class="mt-12 mx-6 mb-6 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 xl:grid-cols-4">
+        <!-- card -->
+        <div class="shadow bg-white py-5">
+           <!-- card body -->
+           <div class="card-body ml-5">
+              <!-- content -->
+              <div class="flex justify-between items-center">
+                 <h4 class="text-xl">Total Produk</h4>
+                 <div class="bg-green-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
+                    <i data-feather="briefcase"></i>
+                 </div>
+              </div>
+              <div class="mt-4 flex flex-col gap-0 text-base">
+                 <h2 class="text-3xl font-bold">{{ $totalProduct }}</h2>
+                 <div>
+                    <span class="text-gray-500 text-lg">Produk</span>
+                 </div>
+              </div>
+           </div>
         </div>
-        <div class="bg-white p-6 shadow-md border border-gray-200 rounded-lg text-center hover:shadow-lg transition">
-            <div class="flex items-center justify-center mb-4">
-                <i class="fas fa-exchange-alt text-5xl text-green-500"></i>
+        <!-- card -->
+        <div class="card shadow bg-white py-5">
+            <!-- card body -->
+            <div class="card-body ml-5">
+               <!-- content -->
+               <div class="flex justify-between items-center">
+                  <h4 class="text-xl">Total Transaksi</h4>
+                  <div class="bg-green-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
+                     <i data-feather="briefcase"></i>
+                  </div>
+               </div>
+               <div class="mt-4 flex flex-col gap-0 text-base">
+                  <h2 class="text-3xl font-bold">{{ $totalOrder }}</h2>
+                  <div>
+                     <span class="text-gray-500 text-lg">Transaksi</span>
+                  </div>
+               </div>
             </div>
-            <h3 class="text-xl font-semibold">Total Transaksi</h3>
-            <span class="iconify" data-icon="fluent:product-catalogue" data-inline="false" style="width: 36px; height: 36px; color: #000;"></span>
-            <p class="text-3xl font-bold text-green-600">{{ $totalOrder }} Transaksi</p>
-        </div>
-        <div class="bg-white p-6 shadow-md border border-gray-200 rounded-lg text-center hover:shadow-lg transition">
-            <div class="flex items-center justify-center mb-4">
-                <i class="fas fa-wallet text-5xl text-yellow-500"></i>
+         </div>
+        <div class="card shadow bg-white py-5">
+            <!-- card body -->
+            <div class="card-body ml-5">
+               <!-- content -->
+               <div class="flex justify-between items-center">
+                  <h4 class="text-xl">Total Pendapatan</h4>
+                  <div class="bg-green-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
+                     <i data-feather="briefcase"></i>
+                  </div>
+               </div>
+               <div class="mt-4 flex flex-col gap-0 text-base">
+                  <h2 class="text-3xl font-bold">Rp. {{ number_format($balance, 0, ',', '.') }}</h2>
+                  <div>
+                     <span class="text-gray-500 text-lg">Dari {{ $totalOrder }} Transaksi</span>
+                  </div>
+               </div>
             </div>
-            <h3 class="text-xl font-semibold">Total Pendapatan</h3>
-            <p class="text-3xl font-bold text-yellow-600">Rp {{ number_format($balance, 0, ',', '.') }}</p>
-        </div>
-    </div>
+         </div>
+     </div>
 
     <!-- Recent Orders & Top Products -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

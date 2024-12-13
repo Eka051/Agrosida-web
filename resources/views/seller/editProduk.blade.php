@@ -25,7 +25,7 @@
 
                     <div class="mt-4">
                         <img src="{{ asset('storage/' . $product->image_path) }}" alt="Gambar Produk"
-                            class="w-32 h-32 object-cover rounded-md">
+                            class="w-32 h-32 object-contain rounded-md">
                     </div>
                     <p class="text-sm text-gray-500 mt-2">Jika ingin mengganti gambar, pilih gambar baru di atas.</p>
                 </div>
@@ -46,6 +46,12 @@
                     @error('stock')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
+                </div>
+                <div>
+                    <label for="weight" class="block text-xl font-medium text-gray-700">Berat (gram)</label>
+                    <input type="number" name="weight" id="weight" required 
+                        class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Masukkan berat produk (gram) produk">
                 </div>
                 <div>
                     <label for="category" class="block text-xl font-medium text-gray-700">Kategori Produk</label>

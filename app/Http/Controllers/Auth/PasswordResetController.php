@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationCodeMail;
 
 class PasswordResetController extends Controller
 {
@@ -37,15 +39,22 @@ class PasswordResetController extends Controller
     public function sendVerificationCode(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
         ]);
 
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            $verificationCode = rand(1000, 9999);
+            $verificationCode = sprintf('%04d', rand(0, 9999));
             $user->update([
                 'verification_code' => $verificationCode,
+            ]);
+
+            Mail::to($user->email)->send(new VerificationCodeMail($verificationCode));
+
+            $user->update([
+                'verification_code' => $verificationCode,
+                'verification_code_expired_at' => now()->addMinutes(5),
             ]);
 
             return redirect()->route('password.reset')->with('success', 'Kode verifikasi telah dikirim ke email');

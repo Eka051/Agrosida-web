@@ -8,9 +8,9 @@ class Payment extends Model
 {
     protected $primaryKey = 'payment_id';
     protected $fillable = [
-        'transaction_id',
-        'total',
+        'order_id',
         'status',
+        'total',
     ];
 
     public function order()

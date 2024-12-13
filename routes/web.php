@@ -28,7 +28,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/category', [CategoryController::class, 'index'])->name('admin.view-category');
     Route::get('admin/search-product', [ProductController::class, 'search'])->name('admin.search-product');
     Route::delete('admin/product/delete/{id}', [ProductController::class, 'delete'])->name('admin.delete-product');
-    // Route::delete('admin/category/delete/{id}', [CategoryController::class, 'delete'])->name('admin.delete-category');
     Route::delete('admin/category/delete/{id}', [CategoryController::class,'delete'])->name('admin.delete-category');
     Route::put('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
@@ -40,36 +39,36 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::post('seller/product/save', [ProductController::class, 'store'])->name('seller.save-product');
     Route::get('seller/edit-product/{id}', [ProductController::class, 'editProduk'])->name('seller.edit-product');
     Route::put('seller/product/update/{id}', [ProductController::class, 'update'])->name('seller.update-product');
-
     Route::post('seller/product/delete/{id}', [ProductController::class, 'discontinue'])->name('seller.delete-product');
 
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
+    Route::get('seller/order/detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
     Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('user/order/{id}', [OrderController::class, 'order'])->name('user.order');
+
     Route::get('user/cart', [CartController::class, 'index'])->name('user.cart');
-    Route::post('user/cart/add', [CartController::class, 'add'])->name('user.cart.add');
-    Route::delete('user/cart/remove/{id}', [CartController::class, 'remove'])->name('user.cart.remove');
-    Route::post('user/cart/checkout', [CartController::class, 'checkout'])->name('user.cart.checkout');
-    Route::post('user/order/payment', [OrderController::class, 'store'])->name('user.order.payment');
     
-    Route::post('user/transaction/notification', [TransactionController::class, 'notificationHandler'])->name('user.transaction.notification');
+    Route::post('user/cart/add/{product_id}', [CartController::class, 'add'])->name('user.cart.add');
+    Route::delete('user/cart/remove/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('user/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    Route::delete('cart/clear/{user_id}', [CartController::class, 'clearCartAfterPayment'])->name('cart.clear');
+    Route::post('user/order/payment', [OrderController::class, 'store'])->name('user.order.payment');
+    Route::post('user/cart/payment', [PaymentController::class, 'cartPayment'])->name('cart.payment');
+    Route::get('user/history', [OrderController::class, 'history'])->name('user.history');
+
+    Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');
+    
     Route::get('user/address/add', [AddressController::class, 'index'])->name('user.add-address');
     Route::post('user/address/save', [AddressController::class, 'saveAddress'])->name('user.address.store');
-    
-    Route::get('user/address/add', [AddressController::class, 'index'])->name('user.add-address');
-    Route::get('/get-cities/{provinceId}', [AddressController::class, 'getCities']);
-    Route::get('/get-districts/{cityId}', [AddressController::class, 'getDistricts']);
-    Route::get('/get-villages/{districtId}', [AddressController::class, 'getVillages']);
+    Route::get('user/address/edit/{id}', [AddressController::class, 'editAddress'])->name('user.address.edit');
+    Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
 
-    Route::post('payment/notification', [PaymentController::class, 'notification'])->name('payment.notification');
-    Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::get('payment/pending', [PaymentController::class, 'pending'])->name('payment.pending');
-    Route::get('payment/error', [PaymentController::class, 'error'])->name('payment.error');
-    
+    Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
 });
 
 Route::get('optimize', function () {
@@ -81,5 +80,3 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     echo 'optimize clear';
 });
-
-// require __DIR__ . '/auth.php';

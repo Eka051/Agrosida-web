@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Facades\Route;
+@endphp
+
 <!-- Sidebar -->
 <aside class="w-48 bg-primaryBg text-black h-screen p-6 fixed">
     <h2 class="text-xl font-bold mb-6">Menu</h2>

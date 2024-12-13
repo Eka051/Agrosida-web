@@ -11,96 +11,39 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    public function __construct()
+    public function order($id)
     {
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
-    }
-    public function order($id){
         $product = Product::find($id);
         $addresses = Auth::user()->addresses;
         return view('user.order', compact('product', 'addresses'));
-
     }
 
-    public function showOrderFromUser() {
-        return view('seller.pesananSeller');
-    }
-
-    public function store(Request $request)
+    public function showOrderFromUser()
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to place an order.');
-        }
-        $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        // dd($validated);
-
-        $product = Product::findOrFail($request->product_id);
-        $total = $product->price * $request->quantity + 20000; // Tambahkan ongkir
-
-        $payment = Payment::create([
-            'name' => 'qris',
-            'total' => $total,
-        ]);
-        $user = auth()->user();
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'You must be logged in to place an order.');
-        }
-
-        $order = Order::create([
-            'user_id' => $user->user_id,
-            'status' => 'pending',
-            'payment_id' => $payment->payment_id,
-        ]);
-
-        // Simpan detail order
-        $orderDetail = new OrderDetail();
-        $orderDetail->order_id = $order->order_id;
-        $orderDetail->product_id = $product->id;
-        $orderDetail->product_name = $product->product_name;
-        $orderDetail->quantity = $request->quantity;
-        $orderDetail->price = $product->price;
-        $orderDetail->total = $total;
-        $orderDetail->save();
-
-        // Payload untuk Midtrans
-        $payload = [
-            'transaction_details' => [
-                'order_id' => $order->id,
-                'gross_amount' => $total
-            ],
-            'customer_details' => [
-                'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-            ],
-            'item_details' => [
-                [
-                    'id' => $product->id,
-                    'price' => $product->price,
-                    'quantity' => $request->quantity,
-                    'name' => $product->product_name
-                ]
-            ]
-        ];
-        // Set Midtrans configuration
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        // Generate Snap Token
-        // Generate Snap Token
-        $snapToken = Snap::getSnapToken($payload);
-
-        return view('user.payment', compact('order', 'snapToken'));
+        $orders = Order::with('order_detail', 'user', 'payment')->get();
+        return view('seller.pesananSeller', compact('orders'));
     }
+
+    public function showOrderDetail($id)
+    {
+        $order_detail = OrderDetail::with('order', 'product')->where('order_id', $id)->get();
+        return view('seller.order-detail', compact('order_detail'));
+    }
+
+    public function orderDetail($id)
+    {
+        $order = Order::with('order_detail', 'user', 'payment')->where('order_id', $id)->first();
+        return view('user.order-detail', compact('order'));
+    }
+
+    public function history()
+    {
+        $orders = Order::with('order_detail', 'user', 'payment')->where('user_id', Auth::user()->user_id)->get();
+        return view('user.riwayatPesananUser', compact('orders'));
+    }
+    
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories', 'category_id');
             $table->double('price');
             $table->integer('stock');
+            $table->integer('weight')->default(0);
             $table->string('image_path')->nullable();
             $table->string('description');
             $table->boolean('discontinued')->default(0);

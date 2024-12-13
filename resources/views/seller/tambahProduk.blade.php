@@ -31,6 +31,12 @@
                         placeholder="Masukkan jumlah stok produk">
                 </div>
                 <div>
+                    <label for="weight" class="block text-xl font-medium text-gray-700">Berat (gram)</label>
+                    <input type="number" name="weight" id="weight" required 
+                        class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Masukkan berat produk (gram) produk">
+                </div>
+                <div>
                     <label for="category" class="block text-xl font-medium text-gray-700">Kategori Produk</label>
                     <div class="relative">
                         <select name="category_id" id="category" required

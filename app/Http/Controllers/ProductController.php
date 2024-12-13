@@ -43,8 +43,9 @@ class ProductController extends Controller
         $validated = $request->validate([
             'product_name' => 'required|max:255|unique:products,product_name',
             'description' => 'required',
-            'price' => 'required|string|min:0',
-            'stock' => 'required|integer|min:0',
+            'price' => 'required|string|min:1',
+            'stock' => 'required|integer|min:1',
+            'weight' => 'required|integer|min:1',
             'category_id' => 'nullable|exists:categories,category_id',
             'new_category' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -53,8 +54,11 @@ class ProductController extends Controller
         try {
             $file = $request->file('image');
             $name = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('products', $name);
-            
+            $path = $file->storeAs('products', $name, 'public');
+            if (!$path) {
+                return redirect()->back()->with('error', 'Gagal menyimpan gambar produk.');
+            }
+            // dd($validated);
             $validated['price'] = (float) str_replace(['Rp', '.', ' '], '', $validated['price']);
             
             $category = $validated['category_id'] ?? 
@@ -106,16 +110,16 @@ class ProductController extends Controller
             $product->discontinued = 1;
             $product->save();
             DB::commit();
-            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihentikan');
+            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihapus');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal menghentikan produk');
+            return redirect()->back()->with('error', 'Gagal menghapus produk');
         }
     }
 
     public function editProduk($id)
     {
-        $product = Product::find($id)->first();
+        $product = Product::find($id);
         $categories = Category::all();
         return view('seller.editProduk', compact('product', 'categories'));
     }
@@ -125,8 +129,9 @@ class ProductController extends Controller
         $validated = $request->validate([
             'product_name' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|string|min:0',
-            'stock' => 'required|integer|min:0',
+            'price' => 'required|string|min:1',
+            'stock' => 'required|integer|min:1',
+            'weight' => 'required|integer|min:1',
             'category_id' => 'nullable|exists:categories,category_id',
             'new_category' => 'nullable|string|max:255|required_without:category_id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -170,4 +175,3 @@ class ProductController extends Controller
     }
 
 }
-

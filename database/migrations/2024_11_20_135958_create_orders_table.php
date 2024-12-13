@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('order_id');
+            $table->string('order_id')->primary();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
-            $table->foreignId('payment_id')->constrained('payments', 'payment_id');
+            $table->string('snap_token')->nullable();
+            $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

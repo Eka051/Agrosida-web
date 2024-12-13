@@ -11,7 +11,7 @@ class SellerController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $products = Product::whereHas('user', function ($query) use ($user) {
             $query->where('user_id', $user->user_id);
         })

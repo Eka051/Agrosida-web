@@ -9,12 +9,11 @@ class Address extends Model
     // protected $primaryKey = 'address_id';
     protected $fillable = [
         'user_id',
+        'name',
         'province_id',
         'city_id',
-        'district_id',
-        'village_id',
-        'street_address',
-        'additional_info',
+        'detail_address',
+        
     ];
 
     public function user()

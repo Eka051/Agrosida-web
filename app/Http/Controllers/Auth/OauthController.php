@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OauthController extends Controller
 {
@@ -28,7 +29,6 @@ class OauthController extends Controller
 
             if ($foundUser) {
                 Auth::login($foundUser);
-                \Log::info("User masuk dengan email: {$foundUser->email}");
 
                 if ($foundUser->hasRole('admin')) {
                     return redirect()->route('admin.dashboard');
@@ -54,17 +54,15 @@ class OauthController extends Controller
                     DB::commit();
 
                     Auth::login($newUser, true);
-                    \Log::info("User baru, masuk via Google: {$newUser->email}");
 
                     return redirect()->route('user.dashboard')->with('success', 'Selamat datang! ' . auth()->user()->name);
                 } catch (Exception $e) {
                     DB::rollBack();
-                    \Log::error('Error membuat user baru: ' . $e->getMessage());
                     throw $e;
                 }
             }
         } catch (Exception $e) {
-            \Log::error('Google OAuth error: ' . $e->getMessage());
+            Log::error('Google OAuth error: ' . $e->getMessage());
             return redirect()->route('login')->with('error', 'Gagal login menggunakan Google. Silakan coba lagi.');
         }
     }

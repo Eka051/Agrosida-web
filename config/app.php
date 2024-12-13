@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    App\Providers\AppServiceProvider::class,
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -118,12 +118,13 @@ return [
     |
     */
 
+    'aliases' => [
+        'File' => Illuminate\Support\Facades\File::class,
+    ],
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-    // 'providers' => [
-    //     App\Providers\MidtransServiceProvider::class,
-    // ]
+
 
 ];
