@@ -8,6 +8,7 @@ use App\Models\Province;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class AddressController extends Controller
 {
@@ -77,7 +78,7 @@ class AddressController extends Controller
     public function storeAdressSeller(Request $request)
     {
         $request->validate([
-            'store_name' => 'required',
+            'name' => 'required',
             'province' => 'required',
             'province_name' => 'required',
             'city' => 'required',
@@ -100,13 +101,14 @@ class AddressController extends Controller
 
         $address = Address::create([
             'user_id' => auth()->user()->user_id,
-            'name' => $request->store_name,
+            'name' => $request->name,
             'province_id' => $province->province_id,
             'city_id' => $city->city_id,
             'detail_address' => $request->detail_address,
         ]);
 
         $address->save();
+        Log::info('Address created', ['address' => $address]);
 
         return redirect()->route('profile-seller')->with('success', 'Alamat berhasil ditambahkan');
     }

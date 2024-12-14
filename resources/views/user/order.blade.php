@@ -94,7 +94,7 @@
                         </div>
                     </form>
                     <a href="{{ route('user.add-address') }}"
-                        class="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-blue-600 text-center block mt-4">
+                        class="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 text-center block mt-4">
                         Tambah Alamat Lain
                     </a>
                     @endif

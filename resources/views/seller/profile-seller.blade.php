@@ -6,8 +6,8 @@
     <div class="max-w-4xl mx-auto space-y-8">
         {{-- Profile Header --}}
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Biodata Diri</h1>
-            <p class="text-gray-600">Edit dan perbarui informasi profil Anda</p>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Profil Toko</h1>
+            <p class="text-gray-600">Edit dan perbarui informasi Toko Anda</p>
         </div>
 
         {{-- Profile Form --}}
@@ -18,7 +18,7 @@
                     <div>
                         <label for="store_name" class="block text-base font-medium text-gray-700">Nama Toko</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->store->name }}</p>
-                        <input type="hidden" name="store_name" id="store_name" value="{{ $user->store->name }}">
+                        {{-- <input type="hidden" name="store_name" id="store_name" value="{{ $user->store->name }}"> --}}
                     </div>
 
                     {{-- Divider --}}
@@ -67,7 +67,7 @@
                             </div>
                         @else
                             @foreach ($addresses as $address)
-                                <p class="text-xl font-medium text-gray-900">{{ $address->getFullAddressAttribute() ?? '-' }}</p>
+                                <p class="text-lg font-normal text-gray-900">{{ $address->detail_address ?? '-' }} <span class="block">{{ $address->city->city_name }}, {{ $address->province->province_name }}</span></p>
                             @endforeach
                         @endif
                     </div>
@@ -98,8 +98,9 @@
 
             <form action="{{ route('seller.address.save') }}" method="POST" class="space-y-6">
                 @csrf
+                {{-- Store Name --}}
+                <input type="hidden" id="name" name="name" value="{{ $user->store->name }}">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                     {{-- Province --}}
                     <div>
                         <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>
@@ -152,9 +153,9 @@
 
         {{-- Back Button --}}
         <div class="text-left mt-8">
-            <button onclick="window.history.back()"
+            <button
                 class="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-                Kembali
+                <a href="{{ route('seller.dashboard') }}">Kembali</a>
             </button>
         </div>
     </div>
