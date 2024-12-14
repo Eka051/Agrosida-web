@@ -34,7 +34,7 @@
                             <td class="px-4 py-2 border text-gray-800">John Doe</td>
                             <td class="px-4 py-2 border text-gray-800">2024-11-20</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded">Selesai</span>
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white rounded-md">Selesai</span>
                             </td>
                             <td class="px-4 py-2 border text-gray-800">Rp 1,500,000</td>
                             <td class="px-4 py-2 border">
@@ -48,7 +48,7 @@
                             <td class="px-4 py-2 border text-gray-800">Jane Smith</td>
                             <td class="px-4 py-2 border text-gray-800">2024-11-18</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded">Diproses</span>
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">Diproses</span>
                             </td>
                             <td class="px-4 py-2 border text-gray-800">Rp 800,000</td>
                             <td class="px-4 py-2 border">
@@ -62,7 +62,7 @@
                             <td class="px-4 py-2 border text-gray-800">Samuel Lee</td>
                             <td class="px-4 py-2 border text-gray-800">2024-11-17</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded">Dibatalkan</span>
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white rounded-md">Dibatalkan</span>
                             </td>
                             <td class="px-4 py-2 border text-gray-800">Rp 500,000</td>
                             <td class="px-4 py-2 border">

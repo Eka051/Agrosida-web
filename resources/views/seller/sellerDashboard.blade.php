@@ -19,7 +19,7 @@
     <section class="py-8">
         <div class="flex justify-between items-center mx-4">
             <h2 class="text-2xl font-semibold text-gray-800">Produk Anda</h2>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="window.location.href='{{route('seller.tambahproduk')}}'">Tambah Produk</button>
+            <button class="bg-green-500 text-white px-4 py-2 rounded" onclick="window.location.href='{{route('seller.tambahproduk')}}'">Tambah Produk</button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mt-6 mx-4">
             <!-- Product Cards -->

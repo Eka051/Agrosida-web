@@ -10,8 +10,9 @@
     </section>
 
     <!-- Daftar Produk di Keranjang -->
-    <section class="py-8">
-        <div class="mx-4 bg-white shadow rounded-lg overflow-hidden">
+    <section class="py-8 flex flex-col lg:flex-row justify-between">
+        <!-- Daftar Produk -->
+        <div class="mx-4 bg-white shadow rounded-lg overflow-hidden w-full lg:w-3/4">
             <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">
                 Produk dalam Keranjang
             </div>
@@ -19,6 +20,7 @@
                 <table class="table-auto w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 text-sm uppercase tracking-wider">
+                            <th class="px-4 py-2 border"><input type="checkbox" class="form-checkbox"></th>
                             <th class="px-4 py-2 border">Produk</th>
                             <th class="px-4 py-2 border">Harga Satuan</th>
                             <th class="px-4 py-2 border">Kuantitas</th>
@@ -27,17 +29,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data Statis -->
+                        <!-- Data Produk -->
                         <tr class="hover:bg-gray-100">
+                            <td class="px-4 py-2 border text-center">
+                                <input type="checkbox" class="form-checkbox">
+                            </td>
                             <td class="px-4 py-2 border text-gray-800 flex items-center space-x-4">
-                                <div class="bg-gray-200 h-16 w-16 rounded"></div>
+                                <div class="h-16 w-16 bg-gray-200 rounded"></div>
                                 <span>Pestisida A</span>
                             </td>
-                            <td class="px-4 py-2 border text-gray-800">Rp100,000</td>
+                            <td class="px-4 py-2 border text-gray-800">Rp126,000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <input type="number" value="2" min="1" class="w-16 border rounded text-center" readonly>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-2 py-1 bg-gray-300 rounded">-</button>
+                                    <span>1</span>
+                                    <button class="px-2 py-1 bg-gray-300 rounded">+</button>
+                                </div>
                             </td>
-                            <td class="px-4 py-2 border text-gray-800">Rp200,000</td>
+                            <td class="px-4 py-2 border text-gray-800">Rp126,000</td>
                             <td class="px-4 py-2 border">
                                 <button class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600">
                                     Hapus
@@ -45,15 +54,22 @@
                             </td>
                         </tr>
                         <tr class="hover:bg-gray-100">
+                            <td class="px-4 py-2 border text-center">
+                                <input type="checkbox" class="form-checkbox">
+                            </td>
                             <td class="px-4 py-2 border text-gray-800 flex items-center space-x-4">
-                                <div class="bg-gray-200 h-16 w-16 rounded"></div>
+                                <div class="h-16 w-16 bg-gray-200 rounded"></div>
                                 <span>Pestisida B</span>
                             </td>
-                            <td class="px-4 py-2 border text-gray-800">Rp150,000</td>
+                            <td class="px-4 py-2 border text-gray-800">Rp51,888</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <input type="number" value="1" min="1" class="w-16 border rounded text-center" readonly>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-2 py-1 bg-gray-300 rounded">-</button>
+                                    <span>1</span>
+                                    <button class="px-2 py-1 bg-gray-300 rounded">+</button>
+                                </div>
                             </td>
-                            <td class="px-4 py-2 border text-gray-800">Rp150,000</td>
+                            <td class="px-4 py-2 border text-gray-800">Rp51,888</td>
                             <td class="px-4 py-2 border">
                                 <button class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600">
                                     Hapus
@@ -65,14 +81,20 @@
             </div>
         </div>
 
-        <!-- Total Harga dan Checkout -->
-        <div class="flex justify-between items-center mx-4 mt-6">
-            <div class="text-lg font-semibold text-gray-800">
-                Total: Rp350,000
+        <!-- Total dan Promo -->
+        <div class="mx-4 mt-6 lg:mt-0 bg-white shadow rounded-lg overflow-hidden w-full lg:w-1/4">
+            <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">
+                Ringkasan Belanja
             </div>
-            <a href="{{route('user.checkout')}}" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
-                Lanjut ke Checkout
-            </a>
+            <div class="p-4">
+                <div class="flex justify-between text-gray-800 mb-4">
+                    <span>Total:</span>
+                    <span class="font-bold">Rp177,888</span>
+                </div>
+                <a href="{{route('user.checkout')}}" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
+                    Lanjut ke Checkout
+                </a>
+            </div>
         </div>
     </section>
 </div>

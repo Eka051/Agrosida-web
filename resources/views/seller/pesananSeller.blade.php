@@ -35,7 +35,7 @@
                             <td class="px-4 py-2 border text-gray-800">25 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp1.000.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white rounded-md">
                                     Pending
                                 </span>
                             </td>
@@ -63,7 +63,7 @@
                             <td class="px-4 py-2 border text-gray-800">26 Nov 2024</td>
                             <td class="px-4 py-2 border text-gray-800">Rp750.000</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-blue-500 text-white rounded-md">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-yellow-500 text-white rounded-md">
                                     Shipped
                                 </span>
                             </td>

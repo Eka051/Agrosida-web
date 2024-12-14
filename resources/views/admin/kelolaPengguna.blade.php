@@ -35,7 +35,7 @@
                             <td class="px-4 py-2 border text-gray-800">johndoe@example.com</td>
                             <td class="px-4 py-2 border text-gray-800 capitalize">admin</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="px-2 py-1 text-sm rounded-lg bg-green-100 text-green-700">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-green-500 text-white rounded-md">
                                     Aktif
                                 </span>
                             </td>
@@ -58,7 +58,7 @@
                             <td class="px-4 py-2 border text-gray-800">janesmith@example.com</td>
                             <td class="px-4 py-2 border text-gray-800 capitalize">user</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="px-2 py-1 text-sm rounded-lg bg-red-100 text-red-700">
+                                <span class="inline-block px-3 py-1 text-sm font-semibold bg-red-500 text-white rounded-md">
                                     Nonaktif
                                 </span>
                             </td>
