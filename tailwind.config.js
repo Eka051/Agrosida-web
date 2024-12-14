@@ -25,7 +25,8 @@ export default {
                 greenSecondary : '#114232',
                 yellowPrimary : '#FFEB3B',
                 yellowSecondary : '#FFC107',
-                primaryBg : '#E2F7CA'
+                primaryBg : '#E2F7CA',
+                greenTertiary : '#B9E7B7',
             }
         },
     },

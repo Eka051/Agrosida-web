@@ -11,26 +11,30 @@ use App\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
-    public function index(Request $request)
+    public function index()
+    {
+        $provinces = $this->fetchProvinces();
+        $addresses = Address::where('user_id', auth()->user()->user_id)
+        ->with('province', 'city', 'user')
+        ->get();
+    
+        return view('user.address', compact('provinces', 'addresses'));
+    }
+
+    private function fetchProvinces()
     {
         $response = Http::withHeaders([
             'key' => config('services.rajaongkir.api_key'),
         ])->get('https://api.rajaongkir.com/starter/province');
             
-        $provinces = [];
         if ($response->successful()) {
-            $provinces = $response->json()['rajaongkir']['results'];
+            return $response->json()['rajaongkir']['results'];
         }
     
-        $addresses = Address::where('user_id', auth()->user()->user_id)->get();
-    
-        return view('user.address', compact('provinces', 'addresses'));
+        return [];
     }
     
-    /**
-     * Fetch cities based on the selected province ID.
-     */
-    public function getCities(Request $request)
+    public function fetchCities(Request $request)
     {
         $provinceId = $request->input('province_id');
         $response = Http::withHeaders([
@@ -72,18 +76,59 @@ class AddressController extends Controller
 
     public function storeAdressSeller(Request $request)
     {
-        $address = Address::where('name', $request->name)->first();
+        $request->validate([
+            'store_name' => 'required',
+            'province' => 'required',
+            'province_name' => 'required',
+            'city' => 'required',
+            'city_name' => 'required',
+            'detail_address' => 'required',
+        ]);
 
-        if ($address) {
-            return redirect()->route('seller.address.index')->with('error', 'Alamat sudah ada');
-        } else {
-            Address::create([
-                'name' => $request->name,
-            ]);
+        $province = Province::firstOrCreate([
+            'province_id' => $request->province,
+        ], [
+            'province_name' => $request->province_name,
+        ]);
 
-            return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil ditambahkan');
-        }
+        $city = City::firstOrCreate([
+            'city_id' => $request->city,
+        ], [
+            'city_name' => $request->city_name,
+            'province_id' => $province->province_id,
+        ]);
 
+        $address = Address::create([
+            'user_id' => auth()->user()->user_id,
+            'name' => $request->store_name,
+            'province_id' => $province->province_id,
+            'city_id' => $city->city_id,
+            'detail_address' => $request->detail_address,
+        ]);
+
+        $address->save();
+
+        return redirect()->route('profile-seller')->with('success', 'Alamat berhasil ditambahkan');
+    }
+
+    public function indexAddressSeller()
+    {
+        $user = auth()->user();
+        $provinces = $this->fetchProvinces();
+        $addresses = Address::where('user_id', auth()->user()->user_id)
+        ->with('province', 'city', 'user')
+        ->get();
+
+        return view('seller.profile-seller', compact('addresses', 'provinces', 'user'));
+    }
+    public function indexAddressUser()
+    {
+        $user = auth()->user();
+        $address = Address::where('user_id', $user->id)
+            ->with('province', 'city', 'user')
+            ->first();
+        $addresses = $address->getFullAddressAttribute();
+        return view('user.profile-user', compact('user', 'addresses'));
     }
 
     public function editAddressSeller($id)
@@ -150,44 +195,61 @@ class AddressController extends Controller
         return redirect()->route('user.add-address')->with('success', 'Alamat berhasil ditambahkan');
     }
 
-    public function editAddress($id)
+    public function editAddress(Request $request, $id)
     {
-        $address = Address::find($id);
+        $address = Address::findOrFail($id);
+        $provinces = $this->fetchProvinces();
+        
+        $provinceId = $request->input('province_id');
+        $response = Http::withHeaders([
+            'key' => config('services.rajaongkir.api_key'),
+        ])->get("https://api.rajaongkir.com/starter/city?province={$provinceId}");
 
-        return view('user.address.edit', compact('address'));
+        $cities = $response->json()['rajaongkir']['results'];
+        return view('user.edit-address', compact('address', 'provinces', 'cities'));
     }
 
-    public function updateAddress(Request $request, $id)
+    public function updateAddress(Request $request)
     {
         $request->validate([
-            'province_id' => 'required',
-            'city_id' => 'required',
-            'district_id' => 'required',
-            'village_id' => 'required',
-            'street_address' => 'required',
+            'name' => 'required',
+            'province' => 'required',
+            'province_name' => 'required',
+            'city' => 'required',
+            'detail_address' => 'required',
         ]);
 
-        $address = Address::find($id);
-
-        $address->update([
-            'province_id' => $request->province_id,
-            'city_id' => $request->city_id,
-            'district_id' => $request->district_id,
-            'village_id' => $request->village_id,
-            'street_address' => $request->street_address,
-            'additional_info' => $request->additional_info,
+        $province = Province::firstOrCreate([
+            'province_id' => $request->province,
+        ], [
+            'province_name' => $request->province_name,
         ]);
 
-        return redirect()->route('user.dashboard')->with('success', 'Alamat berhasil diubah');
+        $city = City::firstOrCreate([
+            'city_id' => $request->city,
+        ], [
+            'city_name' => $request->city_name,
+            'province_id' => $province->province_id,
+        ]);
+
+        $address = Address::findOrFail([
+            'user_id' => auth()->user()->user_id,
+            'name' => $request->name,
+            'province_id' => $province->province_id,
+            'city_id' => $city->city_id,
+            'detail_address' => $request->detail_address,
+        ]);
+        $address->save();
+
+
+        return redirect()->route('user.add-address')->with('success', 'Alamat berhasil diubah');
     }
 
     public function deleteAddress($id)
     {
-        $address = Address::find($id);
-
+        $address = Address::findOrFail($id);
         $address->delete();
-
-        return redirect()->view('user.address')->with('success', 'Alamat berhasil dihapus');
+        return redirect()->route('user.add-address')->with('success', 'Alamat berhasil dihapus');
     }
 
     public function getAddress(Request $request)

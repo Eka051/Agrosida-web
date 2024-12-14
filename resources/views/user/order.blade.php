@@ -76,7 +76,7 @@
                     <h2 class="text-xl font-semibold text-gray-800 border-b pb-4 mt-8">Informasi Pengiriman</h2>
                     @if($addresses->isEmpty())
                     <p class="text-gray-600">Anda belum memiliki alamat pengiriman.</p>
-                    <a href="{{ route('user.add-address') }}"
+                    <a href="{{ route('user.add-address') }}" onclick="saveProductDetails()"
                         class="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 text-center block mt-4">
                         Tambah Alamat
                     </a>
@@ -86,16 +86,12 @@
                         <div>
                             <label for="address" class="block mt-2 text-gray-600">Pilih Alamat</label>
                             <select id="address" name="address_id"
-                                class="w-full mb-5 border border-gray-300 rounded-lg px-4 py-2 mt-1 bg-gray-100" disabled>
-                                {{-- @foreach($addresses as $address)
+                                class="w-full mb-5 border border-gray-300 rounded-lg px-4 py-2 mt-1 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
+                                @foreach($addresses as $address)
                                 <option value="{{ $address->id }}">{{ $address->getFullAddressAttribute() }}</option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
-                        <button type="submit"
-                            class="w-full bg-green-500 text-white font-medium py-3 rounded-lg hover:bg-green-600">
-                            Gunakan Alamat Ini
-                        </button>
                     </form>
                     <a href="{{ route('user.add-address') }}"
                         class="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-blue-600 text-center block mt-4">
@@ -113,6 +109,26 @@
 </div>
 
 <script>
+    function saveProductDetails() {
+        var productDetails = {
+            productId: document.querySelector('input[name="product_id"]').value,
+            quantity: document.getElementById('quantity').value
+        };
+        sessionStorage.setItem('productDetails', JSON.stringify(productDetails));
+    }
+
+    function loadProductDetails() {
+        var productDetails = JSON.parse(sessionStorage.getItem('productDetails'));
+        if (productDetails) {
+            document.querySelector('input[name="product_id"]').value = productDetails.productId;
+            document.getElementById('quantity').value = productDetails.quantity;
+            updateTotals();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadProductDetails();
+    });
     document.getElementById('decrease-quantity').addEventListener('click', function() {
         var quantityInput = document.getElementById('quantity');
         var quantity = parseInt(quantityInput.value) || 1;
@@ -159,7 +175,8 @@
         var price = {{ $product->price }};
         var subtotal = quantity * price;
         var ongkir = 20000;
-        var total = subtotal + ongkir;
+        var biayaLayanan = 2000;
+        var total = subtotal + ongkir + biayaLayanan;
 
         document.getElementById('product-total').innerText = subtotal.toLocaleString('id-ID');
         document.getElementById('quantity-display').innerText = quantity;

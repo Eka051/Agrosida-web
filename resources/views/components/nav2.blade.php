@@ -2,7 +2,14 @@
     <div class="text-3xl text-white gap-4 flex items-center">
         <span class="iconify" data-icon="qlementine-icons:user-16"></span>
         @php
-            $profileUrl = auth()->user()->role == 'seller' ? route('profile-seller') : route('profile-user');
+            $user = auth()->user();
+            if ($user->hasRole('seller')) {
+            $profileUrl = route('profile-seller');
+            } elseif ($user->hasRole('admin')) {
+            $profileUrl = route('profile-admin');
+            } else {
+            $profileUrl = route('profile-user');
+            }
         @endphp
         <a href="{{ $profileUrl }}" class="text-lg font-medium mr-16">{{ auth()->user()->name }}</a>
     </div>

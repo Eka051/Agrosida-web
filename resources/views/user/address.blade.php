@@ -9,8 +9,16 @@
             <p class="text-gray-600">Atur dan kelola alamat pengiriman dan penagihan Anda</p>
         </div>
 
-        {{-- Add New Address Card --}}
-        <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
+        {{-- Button to Add New Address --}}
+        <div class="text-right mb-4">
+            <button id="add-address-btn"
+                class="px-8 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                Tambah Alamat
+            </button>
+        </div>
+
+        {{-- Add New Address Card (Hidden by Default) --}}
+        <div id="add-address-form" class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100 hidden">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Tambah Alamat Baru</h2>
                 <span class="text-green-600">
@@ -29,7 +37,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Recipient Name --}}
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Penerima</label>
+                        <label for="name" class="block text-base font-medium text-gray-700 mb-2">Nama Penerima</label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
                             placeholder="Masukkan nama penerima">
@@ -40,7 +48,7 @@
 
                     {{-- Province --}}
                     <div>
-                        <label for="province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                        <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>
                         <select id="province" name="province"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Provinsi</option>
@@ -56,7 +64,7 @@
 
                     {{-- City --}}
                     <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
+                        <label for="city" class="block text-base font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
                         <select id="city" name="city"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Kota/Kabupaten</option>
@@ -68,7 +76,7 @@
                     </div>
                     {{-- Street Address --}}
                     <div>
-                        <label for="detail_address" class="block text-sm font-medium text-gray-700 mb-2">Alamat
+                        <label for="detail_address" class="block text-base font-medium text-gray-700 mb-2">Alamat
                             Lengkap</label>
                         <textarea id="detail_address" name="detail_address" rows="3"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
@@ -104,77 +112,90 @@
             @if($addresses->isEmpty())
             <div class="text-center py-8 text-gray-500">
                 <p class="text-lg">Anda belum memiliki alamat tersimpan</p>
-                <p class="text-sm">Tambahkan alamat baru untuk memulai</p>
+                <p class="text-sm">Tambahkan alamat baru untuk pengiriman</p>
             </div>
             @else
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach($addresses as $address)
                 <div class="bg-gray-50 rounded-lg p-6 border border-gray-300 hover:shadow-lg transition duration-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">{{ $address->name }}</h3>
-                            <p class="text-sm text-gray-700">{{ $address->detail_address }}</p>
-                            <p class="text-sm text-gray-700">{{ $address->city->city_name }}, {{
-                                $address->province->province_name }}</p>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('user.address.edit', $address->id) }}"
-                                class="text-blue-600 hover:text-blue-800 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </a>
-                            <form action="{{ route('user.address.delete', $address->id) }}" method="POST"
-                                class="inline-block">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $address->name }}</h3>
+                        <p class="text-base text-gray-700">{{ $address->detail_address }}</p>
+                        <p class="text-base text-gray-700">{{ $address->city->city_name }}, {{
+                            $address->province->province_name }}</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="{{ route('user.address.edit', $address->id) }}"
+                            class="px-6 py-2 bg-gray-100 border border-gray-300 text-gray-600 rounded-lg hover:bg-greenPrimary hover:text-white transition duration-300">Edit</a>
+                        <form action="{{ route('user.address.delete', $address->id) }}" method="POST"
+                            class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300">Hapus</button>
+                        </form>
                     </div>
                 </div>
                 @endforeach
             </div>
             @endif
         </div>
+
+        {{-- Back Button --}}
+        <div class="text-left mt-8">
+            <button onclick="saveProductDetailsAndGoBack()"
+            class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+            Kembali
+            </button>
+        </div>
     </div>
 </div>
 
-<script>
-    document.getElementById('province').addEventListener('change', function () {
-    const selectedOption = this.options[this.selectedIndex];
-    const provinceId = selectedOption.value;
-    const provinceName = selectedOption.getAttribute('data-province');
+    <script>
+        document.getElementById('add-address-btn').addEventListener('click', function () {
+        document.getElementById('add-address-form').classList.toggle('hidden');
+        });
 
-    document.getElementById('province_name').value = provinceName;
+        document.getElementById('province').addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const provinceId = selectedOption.value;
+        const provinceName = selectedOption.getAttribute('data-province');
 
-    fetch(`/api/cities?province_id=${provinceId}`)
-        .then(response => response.json())
-        .then(data => {
+        document.getElementById('province_name').value = provinceName;
+
+        fetch(`/api/cities?province_id=${provinceId}`)
+            .then(response => response.json())
+            .then(data => {
             const citySelect = document.getElementById('city');
             citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>'; // Reset options
 
             data.forEach(city => {
                 citySelect.innerHTML += `<option value="${city.city_id}" data-city="${city.city_name}">${city.city_name}</option>`;
             });
-        })
-        .catch(error => console.error('Error fetching cities:', error));
-    });
+            })
+            .catch(error => console.error('Error fetching cities:', error));
+        });
 
-    document.getElementById('city').addEventListener('change', function () {
+        document.getElementById('city').addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
         const cityName = selectedOption.getAttribute('data-city');
 
         document.getElementById('city_name').value = cityName;
-    });
-</script>
+        });
+
+        function saveProductDetails() {
+        var productDetails = {
+            productId: document.querySelector('input[name="product_id"]').value,
+            quantity: document.getElementById('quantity').value
+        }
+        sessionStorage.setItem('productDetails', JSON.stringify(productDetails));
+        }
+
+        function saveProductDetailsAndGoBack() {
+        saveProductDetails();
+        const productId = document.querySelector('input[name="product_id"]').value;
+        window.location.href = "{{ route('user.order', '') }}/" + productId;
+        }
+    </script>
 
 @endsection

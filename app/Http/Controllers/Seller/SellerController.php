@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Models\Product;
 use Auth;
+use App\Models\Address;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
@@ -20,6 +21,15 @@ class SellerController extends Controller
         ->get();
         return view('seller.sellerDashboard', compact('products'));
 
+    }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        $address = Address::where('user_id', $user->id)
+            ->with('province', 'city', 'user')
+            ->first();
+        return view('user.profile-user', compact('user', 'address'));
     }
 
     public function showOrder()

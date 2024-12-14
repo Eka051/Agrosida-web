@@ -30,4 +30,9 @@ class Address extends Model
         return $this->belongsTo(City::class, 'city_id', 'city_id');
     }
 
+    public function getFullAddressAttribute()
+    {
+        return "{$this->detail_address}, {$this->city->city_name}, {$this->province->province_name}";
+    }
+
 }

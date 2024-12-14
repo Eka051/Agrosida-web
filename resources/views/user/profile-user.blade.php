@@ -1,70 +1,69 @@
 @extends('components.template')
-@include('components.sidebarSeller')
-@section('title', 'Edit Profil')
+@section('title', 'Profil')
 @section('content')
 
-<div class="flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-900 min-h-screen">
-    <!-- Sidebar -->
-    <div class="bg-white dark:bg-gray-800 shadow-md w-full lg:w-1/4 p-6">
-        <div class="flex items-center space-x-4">
-            <img src="https://via.placeholder.com/100" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover">
-            <div>
-                <h2 class="text-lg font-bold text-gray-800 dark:text-white">Dian Eka Raharjo</h2>
-                <p class="text-sm text-gray-600 dark:text-gray-400">eka@example.com</p>
-            </div>
+<div class="container mx-auto px-4 py-8 mt-20">
+    <div class="max-w-4xl mx-auto space-y-8">
+        {{-- Profile Header --}}
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Biodata Diri</h1>
         </div>
-        <div class="mt-6">
-            <h3 class="text-gray-800 dark:text-white font-bold">Saldo</h3>
-            <p class="text-gray-600 dark:text-gray-400">Rp2.161</p>
-            <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Top-Up</button>
-        </div>
-    </div>
 
-    <div class="w-full lg:w-3/4 p-6 bg-gray-100 dark:bg-gray-900">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Biodata Diri</h1>
-        <form class="space-y-4">
-            <div class="flex items-center space-x-6">
-                <div>
-                    <label for="photo" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Foto Profil</label>
-                    <div class="mt-2">
-                        <img class="w-24 h-24 rounded-full" src="https://via.placeholder.com/100" alt="">
+        {{-- Profile Form --}}
+        <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
+            <form action="{{ route('user.dashboard') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                <div class="block space-y-6">
+                    {{-- Profile Photo --}}
+                    {{-- <div class="col-span-2">
+                        <label for="photo" class="block text-base font-medium text-gray-700 mb-2">Foto Profil</label>
+                        <div class="flex items-center space-x-6">
+                            <img class="w-24 h-24 rounded-full" src="https://via.placeholder.com/100" alt="">
+                            <input type="file" id="photo" name="photo" class="mt-4 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none">
+                        </div>
+                    </div> --}}
+
+                    {{-- Name --}}
+                    <div>
+                        <label for="name" class="block text-base font-medium text-gray-500">Nama</label>
+                        <p class="text-2xl font-medium">{{ $user->name }}</p>
                     </div>
-                    <input type="file" id="photo" class="mt-4 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+
+                    {{-- Username --}}
+                    <div>
+                        <label for="username" class="block text-base font-medium text-gray-700 mb-2">Username</label>
+                        <p class="text-2xl font-medium">{{ $user->username ?? '-' }}</p>
+                    </div>
+                    
+                    {{-- Email --}}
+                    <div>
+                        <label for="email" class="block text-base font-medium text-gray-700 mb-2">Email</label>
+                        <p class="text-2xl font-medium">{{ $user->email ?? '-' }}</p>
+                    </div>
+                    {{-- Alamat --}}
+                    <div>
+                        <label for="address" class="block text-base font-medium text-gray-700 mb-2">Alamat</label>
+                        <p class="text-2xl font-medium">{{ $addresses->get }}</p>
+                    </div>
+
                 </div>
-            </div>
 
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama</label>
-                <input type="text" id="name" value="Dian Eka Raharjo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 focus:ring-green-500 focus:border-green-500 sm:text-sm">
-            </div>
+                <div class="text-right">
+                    <button type="submit"
+                        class="px-8 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
 
-            <div>
-                <label for="birthdate" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Tanggal Lahir</label>
-                <input type="date" id="birthdate" value="2004-10-05" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 focus:ring-green-500 focus:border-green-500 sm:text-sm">
-            </div>
-
-            <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Jenis Kelamin</label>
-                <select id="gender" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                    <option value="male" selected>Pria</option>
-                    <option value="female">Wanita</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
-                <input type="email" id="email" value="ekaraharjo7888@gmail.com" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 focus:ring-green-500 focus:border-green-500 sm:text-sm">
-            </div>
-
-            <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nomor HP</label>
-                <input type="text" id="phone" value="6285156191452" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 focus:ring-green-500 focus:border-green-500 sm:text-sm">
-            </div>
-
-            <div class="flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Simpan</button>
-            </div>
-        </form>
+        {{-- Back Button --}}
+        <div class="text-left mt-8">
+            <button onclick="window.history.back()"
+                class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                Kembali
+            </button>
+        </div>
     </div>
 </div>
 

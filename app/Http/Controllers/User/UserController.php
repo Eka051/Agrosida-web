@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Address;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -23,11 +24,15 @@ class UserController extends Controller
         return view('user.order', compact('product'));
     }
 
-    public function profile()
-    {
-        $user = auth()->user();
-        return view('user.profile-user', compact('user'));
-    }
+    // public function profile()
+    // {
+    //     $user = auth()->user();
+    //     $address = Address::where('user_id', $user->id)
+    //         ->with('province', 'city', 'user')
+    //         ->first();
+    //     $addresses = $address->getFullAddressAttribute();
+    //     return view('user.profile-user', compact('user', 'addresses'));
+    // }
 
     public function editProfile(Request $request)
     {

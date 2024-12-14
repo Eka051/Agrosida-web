@@ -24,6 +24,10 @@ class RegisterController extends Controller
            'password' => 'required|min:8|confirmed',
        ]);
 
+       if (User::where('email', $request->email)->exists() || User::where('username', $request->username)->exists()) {
+            return redirect()->back()->withErrors(['error' => 'Akun dengan email atau username tersebut sudah ada.']);
+        }
+
        $user = User::create([
             'user_id' => Str::uuid(),
             'name' => $request->name,
@@ -46,6 +50,10 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
+
+        if (User::where('email', $request->email)->exists() || User::where('username', $request->username)->exists()) {
+            return redirect()->back()->withErrors(['error' => 'Akun dengan email atau username tersebut sudah ada.']);
+        }
 
         $seller = User::create([
             'user_id' => Str::uuid(),

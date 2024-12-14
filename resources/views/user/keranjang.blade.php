@@ -127,140 +127,140 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
-  await initializeCart();
-});
-
-async function initializeCart() {
-  const quantityInputs = document.querySelectorAll('input[name="quantity"]');
-  const decreaseButtons = document.querySelectorAll('.decrease');
-  const increaseButtons = document.querySelectorAll('.increase');
-
-  quantityInputs.forEach(input => {
-    input.addEventListener('change', handleQuantityInputChange);
-    input.addEventListener('keydown', handleQuantityInputKeydown);
-  });
-
-  decreaseButtons.forEach(button => {
-    button.addEventListener('click', handleQuantityButtonClick);
-  });
-
-  increaseButtons.forEach(button => {
-    button.addEventListener('click', handleQuantityButtonClick);
-  });
-}
-
-async function handleQuantityButtonClick(event) {
-  const button = event.currentTarget;
-  const productId = button.getAttribute('data-product-id');
-  const quantityInput = document.getElementById(`quantity-${productId}`);
-  let currentQuantity = parseInt(quantityInput.value);
-
-  if (button.classList.contains('decrease') && currentQuantity > 1) {
-    currentQuantity -= 1;
-  } else if (button.classList.contains('increase')) {
-    currentQuantity += 1;
-  }
-
-  await updateQuantity(productId, currentQuantity);
-}
-
-async function handleQuantityInputChange(event) {
-  const input = event.target;
-  const productId = input.id.split('-')[1];
-  const quantity = parseInt(input.value);
-
-  if (quantity > 0) {
-    await updateQuantity(productId, quantity);
-  } else {
-    showNotification('Kuantitas harus lebih dari 0', 'error');
-    input.value = 1;
-    await updateQuantity(productId, 1);
-  }
-}
-
-function handleQuantityInputKeydown(event) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    event.target.blur();
-  }
-}
-
-async function updateQuantity(productId, quantity) {
-  try {
-    const response = await fetch('{{ route('cart.update-quantity') }}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-      },
-      body: JSON.stringify({ product_id: productId, quantity })
+      await initializeCart();
     });
 
-    if (!response.ok) {
-      throw new Error('Gagal memperbarui kuantitas');
-    }
+  async function initializeCart() {
+    const quantityInputs = document.querySelectorAll('input[name="quantity"]');
+    const decreaseButtons = document.querySelectorAll('.decrease');
+    const increaseButtons = document.querySelectorAll('.increase');
 
-    const data = await response.json();
+    quantityInputs.forEach(input => {
+      input.addEventListener('change', handleQuantityInputChange);
+      input.addEventListener('keydown', handleQuantityInputKeydown);
+    });
 
-    if (data.success) {
-      updateCartUI(data.cart_items);
-      showNotification('Kuantitas berhasil diperbarui', 'success');
-    } else {
-      showNotification(data.message || 'Gagal memperbarui kuantitas', 'error');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    showNotification('Terjadi kesalahan saat memperbarui kuantitas', 'error');
+    decreaseButtons.forEach(button => {
+      button.addEventListener('click', handleQuantityButtonClick);
+    });
+
+    increaseButtons.forEach(button => {
+      button.addEventListener('click', handleQuantityButtonClick);
+    });
   }
-}
 
-function updateCartUI(cartItems) {
-  cartItems.forEach(item => {
-    const quantityInput = document.getElementById(`quantity-${item.product_id}`);
-    const subtotalElement = document.getElementById(`subtotal-${item.product_id}`);
-    const totalPriceElement = document.getElementById('total-price');
-    const cartCountElements = document.querySelectorAll('.cart-count');
+  async function handleQuantityButtonClick(event) {
+    const button = event.currentTarget;
+    const productId = button.getAttribute('data-product-id');
+    const quantityInput = document.getElementById(`quantity-${productId}`);
+    let currentQuantity = parseInt(quantityInput.value);
 
-    quantityInput.value = item.quantity;
-    subtotalElement.textContent = `Rp. ${item.subtotal}`;
-  });
+    if (button.classList.contains('decrease') && currentQuantity > 1) {
+      currentQuantity -= 1;
+    } else if (button.classList.contains('increase')) {
+      currentQuantity += 1;
+    }
 
-  totalPriceElement.textContent = `Total: Rp. ${cartItems.reduce((acc, item) => acc + item.subtotal, 0)}`;
+    await updateQuantity(productId, currentQuantity);
+  }
 
-  cartCountElements.forEach(element => {
-    element.textContent = cartItems.length;
-  });
-}
+  async function handleQuantityInputChange(event) {
+    const input = event.target;
+    const productId = input.id.split('-')[1];
+    const quantity = parseInt(input.value);
 
-function updateCartUI(cartItems) {
-  cartItems.forEach(item => {
-    const quantityInput = document.getElementById(`quantity-${item.product_id}`);
-    const subtotalElement = document.getElementById(`subtotal-${item.product_id}`);
-    const totalPriceElement = document.getElementById('total-price');
-    const cartCountElements = document.querySelectorAll('.cart-count');
+    if (quantity > 0) {
+      await updateQuantity(productId, quantity);
+    } else {
+      showNotification('Kuantitas harus lebih dari 0', 'error');
+      input.value = 1;
+      await updateQuantity(productId, 1);
+    }
+  }
 
-    quantityInput.value = item.quantity;
-    subtotalElement.textContent = `Rp. ${item.subtotal}`;
-  });
+  function handleQuantityInputKeydown(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.target.blur();
+    }
+  }
 
-  totalPriceElement.textContent = `Total: Rp. ${cartItems.reduce((acc, item) => acc + item.subtotal, 0)}`;
+  async function updateQuantity(productId, quantity) {
+    try {
+      const response = await fetch('{{ route('cart.update-quantity') }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ product_id: productId, quantity })
+      });
 
-  cartCountElements.forEach(element => {
-    element.textContent = cartItems.length;
-  });
-}
+      if (!response.ok) {
+        throw new Error('Gagal memperbarui kuantitas');
+      }
 
-function showNotification(message, type = 'error') {
-  const notification = document.getElementById('notification');
-  notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
-    type === 'error' ? 'bg-red-500' : 'bg-green-500'
-  } text-white z-50 transform -translate-x-0 transition-transform duration-300 ease-in-out`;
-  notification.textContent = message;
+      const data = await response.json();
 
-  setTimeout(() => {
-    notification.className = notification.className.replace('translate-x-0', 'translate-x-full');
-  }, 3000);
-}
+      if (data.success) {
+        updateCartUI(data.cart_items);
+        showNotification('Kuantitas berhasil diperbarui', 'success');
+      } else {
+        showNotification(data.message || 'Gagal memperbarui kuantitas', 'error');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showNotification('Terjadi kesalahan saat memperbarui kuantitas', 'error');
+    }
+  }
+
+  function updateCartUI(cartItems) {
+    cartItems.forEach(item => {
+      const quantityInput = document.getElementById(`quantity-${item.product_id}`);
+      const subtotalElement = document.getElementById(`subtotal-${item.product_id}`);
+      const totalPriceElement = document.getElementById('total-price');
+      const cartCountElements = document.querySelectorAll('.cart-count');
+
+      quantityInput.value = item.quantity;
+      subtotalElement.textContent = `Rp. ${item.subtotal}`;
+    });
+
+    totalPriceElement.textContent = `Total: Rp. ${cartItems.reduce((acc, item) => acc + item.subtotal, 0)}`;
+
+    cartCountElements.forEach(element => {
+      element.textContent = cartItems.length;
+    });
+  }
+
+  function updateCartUI(cartItems) {
+    let total = 0;
+    cartItems.forEach(item => {
+      const quantityInput = document.getElementById(`quantity-${item.product_id}`);
+      const subtotalElement = document.getElementById(`subtotal-${item.product_id}`);
+
+      quantityInput.value = item.quantity;
+      subtotalElement.textContent = `Rp. ${item.subtotal}`;
+      total += item.subtotal;
+    });
+
+    document.getElementById('total-price').textContent = `Total: Rp. ${total}`;
+    document.querySelectorAll('.cart-count').forEach(element => {
+      element.textContent = cartItems.length;
+    });
+  }
+
+  function showNotification(message, type = 'error') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
+      type === 'error' ? 'bg-red-500' : 'bg-green-500'
+    } text-white z-50 transform translate-x-0`;
+
+    setTimeout(() => {
+      notification.classList.add('translate-x-full');
+    }, 3000);
+  }
+
 </script>
 
 @endsection
