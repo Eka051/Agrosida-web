@@ -60,6 +60,18 @@ class OrderController extends Controller
         return response()->json(['error' => 'Unable to fetch shipping cost'], 500);
     }
 
+    public function getCouriersData(Request $request)
+    {
+        $origin = $request->input('origin');
+        $destination = $request->input('destination');
+        $weight = $request->input('weight');
+
+        $couriers = $this->getShippingCostFromAPI($origin, $destination, $weight, 'all');
+
+        return response()->json($couriers);
+    }
+
+
     public function getCourier(Request $request)
     {
         $origin = $request->input('origin');
@@ -122,14 +134,17 @@ class OrderController extends Controller
             $data = $response->json();
             Log::info('RajaOngkir response:', ['response' => $data]);
     
-            if ($response->successful()) {
-                if (isset($data['rajaongkir']['results'][0]['costs']) && !empty($data['rajaongkir']['results'][0]['costs'])) {
-                    return $data['rajaongkir']['results'][0]['costs'];
+            if ($response->successful() && isset($data['rajaongkir'])) {
+                $results = $data['rajaongkir']['results'] ?? [];
+    
+                if (!empty($results[0]['costs'])) {
+                    return $results[0]['costs'];
                 } else {
-                    Log::warning('No shipping costs available for courier: ' . $courier);
+                    Log::warning("No shipping costs available for courier: {$courier}", ['results' => $results]);
                 }
             } else {
-                Log::error('RajaOngkir API Error: ' . json_encode($data['rajaongkir']['status']));
+                $status = $data['rajaongkir']['status'] ?? null;
+                Log::error('RajaOngkir API Error', ['status' => $status]);
             }
         } catch (\Exception $e) {
             Log::error('Shipping cost error: ' . $e->getMessage());
@@ -138,7 +153,7 @@ class OrderController extends Controller
         return [];
     }
     
-
+    
 
     public function showOrderFromUser()
     {

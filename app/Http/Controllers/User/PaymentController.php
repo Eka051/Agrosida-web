@@ -12,7 +12,6 @@ use Midtrans\Notification;
 use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -40,16 +39,26 @@ class PaymentController extends Controller
         $fee = 2000;
         $product = Product::findOrFail($request->product_id);
         $subtotal = $product->price * $request->quantity;
-        $total = $product->price * $request->quantity + $ongkir + $fee;
+        $total = $subtotal + $ongkir + $fee;
 
         if ($total <= 0) {
             return redirect()->back()->with('error', 'Total pembayaran tidak valid');
         }
-        
 
         $user = Auth::user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
+        }
+
+        $existingOrder = Order::where('user_id', $user->user_id)
+            ->where('status', 'pending')
+            ->whereHas('order_detail', function ($query) use ($product) {
+                $query->where('product_id', $product->id);
+            })
+            ->first();
+
+        if ($existingOrder) {
+            return redirect()->back()->with('error', 'Anda sudah memiliki pesanan yang belum selesai untuk produk ini.');
         }
 
         $orderID = 'ORDER-' . Str::random(9);
@@ -75,7 +84,7 @@ class PaymentController extends Controller
                 'order_id' => $orderID,
                 'status' => 'pending',
             ]);
-    
+
             OrderDetail::create([
                 'order_id' => $order->order_id,
                 'product_id' => $product->id,
@@ -85,12 +94,11 @@ class PaymentController extends Controller
                 'total' => $subtotal,
             ]);
 
-            $product = Product::find($request->product_id);
-            $product->stock = $product->stock - $request->quantity;
-            $product->save();
             $product->stock -= $request->quantity;
+            $product->save();
+
             $snapToken = Snap::getSnapToken($payload);
-    
+
             $payment = Payment::create([
                 'user_id' => $user->user_id,
                 'order_id' => $orderID,
@@ -98,21 +106,20 @@ class PaymentController extends Controller
                 'total' => $total,
                 'payment_type' => 'qris'
             ]);
-    
+
             $order->update([
                 'snap_token' => $snapToken,
                 'payment_id' => $payment->id
             ]);
-    
+
             return view('user.payment', compact('order', 'snapToken', 'total'));
-            
+
         } catch (\Exception $e) {
             Log::error('Midtrans Payment Error: ' . $e->getMessage());
-            
+
             if (isset($order)) {
                 $order->delete();
             }
-
 
             if (isset($payment)) {
                 $payment->delete();

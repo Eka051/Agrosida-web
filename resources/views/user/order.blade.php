@@ -46,7 +46,7 @@
                                             style="width: 24px; height: 24px; color: #000;"></span>
                                     </button>
                                 </div>
-                                <p class="text-gray-800 text-lg mt-4 font-medium"> Total: Rp. <span
+                                <p class="text-gray-800 text-lg mt-4 font-medium"> Total: <span
                                         id="product-total">{{ number_format($product->price, 0, ',', '.') }}</span></p>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                     <div class="mt-4">
                         <div class="flex justify-between text-gray-800">
                             <p>Total Harga (<span id="quantity-display">1</span> Barang)</p>
-                            <p>Rp. <span id="subtotal">{{ number_format($product->price, 0, ',', '.') }}</span></p>
+                            <p id="subtotal">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
                         </div>
                         <div class="flex justify-between text-gray-800 mt-2">
                             <p>Ongkos Kirim</p>
@@ -81,7 +81,7 @@
                         Tambah Alamat
                     </a>
                     @else
-                    <form action="{{ route('user.address.store') }}" method="POST" class="mt-4 space-y-4">
+                    <form action="{{ route('user.address.store') }}" method="POST" class="mt-4 space-y-4" id="address-form">
                         @csrf
                         <div>
                             <label for="address" class="block mt-2 text-gray-600">Pilih Alamat</label>
@@ -94,20 +94,11 @@
                             </select>
                         </div>
                     </form>
+                    
                     <div>
                     <label for="courier" class="block text-gray-600">Pilih Kurir Pengiriman</label>
                     <select name="shipping_option" class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300" id="courier">
-                        @if (!empty($couriers))
-                            @foreach ($couriers as $courier)
-                                <option value="{{ $courier['courier'] }}-{{ $courier['service'] }}">
-                                    {{ $courier['courier'] }} - {{ $courier['service'] }} 
-                                    ({{ $courier['description'] }}) - Rp{{ number_format($courier['cost'], 0, ',', '.') }} 
-                                    (ETD: {{ $courier['etd'] }} days)
-                                </option>
-                            @endforeach
-                        @else
-                            <option disabled>Kurir tidak tersedia</option>
-                        @endif
+                        <option disabled selected>Pilih Kurir Pengiriman</option>
                     </select>
                     </div>
                     <a href="{{ route('user.add-address') }}"
@@ -143,37 +134,31 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        loadProductDetails();
-    });
-
-    document.getElementById('decrease-quantity').addEventListener('click', function() {
-        var quantityInput = document.getElementById('quantity');
-        var quantity = parseInt(quantityInput.value) || 1;
-        if (quantity > 1) {
-            quantityInput.value = quantity - 1;
+    document.getElementById('decrease-quantity').addEventListener('click', function () {
+        var quantity = document.getElementById('quantity');
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
             updateTotals();
         }
     });
 
-    document.getElementById('increase-quantity').addEventListener('click', function() {
-        var quantityInput = document.getElementById('quantity');
-        var quantity = parseInt(quantityInput.value) || 1;
-        quantityInput.value = quantity + 1;
+    document.getElementById('increase-quantity').addEventListener('click', function () {
+        var quantity = document.getElementById('quantity');
+        quantity.value = parseInt(quantity.value) + 1;
         updateTotals();
     });
 
-    document.getElementById('quantity').addEventListener('input', function() {
+    document.getElementById('quantity').addEventListener('input', function () {
         var quantityInput = document.getElementById('quantity');
         var value = quantityInput.value;
         if (!/^\d+$/.test(value)) {
-            quantityInput.value = value.replace(/[^\d]/g, '');
+            quantityInput.value = value.replace(/\D/g, '');
         }
     });
 
-    document.getElementById('quantity').addEventListener('blur', function() {
+    document.getElementById('quantity').addEventListener('blur', function () {
         var quantityInput = document.getElementById('quantity');
-        var quantity = parseInt(quantityInput.value) || 1;
+        var quantity = parseInt(quantityInput.value)||1;
         if (quantity < 1) {
             quantityInput.value = 1;
         }
@@ -181,106 +166,84 @@
         updateTotals();
     });
 
-    document.getElementById('quantity').addEventListener('keydown', function(event) {
+    document.getElementById('quantity').addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             event.preventDefault();
             updateTotals();
         }
     });
 
-    function updateTotals() {
-        var quantity = parseInt(document.getElementById('quantity').value) || 1;
-        var price = {{ $product->price }};
-        var subtotal = quantity * price;
+    document.getElementById('address').addEventListener('change', fetchCourier);
 
-        var ongkirElement = document.getElementById('shipping-options');
-        var ongkir = ongkirElement ? parseInt(ongkirElement.value) || 0 : 0;
-
-        var biayaLayanan = 2000;
-        var total = subtotal + ongkir + biayaLayanan;
-
-        document.getElementById('product-total').innerText = subtotal.toLocaleString('id-ID');
-        document.getElementById('quantity-display').innerText = quantity;
-        document.getElementById('subtotal').innerText = subtotal.toLocaleString('id-ID');
-        document.getElementById('total').innerText = total.toLocaleString('id-ID');
-    }
-
-    function fetchAvailableCouriers() {
-        const origin = {{ $product->user->addresses->first()->city_id }};
-        const destination = document.getElementById('address').value || '';
-        const quantity = parseInt(document.getElementById('quantity').value) || 1;
-        const weight = quantity * {{ $product->weight }};
-
-        if (!destination) {
-            document.getElementById('courier').innerHTML = '<option value="">Pilih alamat terlebih dahulu</option>';
-            document.getElementById('shipping-cost').textContent = 'Rp. 0';
-            return;
-        }
-
-        fetch('{{ route('user.order.courier') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                origin: origin,
-                destination: destination,
-                weight: weight
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.couriers && data.couriers.length > 0) {
-                const options = data.couriers.map(courier => 
-                    `<option value="${courier.courier}-${courier.service}" 
-                     data-cost="${courier.cost}">
-                        ${courier.courier} - ${courier.service} 
-                        (${courier.description}) - Rp${parseInt(courier.cost).toLocaleString('id-ID')} 
-                        (${courier.etd} hari)
-                    </option>`
-                ).join('');
-                document.getElementById('courier').innerHTML = 
-                    '<option value="">Pilih kurir</option>' + options;
-            } else {
-                document.getElementById('courier').innerHTML = 
-                    '<option value="">Kurir tidak tersedia</option>';
-            }
-            updateTotals();
-        })
-        .catch(error => {
-            console.error('Error fetching couriers:', error);
-            document.getElementById('courier').innerHTML = 
-                '<option value="">Error mengambil data kurir</option>';
-        });
-    }
-
-    function updateShippingCost() {
-        const courierSelect = document.getElementById('courier');
-        const selectedOption = courierSelect.options[courierSelect.selectedIndex];
-        if (selectedOption) {
-            const shippingCost = selectedOption.getAttribute('data-cost') || 0;
-            document.getElementById('shipping-cost').textContent = 
-                `Rp. ${parseInt(shippingCost).toLocaleString('id-ID')}`;
-            updateTotals();
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const addressSelect = document.getElementById('address');
-        const courierSelect = document.getElementById('courier');
-
-        if (addressSelect) {
-            addressSelect.addEventListener('change', fetchAvailableCouriers);
-        }
-
-        if (courierSelect) {
-            courierSelect.addEventListener('change', updateShippingCost);
-        }
-
-        if (addressSelect && addressSelect.value) {
-            fetchAvailableCouriers();
-        }
+    document.getElementById('courier').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var cost = selectedOption.getAttribute('data-cost');
+        document.getElementById('shipping-cost').innerText = 'Rp. ' + new Intl.NumberFormat('id-ID').format(cost);
+        updateTotals();
     });
+
+    function fetchCourier() {
+    const origin = {{$product->user->addresses->first()->city_id}};
+    const destination = document.getElementById('address').value;
+    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+    const weight = {{$product->weight}} * quantity;
+
+    if (!destination) {
+        document.getElementById('courier').innerHTML = '<option disabled selected>Pilih Kurir Pengiriman</option>';
+        document.getElementById('shipping-cost').innerText = 'Rp. 0';
+        return;
+    }
+
+    fetch('/api/order/get-courier', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            origin: origin,
+            destination: destination,
+            weight: weight
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const couriers = data.data; 
+            let options = '<option disabled selected>Pilih Kurir Pengiriman</option>';
+            couriers.forEach(courier => {
+                options += `<option value="${courier.courier}-${courier.service}" data-cost="${courier.cost}">
+                    ${courier.courier} - ${courier.service} (${courier.description}) - Rp${new Intl.NumberFormat('id-ID').format(courier.cost)} (ETD: ${courier.etd} days)
+                </option>`;
+            });
+            document.getElementById('courier').innerHTML = options;
+        } else {
+            document.getElementById('courier').innerHTML = '<option disabled>Kurir tidak tersedia</option>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('courier').innerHTML = '<option disabled>Kurir tidak tersedia</option>';
+    });
+}
+
+
+    function updateTotals() {
+        var quantity = document.getElementById('quantity').value || 1;
+        var price = {{ $product->price }};
+        var serviceCharge = 2000;
+        var shippingCost = document.getElementById('shipping-cost');
+        var ongkir = shippingCost ? parseInt(shippingCost.innerText.replace('Rp. ', '').replace(/\./g, '')) : 0;
+        var subtotal = price * quantity;
+        var total = subtotal + serviceCharge + ongkir;
+
+        document.getElementById('quantity-display').innerText = quantity;
+        document.getElementById('product-total').innerText = 'Rp. ' + new Intl.NumberFormat('id-ID').format(price * quantity);
+        document.getElementById('subtotal').innerText = new Intl.NumberFormat('id-ID').format(subtotal);
+        document.getElementById('service-charge').innerText = 'Rp. ' + new Intl.NumberFormat('id-ID').format(serviceCharge);
+        document.getElementById('total').innerText = new Intl.NumberFormat('id-ID').format(total);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProductDetails);
 </script>
 @endsection

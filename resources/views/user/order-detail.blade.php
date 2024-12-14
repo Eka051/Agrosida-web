@@ -2,7 +2,7 @@
 @include('components.sidebarUser')
 @section('title', 'Detail Pesanan')
 @section('content')
-<div class="ml-64 flex-1">
+<div class="ml-64 flex-1 mt-20">
     <div class="container ml-6 mt-4">
         <nav class="text-base">
             <ol class="list-reset flex text-gray-600">
@@ -29,16 +29,16 @@
             <div class="p-4">
                 <div class="mb-4">
                     <h2 class="text-xl font-semibold text-gray-800">ID Pesanan: {{ $order->order_id }}</h2>
-                    <p class="text-gray-600 text-base mt-2">Tanggal: {{ $order->created_at->format('d M Y H:i') }}</p>
-                    <p class="text-gray-600 text-base mt-2">Status: 
+                    <p class="text-gray-600 text-lg mt-2">Tanggal: {{ $order->created_at->format('d M Y H:i') }}</p>
+                    <p class="text-gray-600 text-lg mt-2">Status: 
                         <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'paid' ? 'bg-green-500' : ($order->status == 'pending' ? 'bg-yellow-500' : 'bg-red-500') }} text-white">
                             {{ ucfirst($order->status) }}
                         </span>
                     </p>
                 </div>
 
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Alamat Pengiriman</h3>
+                <div class="mb-4 mt-4 border-t-2">
+                    <h3 class="text-xl font-semibold text-gray-800">Alamat Pengiriman</h3>
                     <p class="text-gray-600">{{ $order->shipping_address }}</p>
                 </div>
 
@@ -68,8 +68,8 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Rincian Harga</h3>
+                <div class="mb-4 w-[25rem]">
+                    <h3 class="text-lg font-semibold  border-b border-gray-300 text-gray-800 mb-4">Rincian Harga</h3>
                     <div class="text-gray-800">
                         <div class="flex items-center text-base py-1">
                             <p class="flex-1">Subtotal Harga Barang</p>

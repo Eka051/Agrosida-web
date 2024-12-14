@@ -18,7 +18,6 @@
                     <div>
                         <label for="store_name" class="block text-base font-medium text-gray-700">Nama Toko</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->store->name }}</p>
-                        {{-- <input type="hidden" name="store_name" id="store_name" value="{{ $user->store->name }}"> --}}
                     </div>
 
                     {{-- Divider --}}
