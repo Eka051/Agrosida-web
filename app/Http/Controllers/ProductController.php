@@ -76,6 +76,7 @@ class ProductController extends Controller
                 'description' => $validated['description'],
                 'price' => $validated['price'],
                 'stock' => $validated['stock'],
+                'weight' => $validated['weight'],
                 'category_id' => $category,
                 'created_by' => auth()->user()->user_id,
                 'image_path' => str_replace('public/', '', $path),
@@ -155,6 +156,7 @@ class ProductController extends Controller
                 'description' => $validated['description'],
                 'price' => $validated['price'],
                 'stock' => $validated['stock'],
+                'weight' => $validated['weight'],
                 'category_id' => $validated['category_id'],
             ]);
 

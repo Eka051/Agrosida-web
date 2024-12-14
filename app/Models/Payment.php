@@ -8,6 +8,7 @@ class Payment extends Model
 {
     protected $primaryKey = 'payment_id';
     protected $fillable = [
+        'user_id',
         'order_id',
         'status',
         'total',

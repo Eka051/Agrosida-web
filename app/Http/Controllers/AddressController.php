@@ -50,30 +50,7 @@ class AddressController extends Controller
     }
     
 
-    public function getShippingCost(Request $request)
-    {
-        $request->validate([
-            'origin' => 'required',
-            'destination' => 'required',
-            'weight' => 'required|numeric',
-            'courier' => 'required'
-        ]);
-
-        $response = Http::withHeaders([
-            'key' => config('services.rajaongkir.api_key'),
-        ])->post('https://api.rajaongkir.com/starter/cost', [
-            'origin' => $request->origin,
-            'destination' => $request->destination,
-            'weight' => $request->weight,
-            'courier' => $request->courier,
-        ]);
-
-        if ($response->successful()) {
-            return response()->json($response->json());
-        }
-
-        return response()->json(['error' => 'Failed to fetch shipping cost'], 500);
-    }
+    
 
     public function storeAdressSeller(Request $request)
     {

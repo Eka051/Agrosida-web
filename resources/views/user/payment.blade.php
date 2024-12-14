@@ -2,15 +2,31 @@
 @section('title', 'Pembayaran')
 @section('content')
 <div class="container mx-auto p-8 mt-20">
-    <div class="bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-2xl font-semibold mb-4">Pembayaran Pesanan</h1>
-        <p><strong>Nomor Pesanan:</strong> {{ $order->order_id }}</p>
-        <p><strong>Total Pembayaran:</strong> Rp. {{ number_format($total, 0, ',', '.') }}</p>
-
+    <div class="bg-white w-[50rem] m-auto border border-gray-100 shadow-lg rounded-lg p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center">Pembayaran Pesanan</h1>
+        <div class="mb-4 mt-4">
+            <p class="text-xl"><strong>Nomor Pesanan:</strong> {{ $order->order_id }}</p>
+            <p class="text-xl"><strong>Nama:</strong> {{ $order->user->name }}</p>
+            <p class="text-xl"><strong>Total Pembayaran:</strong> Rp. {{ number_format($total, 0, ',', '.') }}</p>
+        </div>
+        <div>
+            <h2 class="text-xl font-bold border-b mb-4">Detail Pembayaran</h2>
+            <div class="flex justify-between mb-2">
+                <p class="text-lg">Harga Produk</p>
+                <p class="text-lg font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-lg">Biaya Pengiriman</p>
+                <p class="text-lg font-bold">Rp. 0</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-lg">Total Pembayaran</p>
+                <p class="text-lg font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</p>
+            </div>
+        </div>
         <div class="mt-6">
-            <!-- Container untuk Snap Payment -->
             <div id="snap-container" class="w-full"></div>
-            <button id="pay-button" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4">
+            <button id="pay-button" class="w-full bg-greenPrimary text-white px-6 py-3  text-base font-medium rounded-lg hover:bg-green-400 transition duration-300 mt-4">
                 Bayar Sekarang
             </button>
         </div>

@@ -54,6 +54,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     
     // Profile
     Route::get('seller/profile', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
+    Route::get('seller/profile/edit', [AddressController::class, 'editProfileSeller'])->name('seller.profile.edit');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -80,7 +81,10 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/address/edit/{id}', [AddressController::class, 'editAddress'])->name('user.address.edit');
     Route::put('user/address/update', [AddressController::class, 'updateAddress'])->name('user.address.update');
     Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
+    
+    // profile
     Route::get('user/profile', [AddressController::class, 'indexAddressUser'])->name('profile-user');
+    Route::get('user/profile/edit', [AddressController::class, 'editProfile'])->name('user.profile.edit');
 
 });
 

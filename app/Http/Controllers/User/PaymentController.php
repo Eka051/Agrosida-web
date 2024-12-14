@@ -92,6 +92,7 @@ class PaymentController extends Controller
             $snapToken = Snap::getSnapToken($payload);
     
             $payment = Payment::create([
+                'user_id' => $user->user_id,
                 'order_id' => $orderID,
                 'status' => 'pending',
                 'total' => $total,

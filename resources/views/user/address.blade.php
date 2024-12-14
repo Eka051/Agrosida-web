@@ -167,7 +167,7 @@
             .then(response => response.json())
             .then(data => {
             const citySelect = document.getElementById('city');
-            citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>'; // Reset options
+            citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota/Kabupaten</option>';
 
             data.forEach(city => {
                 citySelect.innerHTML += `<option value="${city.city_id}" data-city="${city.city_name}">${city.city_name}</option>`;
