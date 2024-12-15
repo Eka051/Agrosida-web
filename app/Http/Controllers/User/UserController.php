@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Address;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\Address;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,18 +22,20 @@ class UserController extends Controller
     public function orderProduct($id)
     {
         $product = Product::find($id);
+        $order = Order::with('order_detail')->where('user_id', auth()->user()->id)->get();
+
         return view('user.order', compact('product'));
     }
 
-    // public function profile()
-    // {
-    //     $user = auth()->user();
-    //     $address = Address::where('user_id', $user->id)
-    //         ->with('province', 'city', 'user')
-    //         ->first();
-    //     $addresses = $address->getFullAddressAttribute();
-    //     return view('user.profile-user', compact('user', 'addresses'));
-    // }
+    public function profile()
+    {
+        $user = auth()->user();
+        $address = Address::where('user_id', $user->id)
+            ->with('province', 'city', 'user')
+            ->first();
+        $addresses = $address->getFullAddressAttribute();
+        return view('user.profile-user', compact('user', 'addresses'));
+    }
 
     public function editProfile(Request $request)
     {

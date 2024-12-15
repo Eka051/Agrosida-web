@@ -227,7 +227,6 @@
     });
 }
 
-
     function updateTotals() {
         var quantity = document.getElementById('quantity').value || 1;
         var price = {{ $product->price }};

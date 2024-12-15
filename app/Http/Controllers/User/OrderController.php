@@ -60,18 +60,6 @@ class OrderController extends Controller
         return response()->json(['error' => 'Unable to fetch shipping cost'], 500);
     }
 
-    public function getCouriersData(Request $request)
-    {
-        $origin = $request->input('origin');
-        $destination = $request->input('destination');
-        $weight = $request->input('weight');
-
-        $couriers = $this->getShippingCostFromAPI($origin, $destination, $weight, 'all');
-
-        return response()->json($couriers);
-    }
-
-
     public function getCourier(Request $request)
     {
         $origin = $request->input('origin');
@@ -153,8 +141,6 @@ class OrderController extends Controller
         return [];
     }
     
-    
-
     public function showOrderFromUser()
     {
         $orders = Order::with(['order_detail', 'user', 'payment'])->get();
@@ -163,7 +149,7 @@ class OrderController extends Controller
 
     public function showOrderDetail($id)
     {
-        $order_detail = OrderDetail::with(['order', 'product'])->where('order_id', $id)->get();
+        $order_detail = OrderDetail::with('order', 'product')->where('order_id', $id)->get();
         if ($order_detail->isEmpty()) {
             return redirect()->back()->with('error', 'Order details not found');
         }
@@ -173,7 +159,7 @@ class OrderController extends Controller
 
     public function orderDetail($id)
     {
-        $order = Order::with(['order_detail', 'user', 'payment'])->find($id);
+        $order = Order::with('order_detail', 'user', 'payment')->find($id);
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found');
         }
@@ -183,10 +169,16 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = Order::with(['order_detail', 'user', 'payment'])
+        $orders = Order::with('order_detail', 'user', 'payment')
             ->where('user_id', Auth::id())
             ->get();
+        $service_charge = 2000;
+        $total = 0;
+        foreach ($orders as $order) {
+            $total += $order->order_detail->sum('total') + ($order->shipment->shipping_cost ?? 0) + $service_charge;
+        }
+        
 
-        return view('user.riwayatPesananUser', compact('orders'));
+        return view('user.riwayatPesananUser', compact('orders', 'total'));
     }
 }

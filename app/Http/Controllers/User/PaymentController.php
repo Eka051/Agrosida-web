@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Shipment;
 use Http;
 use Midtrans\Snap;
 use App\Models\Cart;
@@ -35,16 +36,19 @@ class PaymentController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
             'shipping_option' => 'required|string',
+            'address' => 'required|exists:addresses,id',
         ]);
+        dd($request->all());
 
         $fee = 2000;
         $product = Product::findOrFail($request->product_id);
         $subtotal = $product->price * $request->quantity;
 
         $shippingOption = explode('-', $request->shipping_option);
-        $ongkir = (int) end($shippingOption);
+        $ongkir = isset($shippingOption[2]) ? (int) $shippingOption[2] : 0;
 
         $total = $subtotal + $ongkir + $fee;
+
 
         if ($total <= 0) {
             return redirect()->back()->with('error', 'Total pembayaran tidak valid');
@@ -53,6 +57,12 @@ class PaymentController extends Controller
         $user = Auth::user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
+        }
+
+        if ($user->hasRole('seller')) {
+            $user->balance += $subtotal;
+        } elseif ($user->hasRole('admin')) {
+            $user->balance += $fee;
         }
 
         $existingOrder = Order::where('user_id', $user->user_id)
@@ -102,6 +112,17 @@ class PaymentController extends Controller
             $product->stock -= $request->quantity;
             $product->save();
 
+            $address = $user->addresses()->findOrFail($request->address);
+
+            $shipment = Shipment::create([
+                'order_id' => $orderID,
+                'status' => 'processing',
+                'detail_address' => $address->getFullAddressAttribute(),
+                'courier_name' => $shippingOption[0],
+                'courier_service' => $shippingOption[1],
+                'shipping_cost' => $ongkir,
+            ]);
+
             $snapToken = Snap::getSnapToken($payload);
 
             $payment = Payment::create([
@@ -129,6 +150,48 @@ class PaymentController extends Controller
             if (isset($payment)) {
                 $payment->delete();
             }
+
+            return redirect()->back()->with('error', 'Gagal membuat pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    public function payPendingOrder($order_id)
+    {
+        $order = Order::where('order_id', $order_id)->where('status', 'pending')->first();
+
+        if (!$order) {
+            return redirect()->route('user.history')->with('error', 'Pesanan tidak ditemukan atau sudah dibayar.');
+        }
+
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Login terlebih dahulu');
+        }
+
+        $payload = [
+            'transaction_details' => [
+                'order_id' => $order->order_id,
+                'gross_amount' => $order->order_detail->sum('total') + $order->shipment->shipping_cost + 2000,
+            ],
+            'customer_details' => [
+                'first_name' => $user->name,
+                'email' => $user->email,
+            ],
+        ];
+
+        try {
+            $snapToken = Snap::getSnapToken($payload);
+
+            $order->update([
+                'snap_token' => $snapToken,
+            ]);
+
+            $total = $order->order_detail->sum('total') + $order->shipment->shipping_cost + 2000;
+
+            return view('user.payment', compact('order', 'snapToken', 'total'));
+
+        } catch (\Exception $e) {
+            Log::error('Midtrans Payment Error: ' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Gagal membuat pembayaran: ' . $e->getMessage());
         }

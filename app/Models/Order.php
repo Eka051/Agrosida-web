@@ -32,6 +32,11 @@ class Order extends Model
         return $this->hasOne(Payment::class, 'order_id', 'order_id');
     }
 
+    public function shipment()
+    {
+        return $this->hasOne(Shipment::class, 'order_id', 'order_id');
+    }
+
     public function cancelOrder()
     {
         $orderDetail = $this->order_detail;

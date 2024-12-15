@@ -48,9 +48,6 @@ class AddressController extends Controller
     
         return response()->json(['error' => 'Failed to fetch cities'], 500);
     }
-    
-
-    
 
     public function storeAdressSeller(Request $request)
     {
@@ -87,7 +84,6 @@ class AddressController extends Controller
         ]);
 
         $address->save();
-        Log::info('Address created', ['address' => $address]);
 
         return redirect()->route('profile-seller')->with('success', 'Alamat berhasil ditambahkan');
     }

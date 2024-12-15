@@ -73,6 +73,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('user/cart/payment', [PaymentController::class, 'cartPayment'])->name('cart.payment');
     Route::get('user/history', [OrderController::class, 'history'])->name('user.history');
     Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
+    Route::post('payment/pending/{order_id}', [PaymentController::class, 'payPendingOrder'])->name('payment.pending');
 
     Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');
     // address
