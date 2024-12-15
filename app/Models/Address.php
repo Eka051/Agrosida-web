@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
-    // protected $primaryKey = 'address_id';
     protected $fillable = [
         'user_id',
         'name',
         'province_id',
         'city_id',
+        'phone_number',
         'detail_address',
     ];
 

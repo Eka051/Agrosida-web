@@ -60,6 +60,7 @@ class AddressController extends Controller
             'province_name' => 'required',
             'city' => 'required',
             'city_name' => 'required',
+            'phone_number' => 'required|numeric|digits_between:10,15',
             'detail_address' => 'required',
         ]);
 
@@ -81,6 +82,7 @@ class AddressController extends Controller
             'name' => $request->name,
             'province_id' => $province->province_id,
             'city_id' => $city->city_id,
+            'phone_number' => $request->phone_number,
             'detail_address' => $request->detail_address,
         ]);
 
@@ -142,9 +144,10 @@ class AddressController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'province' => 'required', // province_id
-            'province_name' => 'required', // province_name
+            'province' => 'required',
+            'province_name' => 'required',
             'city' => 'required',
+            'phone_number' => 'required|numeric|digits_between:10,15',
             'detail_address' => 'required',
         ]);
 
@@ -166,6 +169,7 @@ class AddressController extends Controller
             'name' => $request->name,
             'province_id' => $province->province_id,
             'city_id' => $city->city_id,
+            'phone_number' => $request->phone_number,
             'detail_address' => $request->detail_address,
         ]);
 

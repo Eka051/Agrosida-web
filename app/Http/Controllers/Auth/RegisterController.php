@@ -24,8 +24,16 @@ class RegisterController extends Controller
            'password' => 'required|min:8|confirmed',
        ]);
 
+       if ($request->password !== $request->password_confirmation) {
+            return redirect()->back()->withErrors(['error' => 'Password dan konfirmasi password tidak sama.'])->withInput();
+       }
+
+       if (strlen($request->password) < 8) {
+            return redirect()->back()->withErrors(['error' => 'Password harus memiliki minimal 8 karakter.'])->withInput();
+       }
+
        if (User::where('email', $request->email)->exists() || User::where('username', $request->username)->exists()) {
-            return redirect()->back()->withErrors(['error' => 'Akun dengan email atau username tersebut sudah ada.']);
+            return redirect()->back()->withErrors(['error' => 'Akun dengan email atau username tersebut sudah ada.'])->withInput();
         }
 
        $user = User::create([
@@ -36,7 +44,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
        ]);
        $user->assignRole('user');
-
 
        return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silahkan login!');
     }
@@ -50,6 +57,14 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
+
+        if ($request->password !== $request->password_confirmation) {
+            return redirect()->back()->withErrors(['error' => 'Password dan konfirmasi password tidak sama.']);
+        }
+
+        if (strlen($request->password) < 8) {
+            return redirect()->back()->withErrors(['error' => 'Password harus memiliki minimal 8 karakter.']);
+        }
 
         if (User::where('email', $request->email)->exists() || User::where('username', $request->username)->exists()) {
             return redirect()->back()->withErrors(['error' => 'Akun dengan email atau username tersebut sudah ada.']);

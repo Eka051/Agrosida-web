@@ -46,6 +46,17 @@
                         @enderror
                     </div>
 
+                    {{-- Phone Number --}}
+                    <div>
+                        <label for="phone_number" class="block text-base font-medium text-gray-700 mb-2">Nomor Telepon</label>
+                        <input type="number" id="phone_number" name="phone_number" value="{{ old('phone') }}"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                            placeholder="Masukkan nomor telepon">
+                        @error('phone')
+                        <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     {{-- Province --}}
                     <div>
                         <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>
@@ -120,6 +131,7 @@
                 <div class="bg-gray-50 rounded-lg p-6 border border-gray-300 hover:shadow-lg transition duration-300">
                     <div class="mb-4">
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $address->name }}</h3>
+                        <h3 class="text-base text-gray-900">{{ $address->phone_number }}</h3>
                         <p class="text-base text-gray-700">{{ $address->detail_address }}</p>
                         <p class="text-base text-gray-700">{{ $address->city->city_name }}, {{
                             $address->province->province_name }}</p>
@@ -143,7 +155,7 @@
 
         {{-- Back Button --}}
         <div class="text-left mt-8">
-            <button onclick="saveProductDetailsAndGoBack()"
+            <button onclick="window.history.back()"
             class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
             Kembali
             </button>

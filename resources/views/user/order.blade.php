@@ -97,7 +97,7 @@
                     
                     <div>
                     <label for="courier" class="block text-gray-600">Pilih Kurir Pengiriman</label>
-                    <select name="shipping_option" class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300" id="courier">
+                    <select required name="shipping_option" class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300" id="courier">
                         <option disabled selected>Pilih Kurir Pengiriman</option>
                     </select>
                     </div>
@@ -183,7 +183,7 @@
     });
 
     function fetchCourier() {
-    const origin = {{$product->user->addresses->first()->city_id}};
+    const origin = {{$product->user->addresses->first() ? $product->user->addresses->first()->city_id : 'null'}};
     const destination = document.getElementById('address').value;
     const quantity = parseInt(document.getElementById('quantity').value) || 1;
     const weight = {{$product->weight}} * quantity;
@@ -213,7 +213,7 @@
             let options = '<option disabled selected>Pilih Kurir Pengiriman</option>';
             couriers.forEach(courier => {
                 options += `<option value="${courier.courier}-${courier.service}" data-cost="${courier.cost}">
-                    ${courier.courier} - ${courier.service} (${courier.description}) - Rp${new Intl.NumberFormat('id-ID').format(courier.cost)} (ETD: ${courier.etd} days)
+                    ${courier.courier} - ${courier.service} (${courier.description}) - Rp${new Intl.NumberFormat('id-ID').format(courier.cost)} (Est: ${courier.etd} hari)
                 </option>`;
             });
             document.getElementById('courier').innerHTML = options;

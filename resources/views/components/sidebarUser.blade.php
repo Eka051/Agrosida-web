@@ -9,15 +9,15 @@
         <ul class="space-y-4 ml-4 text-white text-lg">
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="duo-icons:dashboard" data-inline="false"></span>
-                <a href="{{ route('user.dashboard') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Beranda</a>
+                <a href="{{ route('user.dashboard') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out {{ request()->routeIs('user.dashboard') ? 'bg-green-600' : '' }}">Beranda</a>
             </li>
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="solar:cart-large-bold-duotone" data-inline="false"></span>
-                <a href="{{ route('user.cart') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Keranjang Belanja</a>
+                <a href="{{ route('user.cart') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out {{ request()->routeIs('user.cart') ? 'bg-green-600' : '' }}">Keranjang Belanja</a>
             </li>
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="icon-park-twotone:transaction-order" data-inline="false"></span>
-                <a href="{{ route('user.history') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Riwayat Pesanan</a>
+                <a href="{{ route('user.history') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out {{ request()->routeIs('user.history') ? 'bg-green-600' : '' }}">Riwayat Pesanan</a>
             </li>
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="ic:twotone-calculate" data-inline="false"></span>

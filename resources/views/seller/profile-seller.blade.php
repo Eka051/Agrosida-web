@@ -100,6 +100,16 @@
                 {{-- Store Name --}}
                 <input type="hidden" id="name" name="name" value="{{ $user->store->name }}">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {{-- Phone Number --}}
+                <div>
+                    <label for="phone_number" class="block text-base font-medium text-gray-700 mb-2">Nomor Telepon</label>
+                    <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                        placeholder="Masukkan nomor telepon">
+                    @error('phone_number')
+                    <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
                     {{-- Province --}}
                     <div>
                         <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>

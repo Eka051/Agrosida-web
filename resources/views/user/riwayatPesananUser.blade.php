@@ -55,6 +55,12 @@
                                    class="bg-green-500 text-white px-4 py-1 rounded text-sm hover:bg-green-600">
                                     Lihat Detail
                                 </a>
+                                @if($order->status == 'pending')
+                                <a href="{{ route('user.order.payment', $order->order_id) }}" 
+                                   class="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600 ml-2">
+                                    Bayar
+                                </a>
+                                @endif
                             </td>
                         </tr>
                         @empty

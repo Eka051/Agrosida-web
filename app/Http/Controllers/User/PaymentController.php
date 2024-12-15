@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Http;
 use Midtrans\Snap;
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
@@ -33,12 +34,16 @@ class PaymentController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
+            'shipping_option' => 'required|string',
         ]);
 
-        $ongkir = 20000;
         $fee = 2000;
         $product = Product::findOrFail($request->product_id);
         $subtotal = $product->price * $request->quantity;
+
+        $shippingOption = explode('-', $request->shipping_option);
+        $ongkir = (int) end($shippingOption);
+
         $total = $subtotal + $ongkir + $fee;
 
         if ($total <= 0) {
@@ -136,9 +141,9 @@ class PaymentController extends Controller
             'product_id.*' => 'exists:products,id',
             'quantity' => 'required|array',
             'quantity.*' => 'integer|min:1',
+            'shipping_option' => 'required|string',
         ]);
 
-        $ongkir = 20000;
         $fee = 2000;
         $subtotal = 0;
         $products = Product::whereIn('id', $request->product_id)->get();
@@ -147,6 +152,9 @@ class PaymentController extends Controller
             $quantity = $request->quantity[array_search($product->id, $request->product_id)];
             $subtotal += $product->price * $quantity;
         }
+
+        $shippingOption = explode('-', $request->shipping_option);
+        $ongkir = (int) end($shippingOption);
 
         $total = $subtotal + $ongkir + $fee;
 
@@ -258,6 +266,15 @@ class PaymentController extends Controller
     
             Payment::where('order_id', $order->order_id)
                 ->update(['status' => $notif->transaction_status]);
+
+            if ($status == 'paid') {
+                foreach ($order->orderDetails as $orderDetail) {
+                    $product = Product::find($orderDetail->product_id);
+                    $seller = User::find($product->created_by);
+                    $seller->balance += $orderDetail->total;
+                    $seller->save();
+                }
+            }
         }
     
         return response()->json(['status' => 'Success']);

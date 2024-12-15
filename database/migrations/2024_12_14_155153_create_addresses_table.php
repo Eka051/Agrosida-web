@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('province_id')->on('provinces')->references('province_id')->onDelete('cascade');
             $table->integer('city_id');
             $table->foreign('city_id')->on('cities')->references('city_id')->onDelete('cascade');
+            $table->string('phone_number');
             $table->string('detail_address');
             $table->timestamps();
         });

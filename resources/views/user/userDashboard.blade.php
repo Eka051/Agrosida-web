@@ -22,36 +22,39 @@
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach ($products as $product)
-                <div class="border rounded-lg p-6 bg-white shadow-lg transition-transform transform hover:scale-105 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-center h-48">
-                            <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
-                                class="w-full h-full object-contain rounded-lg">
+                <div class="border rounded-lg bg-white shadow-lg transition-transform transform hover:scale-105 flex flex-col">
+                    <div class="relative">
+                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
+                            class="w-full h-64 object-contain rounded-t-lg">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-lg font-semibold text-white">{{ $product->product_name }}</h3>
                         </div>
-                        <div class="mt-6">
-                            <h3 class="text-lg font-semibold text-gray-900">{{ $product->product_name }}</h3>
+                    </div>
+                    <div class="p-6 flex flex-col justify-between flex-1">
+                        <div>
                             <p class="text-xl font-bold text-green-600 mt-2">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
                             <p class="text-sm text-gray-600 mt-2">Stok: {{ $product->stock }}</p>
+                            <p>Terjual: {{ $product->orderDetails->sum('quantity') }}</p>
                             <div class="flex items-center mt-4">
                                 <span class="iconify text-green-500" data-icon="streamline:store-1" style="width: 24px; height: 24px;"></span>
                                 <p class="text-sm text-gray-700 ml-2">{{ $product->user->store->name }}</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex space-x-2 mt-6">
-                        <div class="flex-1">
-                            <a href="{{ route('user.order', $product->id) }}" 
-                               class="py-3 px-6 rounded-md bg-green-600 text-white font-bold text-center hover:bg-green-700 transition duration-300 inline-flex items-center justify-center w-full">
-                                Beli Produk
-                            </a>
-                        </div>
-                        <div>
-                            <form action="{{ route('user.cart.add', $product->id) }}" method="POST">
-                                @csrf
-                                <button class="px-4 py-3 rounded-md bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition duration-300 w-full">
-                                    <span class="iconify text-lg" data-icon="mdi:cart" data-inline="false"></span>
-                                </button>
-                            </form>
+                        <div class="flex space-x-2 mt-6">
+                            <div class="flex-1">
+                                <a href="{{ route('user.order', $product->id) }}" 
+                                   class="py-4 px-6 rounded-md bg-green-600 text-white font-bold text-center hover:bg-green-700 transition duration-300 inline-flex items-center justify-center w-full">
+                                    Beli Produk
+                                </a>
+                            </div>
+                            <div>
+                                <form action="{{ route('user.cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    <button class="px-4 py-4 rounded-md bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition duration-300 w-full">
+                                        <span class="iconify text-[22px]" data-icon="mdi:cart" data-inline="false"></span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
