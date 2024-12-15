@@ -3,9 +3,8 @@
 @section('title', 'Beranda')
 @section('content')
 <div class="ml-64 mt-16 flex-1">
-    <!-- Hero Section -->
     <section class="relative bg-cover bg-center p-16 text-center" style="background-image: url('/path-to-hero-image.jpg');">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 bg-greenPrimary"></div>
         <div class="relative z-10">
             <h1 class="text-4xl font-bold text-white lg:text-5xl leading-tight">Beragam Pilihan Pestisida Berkualitas untuk Pertanian Anda</h1>
             <p class="text-lg text-white mt-4 lg:text-xl">Dapatkan Pestisida Terbaik Sesuai Kebutuhan Anda</p>
@@ -17,7 +16,6 @@
         </div>
     </section>
 
-    <!-- Products Section -->
     <section class="py-12 bg-gray-100">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

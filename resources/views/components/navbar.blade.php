@@ -15,9 +15,19 @@
                 <li><a href="/kontak" class="text-white hover:text-greenPrimary">Tentang Kami</a></li>
             </ul>
         </div>
-        <!-- Tombol Masuk -->
         <div class="hidden md:flex items-center">
             @auth
+                @php
+                $user = auth()->user();
+                if ($user->hasRole('seller')) {
+                $dashboard = route('seller.dashboard');
+                } elseif ($user->hasRole('admin')) {
+                $dashboard = route('admin.dashboard');
+                } else {
+                $dashboard = route('user.dashboard');
+                }
+                @endphp
+            <a href="{{ $dashboard }}" class="text-lg font-medium mr-16 text-white py-2 px-8 fill-none border border-white rounded-md">Dashboard</a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="bg-red-500 py-2 rounded-md px-6 text-white font-semibold">Logout</button>
@@ -43,6 +53,17 @@
             <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>
             <li><a href="/kontak" class="text-white hover:text-greenPrimary">Kontak</a></li>
             @auth
+                @php
+                $user = auth()->user();
+                if ($user->hasRole('seller')) {
+                $dashboard = route('seller.dashboard');
+                } elseif ($user->hasRole('admin')) {
+                $dashboard = route('admin.dashboard');
+                } else {
+                $dashboard = route('user.dashboard');
+                }
+                @endphp
+            <a href="{{ $dashboard }}" class="text-lg font-medium mr-16 text-white py-2 px-8 fill-none border border-white rounded-md">Dashboard</a>
             <form action="{{ route('logout') }}">
                 <p class="bg-red-500 py-2 rounded-md px-6 text-white font-semibold">Logout</p>
             </form>
