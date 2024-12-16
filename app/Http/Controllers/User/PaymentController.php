@@ -92,7 +92,7 @@ class PaymentController extends Controller
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_id' => $orderID,
-                'status' => 'pending',
+                'status' => 'processed',
             ]);
 
             OrderDetail::create([
@@ -152,7 +152,7 @@ class PaymentController extends Controller
 
     public function payPendingOrder($order_id)
     {
-        $order = Order::with(['order_detail', 'shipment'])->where('order_id', $order_id)->where('status', 'pending')->first();
+        $order = Order::with(['order_detail', 'shipment'])->where('order_id', $order_id)->where('status', 'processed')->first();
 
         if (!$order) {
             return redirect()->route('user.history')->with('error', 'Pesanan tidak ditemukan atau sudah dibayar.');
@@ -229,7 +229,7 @@ class PaymentController extends Controller
         }
 
         $existingOrder = Order::where('user_id', $user->user_id)
-            ->where('status', 'pending')
+            ->where('status', 'processed')
             ->whereHas('order_detail', function ($query) use ($product) {
                 $query->where('product_id', $product->id);
             })
@@ -263,7 +263,7 @@ class PaymentController extends Controller
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_id' => $orderID,
-                'status' => 'pending',
+                'status' => 'processed',
             ]);
 
             foreach ($products as $product) {
@@ -332,44 +332,60 @@ class PaymentController extends Controller
         $order = Order::with(['order_detail', 'shipment'])->where('order_id', $notif->order_id)->first();
     
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json(['error' => 'Pesanan tidak ditemukan'], 404);
         }
     
-        $status = match(true) {
-            $notif->transaction_status == 'capture' && $notif->payment_type == 'credit_card' => 
-                $notif->fraud_status == 'accept' ? 'paid' : 'failed',
-            $notif->transaction_status == 'settlement' => 'paid',
-            $notif->transaction_status == 'pending' => 'pending',
-            $notif->transaction_status == 'deny' => 'failed',
-            $notif->transaction_status == 'expire' => 'cancelled',
-            $notif->transaction_status == 'cancel' => 'cancelled',
-            default => null
-        };
-    
-        if ($status) {
-            $order->update(['status' => $status]);
-    
+        $allowedOrderStatuses = ['processed', 'shipped', 'canceled'];
+        $allowedPaymentStatuses = ['pending', 'paid', 'failed', 'canceled'];
+        $orderStatus = null;
+        $paymentStatus = null;
+
+        if ($notif->transaction_status == 'capture' && $notif->payment_type == 'credit_card') {
+            $orderStatus = $notif->fraud_status == 'accept' ? 'processed' : 'canceled';
+            $paymentStatus = $notif->fraud_status == 'accept' ? 'paid' : 'failed';
+        } elseif ($notif->transaction_status == 'settlement') {
+            $orderStatus = 'processed';
+            $paymentStatus = 'paid';
+        } elseif ($notif->transaction_status == 'pending') {
+            $orderStatus = 'processed';
+            $paymentStatus = 'pending';
+        } elseif ($notif->transaction_status == 'deny') {
+            $orderStatus = 'canceled';
+            $paymentStatus = 'failed';
+        } elseif ($notif->transaction_status == 'expire') {
+            $orderStatus = 'canceled';
+            $paymentStatus = 'failed';
+        } elseif ($notif->transaction_status == 'cancel') {
+            $orderStatus = 'canceled';
+            $paymentStatus = 'canceled';
+        }
+
+        if ($orderStatus && in_array($orderStatus, $allowedOrderStatuses)) {
+            $order->update(['status' => $orderStatus]);
+        }
+
+        if ($paymentStatus && in_array($paymentStatus, $allowedPaymentStatuses)) {
             Payment::where('order_id', $order->order_id)
-                ->update(['status' => $notif->transaction_status]);
+                ->update(['status' => $paymentStatus]);
+        }
 
-            if ($status == 'paid') {
-                $fee = 2000;
-                foreach ($order->order_detail as $detail) {
-                    $subtotal = $detail->quantity * $detail->price;
-                    $product = Product::find($detail->product_id);
-                    $seller = User::find($product->created_by);
+        if ($orderStatus == 'processed' && $paymentStatus == 'paid') {
+            $fee = 2000;
+            foreach ($order->order_detail as $detail) {
+                $subtotal = $detail->quantity * $detail->price;
+                $product = Product::find($detail->product_id);
+                $seller = User::find($product->created_by);
 
-                    if($seller && $seller->hasRole('seller')) {
-                        $seller->balance += $subtotal;
-                        $seller->save();
-                    }
+                if ($seller && $seller->hasRole('seller')) {
+                    $seller->balance += $subtotal;
+                    $seller->save();
+                }
 
-                    $admin = User::all();
-                    foreach ($admin as $adm) {
-                        if($adm->hasRole('admin')) {
-                            $adm->balance += $fee;
-                            $adm->save();
-                        }
+                $admin = User::all();
+                foreach ($admin as $adm) {
+                    if ($adm->hasRole('admin')) {
+                        $adm->balance += $fee;
+                        $adm->save();
                     }
                 }
             }

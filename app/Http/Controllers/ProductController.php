@@ -83,7 +83,7 @@ class ProductController extends Controller
             ]);
     
             return redirect()
-                ->route('seller.dashboard')
+                ->route('seller.view-product')
                 ->with('success', 'Produk berhasil ditambahkan.');
     
         } catch (\Exception $e) {

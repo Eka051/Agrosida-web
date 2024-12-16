@@ -26,14 +26,14 @@
             <form action="{{ route('seller.save-product') }}" method="POST" enctype="multipart/form-data" id="productForm" class="space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+                    <div class="flex flex-col">
                         <label for="image" class="block text-xl font-medium text-gray-700">Gambar Produk</label>
-                        <img id="imgPreview" class="mt-4 w-32 h-32 object-contain rounded-md border hidden">
+                        <img id="imgPreview" class="mt-4 w-32 h-32 object-contain rounded-md border">
                         <input type="file" name="image" id="image" 
                             class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
-                        <label for="product_name" class="block text-xl font-medium text-gray-700">Nama Produk</label>
+                        <label for="product_name" class="block text-xl font-medium mt-[9.5rem] text-gray-700">Nama Produk</label>
                         <input type="text" name="product_name" id="product_name" placeholder="Masukkan nama produk" 
                             class="w-full text-base p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
                     </div>

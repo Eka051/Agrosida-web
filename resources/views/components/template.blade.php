@@ -60,4 +60,16 @@
     });
 </script>
 @endif
+
+@if(session('warning'))
+<script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Peringatan',
+        text: '{{ session('warning') }}',
+        confirmButtonColor: '#A2E554',
+        confirmButtonText: 'OK'
+    });
+</script>
+@endif
 </html>

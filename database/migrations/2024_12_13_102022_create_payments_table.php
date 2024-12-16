@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->string('order_id');
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade');
-            $table->string('status')->default('pending');
+            $table->enum('status', ['pending', 'paid', 'failed', 'canceled'])->default('pending');
             $table->integer('total');
             $table->timestamps();
         });

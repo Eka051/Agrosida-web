@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\OrderController;
@@ -50,6 +51,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
     Route::get('seller/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
     Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
+    Route::put('seller/order/confirm', [OrderController::class, 'confirmOrder'])->name('seller.order.confirm');
     
     // Address
     Route::get('seller/address/edit/{id}', [AddressController::class, 'editAddressSeller'])->name('seller.address.edit');
@@ -59,6 +61,10 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/profile', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
     Route::get('seller/profile/edit', [AddressController::class, 'editProfileSeller'])->name('seller.profile.edit');
     Route::put('seller/profile/update', [SellerController::class, 'updateProfileSeller'])->name('seller.profile.update');
+
+    // Shipment and order
+    Route::put('seller/order/confirm', [ShipmentController::class, 'confirmShipment'])->name('seller.shipment.confirm');
+    Route::put('seller/order/cancel', [OrderController::class, 'cancelOrder'])->name('seller.order.cancel');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

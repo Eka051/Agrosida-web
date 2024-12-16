@@ -4,56 +4,54 @@
 
 <div class="container mx-auto px-4 py-8 mt-20">
     <div class="max-w-4xl mx-auto space-y-8">
-        {{-- Profile Header --}}
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Profil Toko</h1>
             <p class="text-gray-600">Edit dan perbarui informasi Toko Anda</p>
         </div>
 
-        {{-- Profile Form --}}
         <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    {{-- Store Name --}}
                     <div>
                         <label for="store_name" class="block text-base font-medium text-gray-700">Nama Toko</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->store->name }}</p>
                     </div>
+                    <div>
+                        <label for="store_name" class="block text-base font-medium text-gray-700">Nomor Telepon</label>
+                        <p class="text-xl font-medium text-gray-900">{{ $user->addresses->first()->phone_number }}</p>
+                    </div>
 
-                    {{-- Divider --}}
                     <div class="col-span-1 md:col-span-2">
                         <hr class="border-gray-300">
                     </div>
 
-                    {{-- Seller Name --}}
                     <div>
                         <label for="name" class="block text-base font-medium text-gray-700">Nama Penjual</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->name }}</p>
                     </div>
 
-                     {{-- Email --}}
                      <div>
                         <label for="email" class="block text-base font-medium text-gray-700">Email</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->email ?? '-' }}</p>
                     </div>
 
-                    {{-- Divider --}}
                     <div class="col-span-1 md:col-span-2">
                         <hr class="border-gray-300">
                     </div>
 
-                    {{-- Username --}}
                     <div>
                         <label for="email" class="block text-base font-medium text-gray-700">Username</label>
                         <p class="text-xl font-medium text-gray-900">{{ $user->username ?? '-' }}</p>
                     </div>
-                    {{-- Password --}}
                     <div>
                         <label for="password" class="block text-base font-medium text-gray-700">Password</label>
                         <p class="text-xl font-medium text-gray-900">{{ str_repeat('●', min(8, strlen($user->password))) }}</p>
                     </div>
 
-                    {{-- Address --}}
+                    <div class="col-span-1 md:col-span-2">
+                        <hr class="border-gray-300">
+                    </div>
+
                     <div class="col-span-1 md:col-span-2">
                         <label for="address" class="block text-base font-medium text-gray-700">Alamat</label>
                         @if ($addresses->isEmpty())
@@ -80,7 +78,6 @@
                 </div>
         </div>
 
-        {{-- Add New Address Card (Hidden by Default) --}}
         <div id="add-address-form" class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100 hidden">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Tambah Alamat Baru</h2>
@@ -97,10 +94,8 @@
 
             <form action="{{ route('seller.address.save') }}" method="POST" class="space-y-6">
                 @csrf
-                {{-- Store Name --}}
                 <input type="hidden" id="name" name="name" value="{{ $user->store->name }}">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {{-- Phone Number --}}
                 <div>
                     <label for="phone_number" class="block text-base font-medium text-gray-700 mb-2">Nomor Telepon</label>
                     <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
@@ -110,7 +105,6 @@
                     <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                    {{-- Province --}}
                     <div>
                         <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>
                         <select id="province" name="province"
@@ -126,7 +120,6 @@
                         <input type="hidden" name="province_name" id="province_name">
                     </div>
 
-                    {{-- City --}}
                     <div>
                         <label for="city" class="block text-base font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
                         <select id="city" name="city"
@@ -138,7 +131,6 @@
                         @enderror
                         <input type="hidden" name="city_name" id="city_name">
                     </div>
-                    {{-- Street Address --}}
                     <div>
                         <label for="detail_address" class="block text-base font-medium text-gray-700 mb-2">Alamat
                             Lengkap</label>
@@ -160,7 +152,6 @@
             </form>
         </div>
 
-        {{-- Back Button --}}
         <div class="text-left mt-8">
             <button
                 class="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">

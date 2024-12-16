@@ -37,18 +37,5 @@ class Order extends Model
         return $this->hasOne(Shipment::class, 'order_id', 'order_id');
     }
 
-    public function cancelOrder()
-    {
-        $orderDetail = $this->order_detail;
-        foreach ($orderDetail as $detail) {
-            $product = Product::find($detail->product_id);
-            if ($product) {
-                $product->stock += $detail->quantity;
-                $product->save();
-            }
-        }
-
-        $this->status = 'canceled';
-        $this->save();
-    }
+    
 }

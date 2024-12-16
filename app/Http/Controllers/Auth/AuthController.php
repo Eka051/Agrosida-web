@@ -39,6 +39,9 @@ class AuthController extends Controller
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->hasRole('seller')) {
+                if ($user->addresses()->count() == 0) {
+                    return redirect()->route('profile-seller', compact('user'))->with('warning', 'Isi alamat toko terlebih dahulu');
+                }
                 return redirect()->route('seller.dashboard');
             } else {
                 return redirect()->route('user.dashboard');

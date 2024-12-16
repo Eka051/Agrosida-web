@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->string('snap_token')->nullable();
-            $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending');
+            $table->enum('status', ['processed', 'shipped', 'canceled'])->default('processed');
             $table->timestamps();
         });
     }

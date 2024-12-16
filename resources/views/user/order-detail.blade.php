@@ -29,9 +29,15 @@
                 <div class="mb-4">
                     <h2 class="text-xl font-semibold text-gray-800">ID Pesanan: {{ $order->order_id }}</h2>
                     <p class="text-gray-600 text-lg mt-2">Tanggal: {{ $order->created_at->format('d F Y H:i') }}</p>
-                    <p class="text-gray-600 text-lg mt-2">Status Pembayaran: 
-                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'paid' ? 'bg-green-500' : ($order->status == 'pending' ? 'bg-yellow-500' : 'bg-red-500') }} text-white">
+                    <p class="text-gray-600 text-lg mt-2">Status Pesanan:
+                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'processed' ? 'bg-yellow-500' : ($order->status == 'shipped' ? 'bg-green-500' : 'bg-red-500') }} text-white">
                             {{ ucfirst($order->status) }}
+                        </span>
+                    </p>
+                   
+                    <p class="text-gray-600 text-lg mt-2">Status Pembayaran:
+                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->payment->status == 'paid' ? 'bg-green-500' : ($order->payment->status == 'pending' ? 'bg-yellow-500' : ($order->payment->status == 'failed' ? 'bg-red-500' : 'bg-gray-500')) }} text-white">
+                            {{ ucfirst($order->payment->status) }}
                         </span>
                     </p>
                 </div>
@@ -42,8 +48,11 @@
                     <p class="text-gray-600 text-base">{{ $order->user->addresses->first()->phone_number }}</p>
                     <p class="text-gray-600 text-base">{{ $order->shipment ? $order->shipment->detail_address : 'Alamat pengiriman tidak tersedia' }}</p>
                     <p class="text-gray-600 text-lg font-semibold mt-2">Kurir: {{ $order->shipment ? $order->shipment->courier_name . ' - ' . $order->shipment->courier_service : 'Kurir tidak tersedia' }}</p>
-                    <p class="text-gray-600 text-lg font-semibold">Status Pengiriman: 
-                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->shipment->status == 'completed' ? 'bg-green-500' : ($order->shipment->status == 'shipped' ? 'bg-greenSecondary' : 'bg-yellow-500') }} text-white">{{ ucfirst($order->shipment->status) }}</span></p>
+                    <p class="text-gray-600 text-lg font-semibold">Status Pengiriman:
+                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->shipment->status == 'processing' ? 'bg-yellow-500' : ($order->shipment->status == 'shipping' ? 'bg-blue-500' : ($order->shipment->status == 'delivered' ? 'bg-green-500' : 'bg-red-500')) }} text-white">
+                            {{ ucfirst($order->shipment->status) }}
+                        </span>
+                    </p>
                 </div>
 
                 <div class="mb-4">

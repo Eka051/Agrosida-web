@@ -27,7 +27,7 @@
         </div>
     </section>
 
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
         @foreach ($products as $product)
         <div class="bg-white rounded-xl max-w-60 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 transform">
             <div class="relative">

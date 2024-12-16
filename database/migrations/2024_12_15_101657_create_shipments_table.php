@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('order_id');
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade');
             $table->enum('status', ['processing', 'shipping', 'delivered', 'canceled'])->default('processing');
+            $table->string('detail_address');
             $table->string('courier_name');
             $table->string('courier_service');
-            $table->string('estimated_delivery_time');
             $table->integer('shipping_cost');
             $table->timestamps();
         });
