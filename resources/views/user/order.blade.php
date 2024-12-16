@@ -177,7 +177,7 @@
 
     document.getElementById('courier').addEventListener('change', function () {
         var selectedOption = this.options[this.selectedIndex];
-        var cost = selectedOption.getAttribute('data-cost');
+        var cost = selectedOption.value.split('-')[2];
         document.getElementById('shipping-cost').innerText = 'Rp. ' + new Intl.NumberFormat('id-ID').format(cost);
         updateTotals();
     });
@@ -212,7 +212,7 @@
             const couriers = data.data; 
             let options = '<option disabled selected>Pilih Kurir Pengiriman</option>';
             couriers.forEach(courier => {
-                options += `<option value="${courier.courier}-${courier.service}" data-cost="${courier.cost}">
+                options += `<option value="${courier.courier}-${courier.service}-${courier.cost}" data-cost="${courier.cost}">
                     ${courier.courier} - ${courier.service} (${courier.description}) - Rp${new Intl.NumberFormat('id-ID').format(courier.cost)} (Est: ${courier.etd} hari)
                 </option>`;
             });

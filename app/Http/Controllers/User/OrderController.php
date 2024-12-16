@@ -169,16 +169,21 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = Order::with('order_detail', 'user', 'payment')
+        $orders = Order::with('order_detail', 'user', 'payment', 'shipment')
             ->where('user_id', Auth::id())
             ->get();
         $service_charge = 2000;
-        $total = 0;
-        foreach ($orders as $order) {
-            $total += $order->order_detail->sum('total') + ($order->shipment->shipping_cost ?? 0) + $service_charge;
-        }
-        
+        $order_totals = [];
 
-        return view('user.riwayatPesananUser', compact('orders', 'total'));
+        foreach ($orders as $order) {
+            $order_total = 0;
+            foreach ($order->order_detail as $detail) {
+                $order_total += $detail->price * $detail->quantity;
+            }
+            $order_total += ($order->shipment->shipping_cost ?? 0) + $service_charge;
+            $order_totals[$order->order_id] = $order_total;
+        }
+
+        return view('user.riwayatPesananUser', compact('orders', 'order_totals'));
     }
 }

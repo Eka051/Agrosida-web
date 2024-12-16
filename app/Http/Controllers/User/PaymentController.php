@@ -28,7 +28,8 @@ class PaymentController extends Controller
         MidtransConfig::$serverKey = config('services.midtrans.server_key');
         MidtransConfig::$clientKey = config('services.midtrans.client_key');
         MidtransConfig::$isProduction = config('services.midtrans.is_production');
-        MidtransConfig::$isSanitized = config('services.midtrans.is_sanitized');}
+        MidtransConfig::$isSanitized = config('services.midtrans.is_sanitized');
+    }
 
     public function process(Request $request)
     {
@@ -38,17 +39,17 @@ class PaymentController extends Controller
             'shipping_option' => 'required|string',
             'address' => 'required|exists:addresses,id',
         ]);
-        dd($request->all());
 
         $fee = 2000;
         $product = Product::findOrFail($request->product_id);
         $subtotal = $product->price * $request->quantity;
 
         $shippingOption = explode('-', $request->shipping_option);
-        $ongkir = isset($shippingOption[2]) ? (int) $shippingOption[2] : 0;
+        $courierName = $shippingOption[0];
+        $courierService = $shippingOption[1];
+        $ongkir = (int) end($shippingOption);
 
         $total = $subtotal + $ongkir + $fee;
-
 
         if ($total <= 0) {
             return redirect()->back()->with('error', 'Total pembayaran tidak valid');
@@ -57,12 +58,6 @@ class PaymentController extends Controller
         $user = Auth::user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
-        }
-
-        if ($user->hasRole('seller')) {
-            $user->balance += $subtotal;
-        } elseif ($user->hasRole('admin')) {
-            $user->balance += $fee;
         }
 
         $existingOrder = Order::where('user_id', $user->user_id)
@@ -118,8 +113,8 @@ class PaymentController extends Controller
                 'order_id' => $orderID,
                 'status' => 'processing',
                 'detail_address' => $address->getFullAddressAttribute(),
-                'courier_name' => $shippingOption[0],
-                'courier_service' => $shippingOption[1],
+                'courier_name' => $courierName,
+                'courier_service' => $courierService,
                 'shipping_cost' => $ongkir,
             ]);
 
@@ -157,7 +152,7 @@ class PaymentController extends Controller
 
     public function payPendingOrder($order_id)
     {
-        $order = Order::where('order_id', $order_id)->where('status', 'pending')->first();
+        $order = Order::with(['order_detail', 'shipment'])->where('order_id', $order_id)->where('status', 'pending')->first();
 
         if (!$order) {
             return redirect()->route('user.history')->with('error', 'Pesanan tidak ditemukan atau sudah dibayar.');
@@ -302,12 +297,11 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Gagal membuat pembayaran: ' . $e->getMessage());
         }
     }
-    
 
     public function handleMidtransWebhook()
     {
         $notif = new Notification();
-        $order = Order::where('order_id', $notif->order_id)->first();
+        $order = Order::with(['order_detail', 'shipment'])->where('order_id', $notif->order_id)->first();
     
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
@@ -331,16 +325,28 @@ class PaymentController extends Controller
                 ->update(['status' => $notif->transaction_status]);
 
             if ($status == 'paid') {
-                foreach ($order->orderDetails as $orderDetail) {
-                    $product = Product::find($orderDetail->product_id);
+                $fee = 2000;
+                foreach ($order->order_detail as $detail) {
+                    $subtotal = $detail->quantity * $detail->price;
+                    $product = Product::find($detail->product_id);
                     $seller = User::find($product->created_by);
-                    $seller->balance += $orderDetail->total;
-                    $seller->save();
+
+                    if($seller && $seller->hasRole('seller')) {
+                        $seller->balance += $subtotal;
+                        $seller->save();
+                    }
+
+                    $admin = User::all();
+                    foreach ($admin as $adm) {
+                        if($adm->hasRole('admin')) {
+                            $adm->balance += $fee;
+                            $adm->save();
+                        }
+                    }
                 }
             }
         }
     
         return response()->json(['status' => 'Success']);
     }
-
 }

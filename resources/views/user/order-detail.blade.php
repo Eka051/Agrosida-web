@@ -85,11 +85,11 @@
                         </div>
                         <div class="flex items-center text-base py-1">
                             <p class="flex-1">Ongkos Kirim</p>
-                            <p class="w-40 text-right">Rp. {{ number_format($order->shipping_cost, 0, ',', '.') }}</p>
+                            <p class="w-40 text-right">Rp. {{ number_format($order->shipment->shipping_cost, 0, ',', '.') }}</p>
                         </div>
                         <div class="flex items-center font-bold text-xl py-2 border-t border-gray-300 mt-2">
                             <p class="flex-1">Total Pembayaran</p>
-                            <p class="w-40 text-right">Rp. {{ number_format($order->order_detail->sum(function($detail) { return $detail->price * $detail->quantity; }) + $order->shipping_cost + 2000, 0, ',', '.') }}</p>
+                            <p class="w-40 text-right">Rp. {{ number_format($order->order_detail->sum(function($detail) { return $detail->price * $detail->quantity; }) + $order->shipment->shipping_cost + 2000, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>

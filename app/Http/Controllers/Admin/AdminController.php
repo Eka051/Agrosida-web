@@ -17,5 +17,10 @@ class AdminController extends Controller
         $balance = User::where('username', 'admin')->sum('balance');
         return view('admin.adminDashboard', compact('totalProduct', 'totalOrder', 'balance'));
     }
+
+    public function profile()
+    {
+        return view('admin.profile', compact('admin'));
+    }
     
 }

@@ -40,7 +40,7 @@
                         <tr class="hover:bg-gray-100">
                             <td class="px-4 py-2 border text-gray-800">{{ $order->order_id }}</td>
                             <td class="px-4 py-2 border text-gray-800">{{ $order->created_at->translatedFormat('d F Y H:i') }}</td>
-                            <td class="px-4 py-2 border text-gray-800">Rp. {{ number_format($total, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2 border text-gray-800">Rp. {{ number_format($order_totals[$order->order_id], 0, ',', '.') }}</td>
                             <td class="px-4 py-2 border text-gray-800">
                                 <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'paid' ? 'bg-green-500' : ($order->status == 'pending' ? 'bg-yellow-500' : 'bg-red-500') }} text-white">
                                     {{ ucfirst($order->status) }}

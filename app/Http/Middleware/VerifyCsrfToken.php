@@ -11,5 +11,7 @@ class VerifyCsrfToken extends Middleware
         'order/*',
         '/webhook/midtrans',
         '/get-cities',
+        '/get-provinces',
+        '/order/get-courier',
     ];
 }

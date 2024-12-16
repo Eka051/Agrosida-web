@@ -31,12 +31,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('admin/category/delete/{id}', [CategoryController::class,'delete'])->name('admin.delete-category');
     Route::put('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
+
+    Route::get('admin/profile', [AdminController::class, 'profile'])->name('profile-admin');
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
 
     // Product
+    Route::get('seller/product/view', [ProductController::class, 'viewProduct'])->name('seller.view-product');
     Route::get('seller/product/create', [ProductController::class, 'addProduct'])->name('seller.add-product');
     Route::post('seller/product/save', [ProductController::class, 'store'])->name('seller.save-product');
     Route::get('seller/edit-product/{id}', [ProductController::class, 'editProduk'])->name('seller.edit-product');

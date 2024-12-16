@@ -176,4 +176,17 @@ class ProductController extends Controller
         }
     }
 
+    public function viewProduct()
+    {
+        $user = auth()->user();
+        $products = Product::whereHas('user', function ($query) use ($user) {
+            $query->where('user_id', $user->user_id);
+        })
+        ->with(['user.store', 'category'])
+        ->where('discontinued', 0)
+        ->get();
+
+        return view('seller.produk', compact('products'));
+    }
+
 }

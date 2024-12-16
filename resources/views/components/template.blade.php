@@ -14,8 +14,6 @@
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- <script src="./node_modules/preline/dist/helper-apexcharts.js"></script> --}}
-    {{-- <link rel="stylesheet" href="./node_modules/apexcharts/dist/apexcharts.css"> --}}
 
 </head>
 <style>
@@ -39,10 +37,6 @@
     @endauth
     @yield('content')
 </body>
-{{-- <script src="./node_modules/lodash/lodash.min.js"></script>
-<script src="./node_modules/apexcharts/dist/apexcharts.min.js"></script>
-<script src="./node_modules/lodash/lodash.min.js"></script>
-<script src="./node_modules/dropzone/dist/dropzone-min.js"></script> --}}
 @if (session('success'))
 <script>
     Swal.fire({
