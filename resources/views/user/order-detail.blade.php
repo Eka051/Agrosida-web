@@ -4,7 +4,7 @@
 @section('content')
 <div class="ml-64 flex-1 mt-20">
     <div class="container ml-6 mt-4">
-        <nav class="text-base">
+        <nav class="text-lg">
             <ol class="list-reset flex text-gray-600">
                 <li><a href="{{ route('user.dashboard') }}" class="text-green-500 hover:text-green-700">Beranda</a></li>
                 <li><span class="mx-2">/</span></li>
@@ -93,7 +93,10 @@
                         </div>
                     </div>
                 </div>
-                
+                <form action="">
+                    <button type="submit" class="px-6 mt-4 py-2 bg-greenSecondary text-white font-semibold text-lg rounded-md hover:text-white hover:bg-greenHover">
+                        Konfirmasi Pesanan</button>
+                </form>
             </div>
         </div>
     </section>

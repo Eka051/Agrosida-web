@@ -20,14 +20,19 @@ class SellerController extends Controller
             $query->where('created_by', $user->user_id);
         })->count();
         $balance = $user->balance;
-
-        $incomeData = OrderDetail::selectRaw('SUM(price * quantity) as total_income, MONTH(created_at) as month')
-        ->whereHas('product', function ($query) use ($user) {
+        $totalCustomer = Order::whereHas('order_detail.product', function ($query) use ($user) {
             $query->where('created_by', $user->user_id);
-        })
-        ->groupBy('month')
-        ->orderBy('month')
-        ->pluck('total_income', 'month');
+        })->distinct('user_id')->count('user_id');
+
+        $incomeData = Order::join('order_details', 'orders.order_id', '=', 'order_details.order_id')
+            ->selectRaw('SUM(order_details.total) as total_income, MONTH(orders.created_at) as month')
+            ->where('orders.status', 'paid')
+            ->whereHas('order_detail.product', function ($query) use ($user) {
+            $query->where('created_by', $user->user_id);
+            })
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total_income', 'month');
 
         $orderData = Order::selectRaw('COUNT(order_id) as total_orders, MONTH(created_at) as month')
             ->whereHas('order_detail.product', function ($query) use ($user) {
@@ -37,7 +42,7 @@ class SellerController extends Controller
             ->orderBy('month')
             ->pluck('total_orders', 'month');
 
-        $categories = range(1, 12); // Bulan dari 1 hingga 12
+        $categories = range(1, 12);
         $formattedIncomeData = [];
         $formattedOrderData = [];
 
@@ -52,7 +57,8 @@ class SellerController extends Controller
             'balance',
             'formattedIncomeData',
             'formattedOrderData',
-            'categories'
+            'categories',
+            'totalCustomer'
         ));
     }
 

@@ -22,7 +22,9 @@ export default {
             },
             colors : {
                 greenPrimary : '#A2E554',
+                primaryHover : '#6C9838',
                 greenSecondary : '#114232',
+                greenHover : '#082119',
                 yellowPrimary : '#FFEB3B',
                 yellowSecondary : '#FFC107',
                 primaryBg : '#E2F7CA',

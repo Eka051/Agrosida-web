@@ -2,12 +2,12 @@
 @include('components.sidebarUser')
 @section('title', 'Riwayat Pesanan')
 @section('content')
-<div class="ml-64 flex-1 overflow-x-auto">
+<div class="ml-64 flex-1 mt-[4.5rem]">
     <section class="bg-gray-100 p-4">
-        <div class="container mx-auto">
-            <nav class="text-base">
+        <div class="container ml-6">
+            <nav class="text-lg">
                 <ol class="list-reset flex text-gray-600">
-                    <li><a href="{{ route('user.dashboard') }}" class="text-green-500 hover:text-green-700">Home</a></li>
+                    <li><a href="{{ route('user.dashboard') }}" class="text-green-500 hover:text-green-700">Beranda</a></li>
                     <li><span class="mx-2">/</span></li>
                     <li>Riwayat Pesanan</li>
                 </ol>

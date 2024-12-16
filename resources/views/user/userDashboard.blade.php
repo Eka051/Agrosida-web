@@ -36,7 +36,7 @@
                 <img 
                     src="{{ asset('storage/' . $product->image_path) }}" 
                     alt="{{ $product->product_name }}"
-                    class="w-full h-56 object-cover rounded-t-xl"
+                    class="w-full h-56 object-fill rounded-t-xl"
                 >
                 @if($product->stock <= 5)
                     <span class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs">

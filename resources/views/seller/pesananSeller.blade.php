@@ -16,7 +16,6 @@
         </div>
     </section>
 
-    <!-- Title Section -->
     <section class="p-8">
         <div class="container">
             <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Pesanan Anda</h1>
@@ -59,15 +58,6 @@
                                         class="bg-green-500 text-white px-4 py-1 rounded text-sm hover:bg-green-600">
                                         Detail
                                     </a>
-                                    <form action="#" method="">
-                                        @csrf
-                                        <select name="status" class="border rounded-md px-2 py-1 text-sm ml-2"
-                                            onchange="this.form.submit()">
-                                            <option value="Pending" selected>Pending</option>
-                                            <option value="Shipped">Shipped</option>
-                                            <option value="Completed">Completed</option>
-                                        </select>
-                                    </form>
                                 </div>
                             </td>
                         </tr>

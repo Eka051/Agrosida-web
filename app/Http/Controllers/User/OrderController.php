@@ -149,17 +149,16 @@ class OrderController extends Controller
 
     public function showOrderDetail($id)
     {
-        $order_detail = OrderDetail::with('order', 'product')->where('order_id', $id)->get();
-        if ($order_detail->isEmpty()) {
+        $order = Order::with('order_detail', 'user', 'payment', 'shipment')->find($id);
+        if (!$order) {
             return redirect()->back()->with('error', 'Order details not found');
         }
-
-        return view('seller.order-detail', compact('order_detail'));
+        return view('seller.order-detail', compact('order'));
     }
 
     public function orderDetail($id)
     {
-        $order = Order::with('order_detail', 'user', 'payment')->find($id);
+        $order = Order::with('order_detail', 'user', 'payment', 'shipment')->find($id);
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found');
         }

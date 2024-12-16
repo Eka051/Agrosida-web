@@ -48,7 +48,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
 
     // Order
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
-    Route::get('seller/order/detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
+    Route::get('seller/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
     Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
     
     // Address
@@ -77,8 +77,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/history', [OrderController::class, 'history'])->name('user.history');
     Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
     Route::post('payment/pending/{order_id}', [PaymentController::class, 'payPendingOrder'])->name('payment.pending');
-
     Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');
+
     // address
     Route::get('user/address/add', [AddressController::class, 'index'])->name('user.add-address');
     Route::post('user/address/save', [AddressController::class, 'saveAddress'])->name('user.address.store');
