@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -17,7 +19,16 @@ class UserController extends Controller
         $products = Product::with('category', 'user.store')
             ->where('discontinued', 0)
             ->get();
-        return view('user.userDashboard', compact('user', 'products'));
+            
+        $sold = OrderDetail::whereHas('order', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->where('status', 'paid');
+        })
+        ->select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+        ->groupBy('product_id')
+        ->pluck('total_quantity', 'product_id');
+            
+    
+        return view('user.userDashboard', compact('user', 'products', 'sold'));
     }
     public function orderProduct($id)
     {

@@ -98,21 +98,29 @@ class AddressController extends Controller
 
         return view('seller.profile-seller', compact('addresses', 'provinces', 'user'));
     }
+
     public function indexAddressUser()
     {
         $user = auth()->user();
-        $address = Address::where('user_id', $user->id)
+        $address = Address::where('user_id', $user->user_id)
             ->with('province', 'city', 'user')
             ->first();
         $addresses = $address->getFullAddressAttribute();
         return view('user.profile-user', compact('user', 'addresses'));
     }
 
-    public function editAddressSeller($id)
+    public function editAddressSeller(Request $request, $id)
     {
-        $address = Address::find($id);
+        $address = Address::findOrFail($id);
+        $provinces = $this->fetchProvinces();
+        
+        $provinceId = $request->input('province_id');
+        $response = Http::withHeaders([
+            'key' => config('services.rajaongkir.api_key'),
+        ])->get("https://api.rajaongkir.com/starter/city?province={$provinceId}");
 
-        return view('seller.address.edit', compact('address'));
+        $cities = $response->json()['rajaongkir']['results'];
+        return view('seller.edit-profile', compact('address'));
     }
 
     public function updateAddressSeller(Request $request, $id)
@@ -125,16 +133,6 @@ class AddressController extends Controller
 
         return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil diubah');
     }
-
-    public function deleteAddressSeller($id)
-    {
-        $address = Address::find($id);
-
-        $address->delete();
-
-        return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil dihapus');
-    }
-
 
     public function saveAddress(Request $request)
     {
@@ -231,10 +229,4 @@ class AddressController extends Controller
         return redirect()->route('user.add-address')->with('success', 'Alamat berhasil dihapus');
     }
 
-    public function getAddress(Request $request)
-    {
-        $addresses = Address::where('user_id', auth()->user()->user_id)->get();
-
-        return response()->json($addresses);
-    }
 }

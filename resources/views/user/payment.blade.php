@@ -3,7 +3,10 @@
 @section('content')
 <div class="container mx-auto p-8 mt-20">
     <div class="bg-white w-[50rem] m-auto border border-gray-100 shadow-lg rounded-lg p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">Pembayaran Pesanan</h1>
+        <div>
+            <img src="{{ asset('img/LOGO-AGROSIDA.png') }}" alt="logo-agrosida" class="w-20 m-auto mb-4">
+            <h1 class="text-3xl font-bold mb-16 text-center">Pembayaran Pesanan</h1>
+        </div>
         <div class="mb-4 mt-4">
             <p class="text-xl"><strong>Nomor Pesanan:</strong> {{ $order->order_id }}</p>
             <p class="text-xl"><strong>Nama:</strong> {{ $order->user->name }}</p>
@@ -12,21 +15,25 @@
         <div>
             <h2 class="text-xl font-bold border-b mb-4">Detail Pembayaran</h2>
             <div class="flex justify-between mb-2">
-                <p class="text-lg">Harga Produk</p>
-                <p class="text-lg font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</p>
+                <p class="text-lg">Total Harga Produk</p>
+                <p class="text-lg font-bold">Rp. {{ number_format($order->order_detail->sum('total'), 0, ',', '.') }}</p>
             </div>
             <div class="flex justify-between mb-2">
                 <p class="text-lg">Biaya Pengiriman</p>
-                <p class="text-lg font-bold">Rp. 0</p>
+                <p class="text-lg font-bold">Rp. {{ number_format($order->shipment->shipping_cost, 0, ',', '.') }}</p>
             </div>
             <div class="flex justify-between mb-2">
-                <p class="text-lg">Total Pembayaran</p>
-                <p class="text-lg font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</p>
+                <p class="text-lg">Biaya Layanan</p>
+                <p class="text-lg font-bold">Rp. 2.000</p>
+            </div>
+            <div class="flex justify-between border-t mt-4">
+                <p class="text-xl font-bold">Total Pembayaran</p>
+                <p class="text-xl font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</p>
             </div>
         </div>
         <div class="mt-6">
             <div id="snap-container" class="w-full"></div>
-            <button id="pay-button" class="w-full bg-greenPrimary text-white px-6 py-3  text-base font-medium rounded-lg hover:bg-green-400 transition duration-300 mt-4">
+            <button id="pay-button" class="w-full bg-greenSecondary text-white px-6 py-3  text-base font-medium rounded-lg hover:bg-greenHover transition duration-300 mt-4">
                 Bayar Sekarang
             </button>
         </div>

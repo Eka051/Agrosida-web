@@ -58,6 +58,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Profile
     Route::get('seller/profile', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
     Route::get('seller/profile/edit', [AddressController::class, 'editProfileSeller'])->name('seller.profile.edit');
+    Route::put('seller/profile/update', [SellerController::class, 'updateProfileSeller'])->name('seller.profile.update');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -67,8 +68,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/cart', [CartController::class, 'index'])->name('user.cart');
     Route::post('user/cart/add/{product_id}', [CartController::class, 'add'])->name('user.cart.add');
     Route::delete('user/cart/remove/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
+    // cart
     Route::get('user/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-    Route::post('update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
     Route::delete('cart/clear/{user_id}', [CartController::class, 'clearCartAfterPayment'])->name('cart.clear');
     
     // order

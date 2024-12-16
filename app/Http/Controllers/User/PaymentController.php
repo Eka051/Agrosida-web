@@ -55,7 +55,7 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Total pembayaran tidak valid');
         }
 
-        $user = Auth::user();
+        $user = auth()->user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
         }
@@ -200,6 +200,7 @@ class PaymentController extends Controller
             'quantity' => 'required|array',
             'quantity.*' => 'integer|min:1',
             'shipping_option' => 'required|string',
+            'address' => 'required|exists:addresses,id',
         ]);
 
         $fee = 2000;
@@ -212,7 +213,10 @@ class PaymentController extends Controller
         }
 
         $shippingOption = explode('-', $request->shipping_option);
+        $courierName = $shippingOption[0];
+        $courierService = $shippingOption[1];
         $ongkir = (int) end($shippingOption);
+
 
         $total = $subtotal + $ongkir + $fee;
 
@@ -223,6 +227,17 @@ class PaymentController extends Controller
         $user = auth()->user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
+        }
+
+        $existingOrder = Order::where('user_id', $user->user_id)
+            ->where('status', 'pending')
+            ->whereHas('order_detail', function ($query) use ($product) {
+                $query->where('product_id', $product->id);
+            })
+            ->first();
+
+        if ($existingOrder) {
+            return redirect()->back()->with('error', 'Anda sudah memiliki pesanan yang belum selesai untuk produk ini.');
         }
 
         $orderID = 'ORDER-' . Str::random(9);
@@ -266,10 +281,21 @@ class PaymentController extends Controller
                 $product->stock -= $quantity;
                 $product->save();
             }
+            $address = $user->addresses()->findOrFail($request->address);
+
+            $shipment = Shipment::create([
+                'order_id' => $orderID,
+                'status' => 'processing',
+                'detail_address' => $address->getFullAddressAttribute(),
+                'courier_name' => $courierName,
+                'courier_service' => $courierService,
+                'shipping_cost' => $ongkir,
+            ]);
 
             $snapToken = Snap::getSnapToken($payload);
-
+            
             $payment = Payment::create([
+                'user_id' => $user->user_id,
                 'order_id' => $orderID,
                 'status' => 'pending',
                 'total' => $total,

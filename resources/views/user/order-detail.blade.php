@@ -41,7 +41,7 @@
                     <p class="text-gray-600 text-base">{{ $order->user->name }}</p>
                     <p class="text-gray-600 text-base">{{ $order->user->addresses->first()->phone_number }}</p>
                     <p class="text-gray-600 text-base">{{ $order->shipment ? $order->shipment->detail_address : 'Alamat pengiriman tidak tersedia' }}</p>
-                    <p class="text-gray-600 text-lg font-semibold mt-2">Kurir: {{ $order->shipment->courier_name }} - {{ $order->shipment->courier_service }}</p>
+                    <p class="text-gray-600 text-lg font-semibold mt-2">Kurir: {{ $order->shipment ? $order->shipment->courier_name . ' - ' . $order->shipment->courier_service : 'Kurir tidak tersedia' }}</p>
                     <p class="text-gray-600 text-lg font-semibold">Status Pengiriman: 
                         <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->shipment->status == 'completed' ? 'bg-green-500' : ($order->shipment->status == 'shipped' ? 'bg-greenSecondary' : 'bg-yellow-500') }} text-white">{{ ucfirst($order->shipment->status) }}</span></p>
                 </div>

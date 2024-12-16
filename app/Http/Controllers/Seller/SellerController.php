@@ -62,19 +62,4 @@ class SellerController extends Controller
         ));
     }
 
-    public function profile()
-    {
-        $user = auth()->user();
-        $address = Address::where('user_id', $user->id)
-            ->with('province', 'city', 'user')
-            ->first();
-        return view('user.profile-user', compact('user', 'address'));
-    }
-
-    public function showOrder()
-    {
-        return view('seller.pesananSeller');
-    }
-
-    
 }
