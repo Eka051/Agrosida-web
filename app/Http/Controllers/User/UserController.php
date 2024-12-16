@@ -21,11 +21,14 @@ class UserController extends Controller
             ->get();
             
         $sold = OrderDetail::whereHas('order', function ($query) use ($user) {
-            $query->where('user_id', $user->id)->where('status', 'paid');
+            $query->where('user_id', $user->id)
+                    ->where('status', 'paid');
         })
         ->select('product_id', DB::raw('SUM(quantity) as total_quantity'))
         ->groupBy('product_id')
         ->pluck('total_quantity', 'product_id');
+        // dd($sold);
+
             
     
         return view('user.userDashboard', compact('user', 'products', 'sold'));

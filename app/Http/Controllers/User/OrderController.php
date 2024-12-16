@@ -170,6 +170,7 @@ class OrderController extends Controller
     {
         $orders = Order::with('order_detail', 'user', 'payment', 'shipment')
             ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
             ->get();
         $service_charge = 2000;
         $order_totals = [];

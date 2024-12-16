@@ -43,44 +43,46 @@
                 @endif
             </div>
             
-            <div class="p-5">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2 truncate">
-                    {{ $product->product_name }}
-                </h3>
-                
-                <div class="block mb-3">
-                    <span class="text-xl font-bold text-green-600">
-                        Rp. {{ number_format($product->price, 0, ',', '.') }}
-                    </span>
-                    <span class="text-sm text-gray-600">
-                        Terjual: {{ $sold[$product->id] ?? 0 }}
-                    </span>
+            <div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2 truncate">
+                        {{ $product->product_name }}
+                    </h3>
+                    <div class="block mb-1">
+                        <span class="text-xl font-bold text-green-600">
+                            Rp. {{ number_format($product->price, 0, ',', '.') }}
+                        </span>
+                    </div>
+                    <div class="block mb-3">
+                        <span class="text-sm text-gray-600">
+                            Terjual: {{ $sold[$product->id] ?? 0 }}
+                        </span>
+                    </div>
+            
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="text-sm">{{ $product->user->store->name }} | {{ $product->user->addresses->first()->province->province_name }}</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('user.order', $product->id) }}" 
+                            class="flex items-center justify-center text-lg font-medium bg-green-600 text-white px-[3.75rem] py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                            Beli
+                        </a>
+                        <form action="{{ route('user.cart.add', $product->id) }}" method="POST" class="w-full">
+                            @csrf
+                            <button 
+                                type="submit" 
+                                class="flex items-center text-lg font-medium bg-greenPrimary text-white py-[0.6rem] px-2 mt-4 rounded-lg hover:bg-green-200 transition duration-300">
+                                <span class="iconify text-2xl text-greenSecondary" data-icon="solar:cart-large-bold-duotone" data-inline="false"></span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                
-                <div class="flex items-center text-gray-600 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    <span class="text-sm">{{ $product->user->store->name }} | {{ $product->user->addresses->first()->province->province_name }}</span>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('user.order', $product->id) }}" 
-                        class="flex-grow flex items-center justify-center text-lg font-medium bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300">
-                        Beli
-                    </a>
-                    <form action="{{ route('user.cart.add', $product->id) }}" method="POST" class="flex-grow">
-                        @csrf
-                        <button 
-                            type="submit" 
-                            class="flex mt-4 items-center justify-center w-full text-lg font-medium bg-greenPrimary text-white px-2 py-[0.7rem] rounded-lg hover:bg-green-200 transition duration-300">
-                            <span class="iconify text-2xl text-greenSecondary" data-icon="solar:cart-large-bold-duotone" data-inline="false"></span>
-                        </button>
-                    </form>
-                </div>
-                
-
             </div>
+            
         </div>
         @endforeach
     </div>

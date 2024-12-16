@@ -217,7 +217,6 @@ class PaymentController extends Controller
         $courierService = $shippingOption[1];
         $ongkir = (int) end($shippingOption);
 
-
         $total = $subtotal + $ongkir + $fee;
 
         if ($total <= 0) {
@@ -293,7 +292,7 @@ class PaymentController extends Controller
             ]);
 
             $snapToken = Snap::getSnapToken($payload);
-            
+
             $payment = Payment::create([
                 'user_id' => $user->user_id,
                 'order_id' => $orderID,
@@ -306,6 +305,9 @@ class PaymentController extends Controller
                 'snap_token' => $snapToken,
                 'payment_id' => $payment->id
             ]);
+
+            $cart = Cart::where('user_id', $user->user_id);
+            $cart->delete();
 
             return view('user.payment', compact('order', 'snapToken', 'total'));
 

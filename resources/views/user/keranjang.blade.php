@@ -212,6 +212,12 @@
     }
   }
 
+  function updateTotals(cartItems) {
+    const totalPriceElement = document.getElementById('total-price');
+    const totalPrice = cartItems.reduce((total, item) => total + item.subtotal, 0);
+    totalPriceElement.textContent = `Total: Rp. ${new Intl.NumberFormat('id-ID').format(totalPrice)}`;
+  }
+
   function updateCartUI(cartItems) {
     cartItems.forEach(item => {
         const quantityInput = document.getElementById(`quantity-${item.product_id}`);
@@ -224,6 +230,7 @@
         if (errorElement) {
             errorElement.classList.add('hidden');
         }
+        updateTotals(cartItems);
     });
 
   }
