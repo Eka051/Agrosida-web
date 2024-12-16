@@ -3,24 +3,34 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasRoles;
+use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasRoles, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+    protected $primaryKey = 'user_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'balance',
+        'gauth_id',
+        'gauth_type',
     ];
 
     /**
@@ -46,13 +56,38 @@ class User extends Authenticatable
         ];
     }
 
-    public function roles()
+    protected static function boot()
     {
-        return $this->belongsTo(Role::class);
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->user_id = (string) Str::uuid();
+        });
     }
 
-    public function oauthproviders()
+    public function store()
     {
-        return $this->hasMany(OauthProvider::class);
+        return $this->hasOne(Store::class, 'user_id', 'user_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'created_by', 'user_id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id', 'user_id');
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'user_id', 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
 }

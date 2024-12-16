@@ -1,47 +1,111 @@
 @extends('components.template')
 @include('components.sidebarUser')
-@section('title', 'Beranda')
+@section('title', 'Beranda Pestisida')
+
 @section('content')
-<div class="ml-56 flex-1">
-    
-    <!-- Hero Section -->
-    <section class="bg-primaryBg p-8 text-center mt-20 lg:mt-20">
-        <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Beragam Pilihan Pestisida Berkualitas untuk Pertanian Anda</h1>
-        <p class="text-gray-600 mt-2 lg:text-lg">Dapatkan Pestisida Terbaik Sesuai Kebutuhan Anda</p>
-        <div class="mt-4 flex flex-col items-center lg:flex-row lg:justify-center">
-            <input type="text" placeholder="Cari produk anda" 
-                   class="p-2 rounded-t lg:rounded-l lg:rounded-r-none border border-gray-300 w-3/4 md:w-1/2 lg:w-1/3">
-            <button class="bg-green-500 text-white px-4 py-2 rounded-b lg:rounded-r lg:rounded-l-none mt-2 lg:mt-0">Search</button>
-        </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="py-8 bg-gray-50">
-        <h2 class="text-xl lg:text-2xl font-semibold text-center text-gray-800">Kategori Pilihan</h2>
-        <div class="flex overflow-x-auto gap-4 px-4 mt-6 scrollbar-hide">
-            @foreach(['Pestisida', 'Alat Pertanian', 'Bibit Tanaman', 'Mirip yang kamu cek'] as $category)
-            <button class="flex-shrink-0 px-4 py-2 rounded-full text-white font-medium" style="background-color: {{ ['#FFA500', '#32CD32', '#FF69B4', '#00BFFF'][$loop->index] }}">
-                {{ $category }}
-            </button>
-            @endforeach
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="py-8">
-        <h2 class="text-xl lg:text-2xl font-semibold text-center text-gray-800">Produk Terbaru</h2>
-        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 mt-6 px-4">
-            @foreach(range(1, 12) as $i)
-            <div class="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition relative">
-                <div class="bg-gray-200 h-24 w-full rounded-lg lg:h-32"></div>
-                <h3 class="mt-4 text-sm font-medium text-gray-800 lg:text-base">Product Name {{ $i }}</h3>
-                <p class="text-green-600 text-sm lg:text-base font-semibold mt-2">Rp{{ number_format(15000 + $i * 5000, 0, ',', '.') }}</p>
-                <p class="text-gray-500 text-sm">Jakarta</p>
-                <div class="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 text-xs rounded">Promo</div>
-                <button class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Beli</button>
+<div class="ml-64 pt-20 px-6 bg-gray-50">
+    {{-- Hero Section --}}
+    <section class="mb-10 bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="relative bg-gradient-to-r from-green-600 to-green-800 p-8 lg:p-12">
+            <div class="max-w-3xl mx-auto text-center text-white">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                    Solusi Pestisida Profesional untuk Petani
+                </h1>
+                <p class="text-lg mb-6 text-green-100">
+                    Temukan produk berkualitas untuk meningkatkan hasil pertanian Anda
+                </p>
+                <div class="flex max-w-xl mx-auto">
+                    <input 
+                        type="text" 
+                        placeholder="Cari pestisida..." 
+                        class="flex-grow px-4 py-3 rounded-l-lg border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                    <button class="bg-white text-green-700 px-6 py-3 rounded-r-lg hover:bg-green-100 transition duration-300">
+                        Cari
+                    </button>
+                </div>
             </div>
-            @endforeach
         </div>
     </section>
+
+    {{-- Produk Grid --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        @foreach ($products as $product)
+        <div class="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+            <div class="relative">
+                <img 
+                    src="{{ asset('storage/' . $product->image_path) }}" 
+                    alt="{{ $product->product_name }}"
+                    class="w-full h-56 object-fill rounded-t-xl"
+                >
+                @if($product->stock <= 5)
+                    <span class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs">
+                        Stok Terbatas
+                    </span>
+                @endif
+            </div>
+            
+            <div class="p-5">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 truncate">
+                    {{ $product->product_name }}
+                </h3>
+                
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xl font-bold text-green-600">
+                        Rp. {{ number_format($product->price, 0, ',', '.') }}
+                    </span>
+                    <span class="text-sm text-gray-600">
+                        Stok: {{ $product->stock }}
+                    </span>
+                </div>
+                
+                <div class="flex items-center text-gray-600 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="text-sm">{{ $product->user->store->name }}</span>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a 
+                        href="{{ route('user.order', $product->id) }}" 
+                        class="flex-grow text-base text-center items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                        Beli
+                    </a>
+                    <form action="{{ route('user.cart.add', $product->id) }}" method="POST" class="inline-block">
+                        @csrf
+                        <button 
+                            type="submit" 
+                            class="bg-green-100 text-green-700 p-2 rounded-lg hover:bg-green-200 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchButton = document.querySelector('button');
+        
+        searchButton.addEventListener('click', function() {
+            // Implementasi logika pencarian sederhana
+            const searchTerm = searchInput.value.toLowerCase();
+            const products = document.querySelectorAll('.grid > div');
+            
+            products.forEach(product => {
+                const productName = product.querySelector('h3').textContent.toLowerCase();
+                product.style.display = productName.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+@endpush
