@@ -8,11 +8,10 @@
         <!-- Menu Desktop -->
         <div class="hidden md:flex items-center justify-center space-x-8">
             <ul class="flex space-x-8">
-                <li><a href="/" class="text-white hover:text-greenPrimary">Beranda</a>
-                </li>
-                <li><a href="/tentang" class="text-white hover:text-greenPrimary">Layanan</a></li>
-                <li><a href="/fitur" class="text-white hover:text-greenPrimary">Fitur</a></li>
-                <li><a href="/kontak" class="text-white hover:text-greenPrimary">Tentang Kami</a></li>
+                <li><a href="#hero-section" class="text-white hover:text-greenPrimary">Beranda</a></li>
+                <li><a href="#product" class="text-white hover:text-greenPrimary">Layanan</a></li>
+                <li><a href="#calculator-pesticide" class="text-white hover:text-greenPrimary">Fitur</a></li>
+                <li><a href="#about-us" class="text-white hover:text-greenPrimary">Tentang Kami</a></li>
             </ul>
         </div>
         <div class="hidden md:flex items-center">

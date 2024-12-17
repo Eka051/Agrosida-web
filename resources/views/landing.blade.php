@@ -119,7 +119,7 @@
 
 <div class="landing-page bg-gray-100 min-h-screen">
     <!-- Hero Section -->
-    <section class="hero-section relative min-h-screen flex items-center overflow-hidden">
+    <section class="hero-section relative min-h-screen flex items-center overflow-hidden" id='hero-section'>
         <!-- Background gradient overlay with fade-in animation -->
         <div class="absolute inset-0 bg-gradient-to-r from-green-600/80 to-green-100/50 z-10 animate-fadeIn"></div>
 
@@ -171,7 +171,7 @@
     </section>
 
     <!-- Tentang Kami -->
-    <section class="about-us relative py-16 overflow-hidden">
+    <section class="about-us relative py-16 overflow-hidden" id="about-us">
         <!-- Latar Belakang dengan Efek Gradient dan Ornamen -->
         <div class="absolute inset-0 pointer-events-none"></div>
         <div class="absolute top-0 right-0 transform translate-x-20 -translate-y-20 opacity-10">
@@ -316,7 +316,7 @@
       </section>
 
     <!-- Kalkulator -->
-    <section class="py-8 mx-4 bg-green-100 rounded-lg">
+    <section class="calculator-pesticide py-8 mx-4 bg-green-100 rounded-lg" id="calculator-pesticide">
         <div class="container mx-auto px-6">
             <!-- Judul Bagian -->
           <div class="text-center mb-12">
@@ -557,7 +557,7 @@
       </section>
 
     <!--Produk-->
-    <section class="bg-white py-12">
+    <section class="bg-white py-12" id="product">
         <div class="container mx-auto px-4">
           <!-- Judul FAQ -->
           <div class="text-center mb-12">
