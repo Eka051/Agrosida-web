@@ -45,7 +45,7 @@
                 </li>
                 <li class="flex items-center">
                     <span class="iconify text-3xl text-greenPrimary" data-icon="ic:twotone-calculate" data-inline="false"></span>
-                    <a href="#" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kalkulasi Pestisida</a>
+                    <a href="{{ route('pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kelola Kalkulasi</a>
                 </li>
                 <li class="flex items-center">
                     <span class="iconify text-3xl text-greenPrimary" data-icon="solar:logout-3-bold-duotone" data-inline="false"></span>

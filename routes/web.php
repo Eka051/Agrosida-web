@@ -6,8 +6,10 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\DetectionController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\PaymentController;
@@ -15,13 +17,15 @@ use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\UserManagementController;
 
-Route::get('/', function () {
-    return view('landing');
-});
+// Route::get('/', function () {
+//     return view('landing');
+// });
+
+Route::get('/', [CalculatorController::class, 'landing']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    
+
     Route::get('admin/user-management', [UserManagementController::class, 'index'])->name('admin.userManagement');
     Route::delete('admin/user-management/delete/{user_id}', [UserManagementController::class, 'deleteUser'])->name('admin.delete-user');
     Route::get('admin/kategori', [CategoryController::class, 'index'])->name('admin.kategori');
@@ -35,6 +39,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
 
     Route::get('admin/profile', [AdminController::class, 'profile'])->name('profile-admin');
+    // Calculator
+    Route::get('detect', [DetectionController::class, 'showForm'])->name('detect.form');
+    Route::post('detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
+    Route::get('pesticide', [CalculatorController::class, 'showForm'])->name('pesticide.form');
+    Route::post('pesticide', [CalculatorController::class, 'addPesticide'])->name('addPesticide');
+    Route::post('plant', [CalculatorController::class, 'addPlant'])->name('addPlant');
+    Route::post('dosage', [CalculatorController::class, 'addDosage'])->name('addDosage');
+    Route::delete('pesticide{id}', [CalculatorController::class, 'deletePesticide'])->name('admin.deletePesticide');
+    Route::delete('plant{id}', [CalculatorController::class, 'deletePlant'])->name('admin.deletePlant');
+    Route::delete('dosage{id}', [CalculatorController::class, 'deleteDosage'])->name('admin.deleteDosage');
+    Route::get('dosage/{id}', [CalculatorController::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
+    Route::get('editPlant{id}', [CalculatorController::class, 'editPlant'])->name('admin.editPlant');
+    Route::put('updatePlant{id}', [CalculatorController::class, 'updatePlant'])->name('admin.updatePlant');
+    Route::get('editPesticide{id}', [CalculatorController::class, 'editPesticide'])->name('admin.editPesticide');
+    Route::put('updatePesticide{id}', [CalculatorController::class, 'updatePesticide'])->name('admin.updatePesticide');
+    Route::get('editDosage{id}', [CalculatorController::class, 'editDosage'])->name('admin.editDosage');
+    Route::put('updateDosage{id}', [CalculatorController::class, 'updateDosage'])->name('admin.updateDosage');
 });
 
 Route::middleware(['auth', 'role:seller'])->group(function () {
@@ -98,7 +119,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     // profile
     Route::get('user/profile', [UserController::class, 'profile'])->name('profile-user');
     Route::get('user/profile/edit/{user_id}', [UserController::class, 'editProfile'])->name('user.profile.edit');
-    Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfile'])->name('user.profile.edit');
+    Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
 });
 
