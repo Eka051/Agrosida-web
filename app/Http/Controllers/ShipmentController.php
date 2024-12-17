@@ -9,23 +9,25 @@ use Illuminate\Support\Facades\Log;
 
 class ShipmentController extends Controller
 {
-    public function confirmShipment(Request $request)
-    {
-        $shipment = Shipment::with('order')->find($request->input('order_id'));
-
+    public function confirmShipment($order_id) {
+        $shipment = Shipment::with('order')->where('order_id', $order_id)->first();
+        
         try {
-            if ($shipment && $shipment->status === 'shipped') {
+            if ($shipment && $shipment->status === 'processing') {
                 $shipment->status = 'delivered';
                 $shipment->save();
 
-                $order = Order::with('shipment')->where('order_id', $shipment->order_id)->first();
+                $order = Order::find($shipment->order_id);
                 $order->status = 'shipped';
                 $order->save();
-                return redirect()->back()->with('success', 'Pesanan berhasil dikonfirmasi');
+
+                return redirect()->back()->with('success', 'Pesanan berhasil dikirim');
             }
+
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan atau sudah dikirim');
         } catch (\Exception $e) {
-            Log::error('Konfirmasi pesanan eror: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Pesanan tidak dapat dikonfirmasi');
+            Log::error('Pengiriman pesanan eror: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Pesanan tidak dapat dikirim');
         }
     }
 

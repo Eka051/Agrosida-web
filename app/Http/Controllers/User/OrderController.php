@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Address;
 use App\Models\Product;
 use App\Models\OrderDetail;
+use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -144,7 +145,9 @@ class OrderController extends Controller
     
     public function showOrderFromUser()
     {
-        $orders = Order::with(['order_detail', 'user', 'payment'])->get();
+        $orders = Order::with(['order_detail', 'user', 'payment'])
+        ->orderBy('created_at', 'desc')
+        ->get();
         return view('seller.pesananSeller', compact('orders'));
     }
 
@@ -154,7 +157,9 @@ class OrderController extends Controller
         if (!$order) {
             return redirect()->back()->with('error', 'Order details not found');
         }
-        return view('seller.order-detail', compact('order'));
+
+        $address = Address::find($order->address_id);
+        return view('seller.order-detail', compact('order', 'address'));
     }
 
     public function orderDetail($id)
@@ -167,14 +172,16 @@ class OrderController extends Controller
         return view('user.order-detail', compact('order'));
     }
 
-    public function cancelOrder(Request $request)
+    public function cancelOrder($order_id)
     {
-        $order = Order::with('order_detail', 'user', 'shipment')->find($request->input('order_id'));
+        $order = Order::with('order_detail', 'user', 'shipment')->find($order_id);
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found');
-        } elseif ($order->status !== 'pending') {
-            return redirect()->back()->with('error', 'Order cannot be canceled');
-        } else {
+        } elseif ($order->status !== 'processed') {
+            return redirect()->back()->with('error', 'Only processed orders can be canceled');
+        }
+
+        try {
             $order->status = 'canceled';
             $order->save();
 
@@ -183,27 +190,19 @@ class OrderController extends Controller
                 $order->shipment->save();
             }
 
-            $refundAmount = 0;
-            foreach ($order->order_detail as $detail) {
-                $refundAmount += $detail->price * $detail->quantity;
+            if ($order->payment && $order->payment->status === 'paid') {
+                $refundAmount = $order->order_detail->sum(function($detail) {
+                    return $detail->price * $detail->quantity;
+                });
+
+                $user = $order->user;
+                $user->balance += $refundAmount;
+                $user->save();
             }
 
-            $user = $order->user;
-            $user->balance += $refundAmount;
-            $user->save();
-
-            foreach ($order->order_detail as $detail) {
-                $product = Product::find($detail->product_id);
-                if ($product) {
-                    $seller = $product->created_by ? User::find($product->created_by) : null;
-                    if ($seller) {
-                        $seller->balance -= $detail->price * $detail->quantity;
-                        $seller->save();
-                    }
-                }
-            }
-
-            return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan dan pembayaran akan dikembalikan');
+            return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal membatalkan pesanan');
         }
     }
 

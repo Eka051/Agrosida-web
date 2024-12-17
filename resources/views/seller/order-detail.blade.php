@@ -29,22 +29,24 @@
                     </p>
                 </div>
                 <div class="flex">
-                    <form action="{{ route('seller.order.cancel') }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="order_id" value="{{ $order->order_id }}">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">
-                            Batalkan
-                        </button>
-                    </form>
-                    <form action="{{ route('seller.shipment.confirm') }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="order_id" value="{{ $order->order_id }}">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Kirim Pesanan
-                        </button>
-                    </form>
+                    @if ($order->status == 'processed')
+                        <form action="{{ route('seller.order.cancel', $order->shipment->order_id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                Batalkan
+                            </button>
+                        </form>
+                        <form action="{{ route('seller.shipment.confirm', $order->shipment->order_id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Kirim Pesanan
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
 

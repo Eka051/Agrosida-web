@@ -228,10 +228,10 @@ class PaymentController extends Controller
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
         }
 
-        $existingOrder = Order::where('user_id', $user->user_id)
-            ->where('status', 'processed')
-            ->whereHas('order_detail', function ($query) use ($product) {
-                $query->where('product_id', $product->id);
+        $existingOrder = Payment::where('user_id', $user->user_id)
+            ->where('status', 'pending')
+            ->whereHas('order.order_detail', function ($query) use ($product) {
+            $query->where('product_id', $product->id);
             })
             ->first();
 

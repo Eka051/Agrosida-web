@@ -28,10 +28,6 @@
                 }
                 @endphp
             <a href="{{ $dashboard }}" class="text-lg font-medium mr-16 text-white py-2 px-8 fill-none border border-white rounded-md">Dashboard</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="bg-red-500 py-2 rounded-md px-6 text-white font-semibold">Logout</button>
-            </form>
             @else
             <a href="{{ route('login') }}"
                 class="bg-greenPrimary py-2 rounded-md px-6 text-white font-semibold">Masuk</a>

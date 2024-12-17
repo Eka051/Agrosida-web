@@ -63,8 +63,8 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::put('seller/profile/update', [SellerController::class, 'updateProfileSeller'])->name('seller.profile.update');
 
     // Shipment and order
-    Route::put('seller/order/confirm', [ShipmentController::class, 'confirmShipment'])->name('seller.shipment.confirm');
-    Route::put('seller/order/cancel', [OrderController::class, 'cancelOrder'])->name('seller.order.cancel');
+    Route::put('seller/order/confirm/{order_id}', [ShipmentController::class, 'confirmShipment'])->name('seller.shipment.confirm');
+    Route::put('seller/order/cancel/{order_id}', [OrderController::class, 'cancelOrder'])->name('seller.order.cancel');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
