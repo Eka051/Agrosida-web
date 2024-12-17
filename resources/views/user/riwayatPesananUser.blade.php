@@ -42,8 +42,8 @@
                             <td class="px-4 py-2 border text-gray-800">{{ $order->created_at->translatedFormat('d F Y H:i') }}</td>
                             <td class="px-4 py-2 border text-gray-800">Rp. {{ number_format($order_totals[$order->order_id], 0, ',', '.') }}</td>
                             <td class="px-4 py-2 border text-gray-800">
-                                <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'processed' ? 'bg-yellow-500' : ($order->status == 'shipped' ? 'bg-green-500' : 'bg-red-500') }} text-white">
-                                    {{ ucfirst($order->status) }}
+                                <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->payment->status == 'pending' ? 'bg-yellow-500' : ($order->payment->status == 'paid' ? 'bg-green-500' : 'bg-red-500') }} text-white">
+                                    {{ ucfirst($order->payment->status) }}
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
@@ -52,7 +52,7 @@
                                        class="bg-green-500 text-white px-4 py-2 rounded text-sm hover:bg-green-600">
                                         Lihat Detail
                                     </a>
-                                    @if($order->status == 'processed')
+                                    @if($order->payment->status == 'pending')
                                     <form action="{{ route('payment.pending', ['order_id' => $order->order_id]) }}" method="POST">
                                         @csrf
                                         <button class="bg-blue-500 text-white px-4 py-2 rounded text-sm mt-[0.8rem] hover:bg-blue-600">
