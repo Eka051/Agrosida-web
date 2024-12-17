@@ -48,17 +48,21 @@
                     <a href="{{ route('pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kelola Kalkulasi</a>
                 </li>
                 <li class="flex items-center">
+                    <span class="iconify text-3xl text-greenPrimary" data-icon="mdi:camera" data-inline="false"></span>
+                    <a href="{{ route('detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Deteksi Penyakit</a>
+                </li>
+                <li class="flex items-center">
                     <span class="iconify text-3xl text-greenPrimary" data-icon="solar:logout-3-bold-duotone" data-inline="false"></span>
                     <a href="#" id="logout-link" class="block py-2 px-3 rounded hover:bg-red-700 transition duration-300 ease-in-out">Logout</a>
                 </li>
             </ul>
         </nav>
     </aside>
-    
+
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
-    
+
     <script>
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault();
@@ -78,4 +82,4 @@
             });
         });
     </script>
-    
+

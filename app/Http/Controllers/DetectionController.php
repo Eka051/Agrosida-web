@@ -12,6 +12,16 @@ class DetectionController extends Controller
         return view('admin.detect');
     }
 
+    public function DetectionUser()
+    {
+        return view('user.detect');
+    }
+
+    public function DetectionSeller()
+    {
+        return view('seller.detect');
+    }
+
 
     public function uploadImage(Request $request)
     {
@@ -29,7 +39,7 @@ class DetectionController extends Controller
                 ],
                 'multipart' => [
                     [
-                        'name'     => 'file', 
+                        'name'     => 'file',
                         'contents' => fopen($image->getRealPath(), 'r'),
                         'filename' => $image->getClientOriginalName(),
                     ],
@@ -39,14 +49,14 @@ class DetectionController extends Controller
             if ($response->getStatusCode() === 200) {
                 $result = json_decode($response->getBody(), true);
 
-                return redirect()->route('detect.form')->with('result', [
+                return redirect()->back()->with('result', [
                     'class_name' => $result['detected_classes'] ?? ['Tidak ada objek terdeteksi'],
                 ]);
             }
 
-            return redirect()->route('detect.form')->with('error', 'Gagal mendapatkan hasil deteksi dari API.');
+            return redirect()->back()->with('error', 'Gagal mendapatkan hasil deteksi dari API.');
         } catch (\Exception $e) {
-            return redirect()->route('detect.form')->with('error', 'Terjadi kesalahana: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

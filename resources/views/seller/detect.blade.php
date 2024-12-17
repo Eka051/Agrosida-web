@@ -1,5 +1,5 @@
 @extends('components.template')
-@include('components.sidebarAdmin')
+@include('components.sidebarSeller')
 
 @section('title', 'Deteksi Penyakit Tanaman')
 
@@ -9,7 +9,7 @@
         <h1 class="text-2xl font-bold text-center mb-4">Upload Foto untuk Deteksi</h1>
 
         <!-- Form Upload -->
-        <form action="{{ route('detect.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('seller.detect.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
             <div>

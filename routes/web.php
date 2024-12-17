@@ -74,11 +74,11 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
     Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
     Route::put('seller/order/confirm', [OrderController::class, 'confirmOrder'])->name('seller.order.confirm');
-    
+
     // Address
     Route::get('seller/address/edit/{id}', [AddressController::class, 'editAddressSeller'])->name('seller.address.edit');
     Route::post('seller/address/save', [AddressController::class, 'storeAdressSeller'])->name('seller.address.save');
-    
+
     // Profile
     Route::get('seller/profile', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
     Route::get('seller/profile/edit', [AddressController::class, 'editProfileSeller'])->name('seller.profile.edit');
@@ -87,6 +87,15 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Shipment and order
     Route::put('seller/order/confirm/{order_id}', [ShipmentController::class, 'confirmShipment'])->name('seller.shipment.confirm');
     Route::put('seller/order/cancel/{order_id}', [OrderController::class, 'cancelOrder'])->name('seller.order.cancel');
+
+     // calculator
+    Route::get('seller/pesticide', [CalculatorController::class, 'showFormSeller'])->name('seller.pesticide.form');
+
+    // detection
+    Route::get('seller/detect', [DetectionController::class, 'DetectionSeller'])->name('seller.detect.form');
+    Route::post('seller/detect', [DetectionController::class, 'uploadImage'])->name('seller.detect.upload');
+
+
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -100,7 +109,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
     Route::delete('cart/clear/{user_id}', [CartController::class, 'clearCartAfterPayment'])->name('cart.clear');
-    
+
     // order
     Route::post('user/order/payment', [OrderController::class, 'store'])->name('user.order.payment');
     Route::post('user/cart/payment', [PaymentController::class, 'cartPayment'])->name('cart.payment');
@@ -115,13 +124,22 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/address/edit/{id}', [AddressController::class, 'editAddress'])->name('user.address.edit');
     Route::put('user/address/update', [AddressController::class, 'updateAddress'])->name('user.address.update');
     Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
-    
+
     // profile
     Route::get('user/profile', [UserController::class, 'profile'])->name('profile-user');
     Route::get('user/profile/edit/{user_id}', [UserController::class, 'editProfile'])->name('user.profile.edit');
     Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
+    // calculator
+    Route::get('user/pesticide', [CalculatorController::class, 'showFormUser'])->name('user.pesticide.form');
+
+    // detection
+    Route::get('user/detect', [DetectionController::class, 'DetectionUser'])->name('user.detect.form');
+    Route::post('user/detect', [DetectionController::class, 'uploadImage'])->name('user.detect.upload');
 });
+
+Route::get('getDosePlant', [CalculatorController::class, 'getDose_by_Plant']);
+Route::get('dosage/{id}', [CalculatorController::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
 
 Route::get('optimize', function () {
     Artisan::call('cache:clear');

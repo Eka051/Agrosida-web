@@ -44,6 +44,19 @@ class CalculatorController extends Controller
         ]);
     }
 
+    public function showFormSeller()
+    {
+        $pesticides = Pesticide::all();
+        $plants = Plant::all();
+        $dosages = Dosage::all();
+
+        return view('seller.kalkulasiPestisida', [
+            'pesticides' => $pesticides,
+            'plants' => $plants,
+            'dosages' => $dosages
+        ]);
+    }
+
     public function addPesticide(Request $request)
     {
         $validatedData = $request->validate([
@@ -81,7 +94,7 @@ class CalculatorController extends Controller
         Dosage::create([
             'plant_id' => $validatedData['plant_id'],
             'pesticide_id' => $validatedData['pesticide_id'],
-            'dosage_per_hectare' => $validatedData['soda_per_hectare'],
+            'dosage_per_hectare' => $validatedData['dosage_per_hectare'],
         ]);
 
         return redirect()->back()->with('success', 'Dosis Berhasil Ditambah!!');

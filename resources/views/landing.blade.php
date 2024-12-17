@@ -276,10 +276,8 @@
             <div class="md:w-1/2 relative">
               <img src="img/klien.jpg" alt="Tentang Kami" class="w-full h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 animate-fade-in-left">
               <!-- Overlay Ornamen -->
-              <div class="absolute top-0 left-0 bg-green-500 text-white p-3 rounded-br-lg shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
-                </svg>
+              <div class="absolute top-0 left-0 bg-green-500 text-white p-2 rounded-br-lg shadow-md transform hover:scale-110 transition-transform duration-300">
+                <i class="ph ph-plant text-2xl"></i>
               </div>
             </div>
 
@@ -290,27 +288,21 @@
               </p>
               <ul class="list-none mb-6 space-y-4">
                 <li class="flex items-start">
-                  <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
+                  <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4 flex items-center justify-center w-12 h-12">
+                    <i class="ph ph-math-operations text-2xl"></i>
                   </span>
                   <span class="text-gray-700 text-lg">Kalkulasi pestisida yang akurat & terpercaya</span>
                 </li>
                 <li class="flex items-start">
-                  <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
-                    </svg>
-                  </span>
+                    <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4 flex items-center justify-center w-12 h-12">
+                        <i class="ph ph-flower-lotus text-2xl"></i>
+                      </span>
                   <span class="text-gray-700 text-lg">Solusi lengkap untuk pertanian organik</span>
                 </li>
                 <li class="flex items-start">
-                  <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
-                    </svg>
-                  </span>
+                    <span class="bg-green-500 text-white p-3 rounded-full shadow-lg mr-4 flex items-center justify-center w-12 h-12">
+                        <i class="ph ph-note text-2xl"></i>
+                      </span>
                   <span class="text-gray-700 text-lg">Panduan dan dukungan berkelanjutan</span>
                 </li>
               </ul>

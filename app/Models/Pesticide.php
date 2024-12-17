@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pesticide extends Model
 {
-    protected $fillable = [
-        'name',
-    ];
+    protected $fillable = ['name'];
 
     public function dosages()
     {

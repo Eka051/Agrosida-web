@@ -21,7 +21,11 @@
             </li>
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="ic:twotone-calculate" data-inline="false"></span>
-                <a href="" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kalkulasi Pestisida</a>
+                <a href="{{ route('user.pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kalkulasi Pestisida</a>
+            </li>
+            <li class="flex items-center">
+                <span class="iconify text-3xl text-greenPrimary" data-icon="mdi:camera" data-inline="false"></span>
+                <a href="{{ route('user.detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Deteksi Penyakit</a>
             </li>
             <li class="flex items-center">
                 <span class="iconify text-3xl text-greenPrimary" data-icon="solar:logout-3-bold-duotone" data-inline="false"></span>
