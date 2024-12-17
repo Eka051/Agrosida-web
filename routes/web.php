@@ -78,11 +78,14 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('payment/pending', [PaymentController::class, 'pending'])->name('payment.pending');
     Route::get('payment/error', [PaymentController::class, 'error'])->name('payment.error');
 
-    Route::get('pesticide', [KalkulasiDosisPestisida::class, 'showFormUser'])->name('user.kalkulasipestisida');
+    Route::get('pesticideUser', [KalkulasiDosisPestisida::class, 'showFormUser'])->name('user.kalkulasipestisida');
 
 });
 
 Route::get('test', [KalkulasiDosisPestisida::class, 'getDose_by_Plant']);
+Route::get('dosage/{id}', [KalkulasiDosisPestisida::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
+
+
 
 Route::get('optimize', function () {
     Artisan::call('cache:clear');
