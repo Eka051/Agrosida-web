@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    
     Route::get('admin/user-management', [UserManagementController::class, 'index'])->name('admin.userManagement');
     Route::delete('admin/user-management/delete/{user_id}', [UserManagementController::class, 'deleteUser'])->name('admin.delete-user');
     Route::get('admin/kategori', [CategoryController::class, 'index'])->name('admin.kategori');

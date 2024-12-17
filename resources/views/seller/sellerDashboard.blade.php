@@ -103,7 +103,7 @@
                 data: @json($formattedOrderData)
             }],
             xaxis: {
-                categories: @json($categories)
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             },
             colors: ['#34D399', '#60A5FA'],
             fill: {

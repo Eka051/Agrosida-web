@@ -2,19 +2,32 @@
 @include('components.sidebarAdmin')
 @section('title', 'Kelola Produk')
 @section('content')
-<div class="ml-56 flex-1">
-    <!-- Hero Section -->
-    <section class="bg-primaryBg p-8 text-center mt-20">
-        <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Kelola Produk</h1>
-        <p class="text-gray-600 mt-2 lg:text-lg">Kelola produk yang tersedia di marketplace</p>
+<div class="ml-64 flex-1 mt-[4.5rem]">
+    <section class="p-2">
+        <div class="container ml-4">
+            <nav class="text-lg">
+                <ol class="list-reset flex text-gray-600">
+                    <li><a href="{{ route('admin.dashboard') }}" class="text-green-500 hover:text-green-700">Beranda</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li>Kelola Produk</li>
+                </ol>
+            </nav>
+        </div>
     </section>
-     <!-- Pencarian -->
-     <form method="GET" action="{{ route('admin.search-product') }}" class="p-4 bg-gray-100">
-        <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari produk atau kategori..."
+
+    <section class="p-6">
+        <div class="container">
+            <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Kelola Produk</h1>
+            <p class="text-gray-600 mt-2 lg:text-lg">Kelola produk yang tersedia di marketplace</p>
+        </div>
+    </section>
+
+    <section class="p-4 bg-gray-100">
+        <input type="text" id="search" placeholder="Cari produk atau kategori..." 
                class="px-4 py-2 border rounded w-full focus:ring-2 focus:ring-green-500 focus:outline-none">
-        <button type="submit" class="mt-4 bg-green-500 text-white px-8 py-2 rounded hover:bg-green-600">Cari</button>
-    </form>
-    <!-- Tabel Produk -->
+    </section>
+    
+
     <section class="py-8 mx-4">
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">
@@ -22,9 +35,9 @@
             </div>
 
             <div class="overflow-x-auto">
-                <table class="table-auto w-full text-left border-collapse">
+                <table class="table-auto w-full text-left border-collapse whitespace-normal" id="productTable">
                     <thead>
-                        <tr class="bg-gray-200 text-gray-700 text-sm uppercase tracking-wider">
+                        <tr class="bg-gray-200 text-gray-700 text-base uppercase">
                             <th class="px-4 py-2 border">Nama Toko</th>
                             <th class="px-4 py-2 border">Gambar</th>
                             <th class="px-4 py-2 border">Nama Produk</th>
@@ -44,9 +57,9 @@
                                 <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
                                      class="w-full h-24 object-contain">
                             </td>
-                            <td class="px-4 py-2 border text-gray-800">{{ $product->product_name }}</td>
+                            <td class="px-4 max-w-[20rem] py-2 border text-gray-800">{{ $product->product_name }}</td>
                             <td class="px-4 py-2 border text-gray-800">{{ $product->category->name ?? '-' }}</td>
-                            <td class="px-4 py-2 border text-gray-800">{{ $product->description }}</td>
+                            <td class="px-4 max-w-[18rem] py-2 border text-gray-800">{{ $product->description }}</td>
                             <td class="px-4 py-2 border text-gray-800">Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                             <td class="px-4 py-2 border text-gray-800">{{ $product->stock }}</td>
                             <td class="px-4 py-2 border">
@@ -90,51 +103,27 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = actionUrl;
-
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = '{{ csrf_token() }}';
-                form.appendChild(csrfInput);
-
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'DELETE';
-                form.appendChild(methodInput);
 
                 document.body.appendChild(form);
                 form.submit();
             }
         });
     }
+
+    document.getElementById('search').addEventListener('input', function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#productTable tbody tr');
+
+        rows.forEach(row => {
+            let productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            let category = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+            if (productName.includes(filter) || category.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
 </script>
-
-@if(session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: '{{ session('success') }}',
-            confirmButtonColor: '#A2E554',
-            confirmButtonText: 'OK'
-        });
-    </script>
-@endif
-
-@if(session('error'))
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Gagal',
-            text: '{{ session('error') }}',
-            confirmButtonColor: '#ff0000',
-            confirmButtonText: 'OK'
-        });
-    </script>
-@endif
 
 @endsection

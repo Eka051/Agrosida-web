@@ -2,14 +2,28 @@
 @include('components.sidebarAdmin')
 @section('title', 'Kelola Pengguna')
 @section('content')
-<div class="ml-56 flex-1">
-    <section class="bg-primaryBg p-8 text-center mt-20">
-        <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Kelola Pengguna</h1>
-        <p class="text-gray-600 mt-2 lg:text-lg">Lihat dan kelola data pengguna di platform Anda</p>
+<div class="ml-64 flex-1 mt-[4.5rem]">
+    <section class="p-4">
+        <div class="container ml-6">
+            <nav class="text-lg">
+                <ol class="list-reset flex text-gray-600">
+                    <li><a href="{{ route('admin.dashboard') }}" class="text-green-500 hover:text-green-700">Beranda</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li>Kelola Pengguna</li>
+                </ol>
+            </nav>
+        </div>
     </section>
 
-    <section class="py-8">
-        <div class="mx-4 bg-white shadow rounded-lg overflow-hidden">
+    <section class="p-8">
+        <div class="container">
+            <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Kelola Pengguna</h1>
+            <p class="text-gray-600 mt-2 lg:text-lg">Lihat dan kelola data pengguna di platform Anda</p>
+        </div>
+    </section>
+
+    <section class="py-8 mx-4">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="p-4 bg-green-500 text-white font-bold text-lg border-b">
                 Daftar Pengguna
             </div>
@@ -17,10 +31,10 @@
                 <table class="table-auto w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 text-sm uppercase tracking-wider">
-                            <th class="px-4 py-2 border">Nama</th>
-                            <th class="px-4 py-2 border">Email</th>
-                            <th class="px-4 py-2 border">Role</th>
-                            <th class="px-4 py-2 border">Aksi</th>
+                            <th class="px-4 py-2 border text-center">Nama</th>
+                            <th class="px-4 py-2 border text-center">Email</th>
+                            <th class="px-4 py-2 border text-center">Role</th>
+                            <th class="px-4 py-2 border text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +43,7 @@
                                 <td class="px-4 py-2 border text-gray-800">{{ $user->name }}</td>
                                 <td class="px-4 py-2 border text-gray-800">{{ $user->email }}</td>
                                 <td class="px-4 py-2 border text-gray-800 capitalize">{{ $user->getRoleNames() }}</td>
-                                <td class="px-4 py-2 border">
+                                <td class="px-4 py-2 border text-center">
                                     <button type="button" 
                                         onclick="confirmDelete('{{ route('admin.delete-user', $user->user_id) }}')" 
                                         class="bg-red-500 text-white px-4 py-1 rounded text-sm hover:bg-red-600">
