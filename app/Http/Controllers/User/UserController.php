@@ -51,7 +51,7 @@ class UserController extends Controller
         return view('user.profile-user', compact('user', 'addresses'));
     }
 
-    public function editProfile(Request $request)
+    public function updateProfile(Request $request)
     {
         $user = User::find($request->user_id);
 

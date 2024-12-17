@@ -95,8 +95,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
     
     // profile
-    Route::get('user/profile', [AddressController::class, 'indexAddressUser'])->name('profile-user');
-    Route::get('user/profile/edit', [AddressController::class, 'editProfile'])->name('user.profile.edit');
+    Route::get('user/profile', [UserController::class, 'profile'])->name('profile-user');
+    Route::get('user/profile/edit/{user_id}', [UserController::class, 'editProfile'])->name('user.profile.edit');
+    Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfile'])->name('user.profile.edit');
 
 });
 

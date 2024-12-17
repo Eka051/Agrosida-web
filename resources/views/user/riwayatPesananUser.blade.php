@@ -28,10 +28,11 @@
                 <table class="table-auto w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-200 text-gray-700 text-sm uppercase tracking-wider">
-                            <th class="px-4 py-2 border">ID Pesanan</th>
-                            <th class="px-4 py-2 border">Tanggal</th>
-                            <th class="px-4 py-2 border">Total</th>
-                            <th class="px-4 py-2 border">Status Pembayaran</th>
+                            <th class="px-4 py-2 border text-center">ID Pesanan</th>
+                            <th class="px-4 py-2 border text-center">Tanggal</th>
+                            <th class="px-4 py-2 border text-center">Total</th>
+                            <th class="py-2 border text-center">Status Pembayaran</th>
+                            <th class="px-2 py-2 border text-center">Status Pesanan</th>
                             <th class="px-4 py-2 border">Aksi</th>
                         </tr>
                     </thead>
@@ -41,9 +42,14 @@
                             <td class="px-4 py-2 border text-gray-800">{{ $order->order_id }}</td>
                             <td class="px-4 py-2 border text-gray-800">{{ $order->created_at->translatedFormat('d F Y H:i') }}</td>
                             <td class="px-4 py-2 border text-gray-800">Rp. {{ number_format($order_totals[$order->order_id], 0, ',', '.') }}</td>
-                            <td class="px-4 py-2 border text-gray-800">
+                            <td class="px-2 py-2 border text-gray-800 text-center">
                                 <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->payment->status == 'pending' ? 'bg-yellow-500' : ($order->payment->status == 'paid' ? 'bg-green-500' : 'bg-red-500') }} text-white">
                                     {{ ucfirst($order->payment->status) }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 border text-gray-800 text-center">
+                                <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'processed' ? 'bg-yellow-500' : ($order->status == 'shipped' ? 'bg-green-500' : 'bg-red-500') }} text-white">
+                                    {{ ucfirst($order->status) }}
                                 </span>
                             </td>
                             <td class="px-4 py-2 border">
