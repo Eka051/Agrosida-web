@@ -24,6 +24,10 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        if (trim($credentials['username']) === '' || trim($credentials['password']) === '') {
+            return redirect()->route('login')->with('error', 'Form tidak boleh berisi spasi atau kosong');
+        }
+
         $loginType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $attempt = [
@@ -49,7 +53,6 @@ class AuthController extends Controller
         }
 
         return redirect()->route('login')->with('error', 'Username atau password salah');
-
     }
 
     public function logout(Request $request)

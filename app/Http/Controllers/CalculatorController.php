@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pesticide;
 use App\Models\Plant;
 use App\Models\Dosage;
+use App\Models\Product;
 
 class CalculatorController extends Controller
 {
@@ -13,18 +14,32 @@ class CalculatorController extends Controller
     {
         $pesticides = Pesticide::all();
         $plants = Plant::all();
-        $dosages = Dosage::all();
+        $dosages = Dosage::with(['plant', 'pesticide'])->get();
+        $products = Product::all()->take(6);
 
-        return view('landing', compact('pesticides', 'plants', 'dosages'));
+        return view('landing', compact('pesticides', 'plants', 'dosages', 'products'));
     }
 
     public function showForm()
     {
         $pesticides = Pesticide::all();
         $plants = Plant::all();
-        $dosages = Dosage::all();
+        $dosages = Dosage::with(['plant', 'pesticide'])->get();
 
         return view('admin.kalkulasiPestisidaAdmin', [
+            'pesticides' => $pesticides,
+            'plants' => $plants,
+            'dosages' => $dosages
+        ]);
+    }
+
+    public function showFormSeller()
+    {
+        $pesticides = Pesticide::all();
+        $plants = Plant::all();
+        $dosages = Dosage::with(['plant', 'pesticide'])->get();
+
+        return view('seller.kalkulasiPestisida', [
             'pesticides' => $pesticides,
             'plants' => $plants,
             'dosages' => $dosages
@@ -35,7 +50,7 @@ class CalculatorController extends Controller
     {
         $pesticides = Pesticide::all();
         $plants = Plant::all();
-        $dosages = Dosage::all();
+        $dosages = Dosage::with(['plant', 'pesticide'])->get();
 
         return view('user.kalkulasiPestisidaUser', [
             'pesticides' => $pesticides,
@@ -73,15 +88,15 @@ class CalculatorController extends Controller
     public function addDosage(Request $request)
     {
         $validatedData = $request->validate([
-            'pesticide_id' => 'required|exists:plants,id',
-            'plant_id' => 'required|exists:pesticides,id',
+            'pesticide_id' => 'required|exists:pesticides,id',
+            'plant_id' => 'required|exists:plants,id',
             'dosage_per_hectare' => 'required|numeric|min:0',
         ]);
 
         Dosage::create([
             'plant_id' => $validatedData['plant_id'],
             'pesticide_id' => $validatedData['pesticide_id'],
-            'dosage_per_hectare' => $validatedData['soda_per_hectare'],
+            'dosage_per_hectare' => $validatedData['dosage_per_hectare'],
         ]);
 
         return redirect()->back()->with('success', 'Dosis Berhasil Ditambah!!');
@@ -144,7 +159,7 @@ class CalculatorController extends Controller
     {
         $plant = Plant::find($id);
         if ($plant) {
-            return view('admin.editTanaman', compact('plant'));
+            return view('admin.updatePlant', compact('plant'));
         }
 
         return redirect()->back()->with('error', 'Tanaman tidak ditemukan!');
@@ -195,21 +210,22 @@ class CalculatorController extends Controller
         if (!$dosage) {
             abort(404, 'Dosis not found');
         }
-        return view('admin.updateDosis', compact('dosage'));
+        return view('admin.updateDosage', compact('dosage'));
     }
 
     public function updateDosage(Request $request, $id)
     {
-        $dosage = Dosage::find($id);
+        $validatedData = $request->validate([
+            'dosage_per_hectare' => 'required|numeric|min:0',
+        ]);
+
+        $dosage = Dosage::with(['plant', 'pesticide'])->find($id);
         if (!$dosage) {
             return back()->with('error', 'Dosis Gagal Terupdate!');
         }
 
-        $dosage->update([
-            'plant_id' => $request->plant_id,
-            'pesticide_id' => $request->pesticide_id,
-            'dosage_per_hectare' => $request->dosage_per_hectare,
-        ]);
+        $dosage->dosage_per_hectare = $validatedData['dosage_per_hectare'];
+        $dosage->save();
 
         return redirect()->route('pesticide.form')->with('success', 'Dosis Terupdate!');
     }

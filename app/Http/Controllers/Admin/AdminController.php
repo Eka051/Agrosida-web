@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\OrderDetail;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\OrderDetail;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
@@ -73,10 +74,30 @@ class AdminController extends Controller
         ));
     }
 
-    public function profile()
+    public function profileAdmin()
     {
         $admin = User::where('username', 'admin')->first();
-        return view('admin.profile', compact('admin'));
+        return view('admin.profile-admin', compact('admin'));
+    }
+
+    public function editProfileAdmin($user_id)
+    {
+        $admin = User::find($user_id);
+        return view('admin.editProfile', compact('admin'));
+    }
+
+    public function updateProfileAdmin(Request $request)
+    {
+        $admin = User::find($request->user_id);
+        
+        $admin->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Profil berhasil diubah');
     }
     
 }

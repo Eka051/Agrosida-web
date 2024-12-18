@@ -13,5 +13,6 @@ class VerifyCsrfToken extends Middleware
         '/get-cities',
         '/get-provinces',
         '/order/get-courier',
+        '/send-code',
     ];
 }

@@ -119,7 +119,7 @@
 
 <div class="landing-page bg-gray-100 min-h-screen">
     <!-- Hero Section -->
-    <section class="hero-section relative min-h-screen flex items-center overflow-hidden">
+    <section class="hero-section relative min-h-screen flex items-center overflow-hidden" id="hero-section">
         <!-- Background gradient overlay with fade-in animation -->
         <div class="absolute inset-0 bg-gradient-to-r from-green-600/80 to-green-100/50 z-10 animate-fadeIn"></div>
 
@@ -133,20 +133,20 @@
             <div class="flex flex-col md:flex-row items-center max-w-4xl mx-auto animate-slideUp space-y-8 md:space-y-0 md:space-x-8">
                 <!-- Text Content -->
                 <div class="md:w-1/2 text-white text-center md:text-left">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4 sm:mb-6 animate-slideInLeft hover:animate-float hover:text-yellow-400 transition duration-300">
-                        Pestisida Alami untuk Pertanian Sehat dan Berkelanjutan
-                    </h1>
-                    <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-green-100 animate-slideInRight delay-300 hover:text-yellow-200 transition duration-300">
-                        Solusi ramah lingkungan untuk melindungi tanaman Anda dari hama tanpa merusak ekosistem.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fadeIn delay-500">
-                        <a href="#" class="inline-block bg-yellow-500 text-green-900 font-bold py-2 px-6 rounded-full hover:bg-yellow-400 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
-                            Lihat Produk
-                        </a>
-                        <a href="#" class="inline-block bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded-full hover:bg-white hover:text-green-800 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
-                            Kalkulasi Yuk
-                        </a>
-                    </div>
+                  <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4 sm:mb-6 animate-slideInLeft hover:animate-float hover:text-yellow-400 transition duration-300">
+                    Marketplace Pestisida dan Kalkulator Penggunaan yang Presisi
+                  </h1>
+                  <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-green-100 animate-slideInRight delay-300 hover:text-yellow-200 transition duration-300">
+                    Temukan pestisida berkualitas dan hitung penggunaan yang tepat untuk hasil panen optimal.
+                  </p>
+                  <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fadeIn delay-500">
+                    <a href="{{ route('user.dashboard') }}" class="inline-block bg-yellow-500 text-white items-center font-bold py-2 px-6 rounded-full hover:bg-yellow-400 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+                      Beli Pestisida
+                    </a>
+                    <a href="#calculator-pesticide" class="inline-block bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded-full hover:bg-white hover:text-green-800 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+                      Hitung Dosis
+                    </a>
+                  </div>
                 </div>
 
                 <!-- Image Section -->
@@ -171,7 +171,7 @@
     </section>
 
     <!-- Tentang Kami -->
-    <section class="about-us relative py-16 overflow-hidden">
+    <section class="about-us relative py-16 overflow-hidden" id="about-us">
         <!-- Latar Belakang dengan Efek Gradient dan Ornamen -->
         <div class="absolute inset-0 pointer-events-none"></div>
         <div class="absolute top-0 right-0 transform translate-x-20 -translate-y-20 opacity-10">
@@ -324,15 +324,15 @@
       </section>
 
     <!-- Kalkulator -->
-    <section class="py-8 mx-4 bg-green-100 rounded-lg">
+    <section class="py-8 mx-4 bg-green-100 rounded-lg" id="calculator-pesticide">
         <div class="container mx-auto px-6">
             <!-- Judul Bagian -->
-          <div class="text-center mb-12">
+          <div class="text-center mb-12 mt-16">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4 animate-fade-in-down">
               Hitung Dengan Kalkulator Pestisida
             </h1>
             <p class="text-gray-700 text-lg sm:text-xl max-w-3xl mx-auto animate-fade-in-up">
-              Yuk hitung penggunaan pestisida organik yang tepat untuk tanaman Anda dan hasil panen yang optimal.
+              Yuk hitung penggunaan pestisida yang tepat untuk tanaman Anda agar hasil panen optimal tanpa mencemari lingkungan.
             </p>
           </div>
 
@@ -343,7 +343,7 @@
                     <div>
                         <label for="pestisida" class="block text-xl font-medium text-gray-700">Nama Pestisida</label>
                         <select id="pestisida_select" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Pestisida</option>
                             @foreach($pesticides as $pesticide)
                                 <option value="{{ $pesticide->id }}">{{ $pesticide->name }}</option>
@@ -355,7 +355,7 @@
                     <div>
                         <label for="tanaman" class="block text-xl font-medium text-gray-700">Nama Tanaman</label>
                         <select id="selected_tanaman" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Jenis Tanaman</option>
                         </select>
                     </div>
@@ -363,16 +363,15 @@
                     <!-- Luas Lahan -->
                     <div>
                         <label for="land_area" class="block text-xl font-medium text-gray-700">Luas Lahan (m<sup>2</sup>)</label>
-                        <input type="text" id="land_area_value" name="luas_lahan" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                        <input type="number" id="land_area_value" name="luas_lahan" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
                             placeholder="Ketik luas lahan">
                     </div>
 
                     <!-- Dosis -->
                     <div>
-                        <label for="dosage" class="block text-xl font-medium text-gray-700">Dosis (ml/m<sup>2</sup>)</label>
-                        <input type="number" id="dosage" required min="0" step="0.1"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                        <input type="hidden" id="dosage" required min="0" step="0.1"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
                             placeholder="Ketik Dosis">
                     </div>
 
@@ -389,18 +388,33 @@
     </section>
 
     <section class="py-8 mx-4 bg-green-100 rounded-lg">
-        <div class="container mx-auto px-6">
-            <div class="bg-white shadow-lg rounded-lg p-6 w-full">
-                <h2 class="text-lg font-bold text-gray-800">Hasil Kalkulasi</h2>
-                <div class="mt-4 space-y-2 text-gray-600">
-                    <p>Nama Pestisida: <span class="font-medium" id="pesticide-name"></span></p>
-                    <p>Luas Lahan: <span class="font-medium" id="land-area"></span> m<sup>2</sup></p>
-                    <p>Dosis: <span class="font-medium" id="dosage-value"></span> ml/m<sup>2</sup></p>
-                    <p>Total Kebutuhan Pestisida: <span class="font-medium" id="total-pesticide"></span> ml</p>
-                    <p>Total Kebutuhan Air: <span class="font-medium" id="water-value"></span> liter</p>
-                </div>
+      <div class="container mx-auto px-6">
+        <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+          <h2 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b">Hasil Kalkulasi</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <p class="text-sm text-gray-600">Nama Pestisida</p>
+              <p class="font-medium text-gray-900" id="pesticide-name">-</p>
             </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <p class="text-sm text-gray-600">Luas Lahan</p>
+              <p class="font-medium text-gray-900"><span id="land-area">-</span> m<sup>2</sup></p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <p class="text-sm text-gray-600">Dosis</p>
+              <p class="font-medium text-gray-900"><span id="dosage-value">-</span> ml/m<sup>2</sup></p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <p class="text-sm text-gray-600">Total Kebutuhan Pestisida</p>
+              <p class="font-medium text-gray-900"><span id="total-pesticide">-</span> ml</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg col-span-2">
+              <p class="text-sm text-gray-600">Total Kebutuhan Air</p>
+              <p class="font-medium text-gray-900"><span id="water-value">-</span> liter</p>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <script>
@@ -460,27 +474,23 @@
     </script>
 
     <!-- Layanan -->
-    <section class="client">
+    <section class="client" id="services">
         <div class="bg-green-50 py-16">
-          <!-- Bagian: Kelola kebutuhan pertanian Anda -->
-          <div class="text-center mb-12">
+          <div class="text-center mb-12 mt-16">
             <h2 class="text-4xl font-extrabold text-gray-800 mb-4">
               Kelola Pertanian Anda Secara Modern & Efektif
             </h2>
             <p class="text-gray-600 text-lg">
-              Layanan lengkap kami mendukung petani dalam mencapai pertanian organik yang berkelanjutan.
+              Layanan lengkap kami mendukung petani dalam mencapai pertanian ramah lingkungan yang berkelanjutan.
             </p>
           </div>
 
-          <!-- Kartu Layanan -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <!-- Layanan 1: Kalkulasi Pestisida -->
             <div
               class="bg-white p-6 shadow-lg rounded-lg text-center transform hover:scale-105 active:scale-95 transition duration-300 hover:shadow-2xl cursor-pointer"
             >
               <div class="mb-4">
                 <div class="bg-green-100 text-green-600 p-4 inline-block rounded-full">
-                  <!-- Ikon Kalkulasi -->
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-8 w-8"
@@ -499,17 +509,15 @@
               </div>
               <h3 class="text-2xl font-bold text-gray-800 mb-2">Kalkulasi Pestisida</h3>
               <p class="text-gray-600">
-                Hitung kebutuhan pestisida organik secara tepat untuk hasil panen yang optimal.
+                Hitung kebutuhan pestisida secara tepat untuk hasil panen yang optimal tanpa mencemari lingkungan.
               </p>
             </div>
 
-            <!-- Layanan 2: Marketplace -->
             <div
               class="bg-white p-6 shadow-lg rounded-lg text-center transform hover:scale-105 active:scale-95 transition duration-300 hover:shadow-2xl cursor-pointer"
             >
               <div class="mb-4">
                 <div class="bg-blue-100 text-blue-600 p-4 inline-block rounded-full">
-                  <!-- Ikon Marketplace -->
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-8 w-8"
@@ -532,13 +540,11 @@
               </p>
             </div>
 
-            <!-- Layanan 3: Solusi Pertanian -->
             <div
               class="bg-white p-6 shadow-lg rounded-lg text-center transform hover:scale-105 active:scale-95 transition duration-300 hover:shadow-2xl cursor-pointer"
             >
               <div class="mb-4">
                 <div class="bg-yellow-100 text-yellow-600 p-4 inline-block rounded-full">
-                  <!-- Ikon Solusi -->
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-8 w-8"
@@ -565,91 +571,28 @@
       </section>
 
     <!--Produk-->
-    <section class="bg-white py-12">
-        <div class="container mx-auto px-4">
-          <!-- Judul FAQ -->
+    <section class="bg-white py-12" id="products">
+        <div class="container m-auto px-4">
           <div class="text-center mb-12">
-            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Produk Unggulan kami</h2>
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Produk Rekomendasi kami</h2>
             <p class="text-gray-600 text-lg">
-                Temukan produk unggulan kami yang telah terbukti efektif dan ramah lingkungan untuk mendukung pertanian Anda.
+                Temukan produk rekomendasi kami yang telah terbukti efektif dan ramah lingkungan untuk mendukung pertanian Anda.
             </p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <!-- Kartu Produk 1 -->
+            @foreach ($products as $product )
             <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
+                <img src="{{ "storage/" . $product->image_path }}" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
+                <h3 class="text-lg font-bold mb-0 text-black">{{ $product->product_name }}</h3>
+                <p class="text-gray-700 mb-0">{{ $product->category->name }}</p>
+                <div class="text-red-600 font-bold mb-0">Rp. {{ number_format($product->price, 0, '.',',') }}</div>
                 <p class="text-gray-500 line-through mb-2">Rp100.000</p>
                 <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
+                    <span class="text-gray-700">{{ $product->user->store->name }}</span>
                 </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
+                <a href="{{ route('user.dashboard') }}" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
             </div>
-            <!-- Kartu Produk 2 -->
-            <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
-                <p class="text-gray-500 line-through mb-2">Rp100.000</p>
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
-                </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
-            </div>
-            <!-- Kartu Produk 3 -->
-            <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
-                <p class="text-gray-500 line-through mb-2">Rp100.000</p>
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
-                </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
-            </div>
-            <!-- Kartu Produk 4 -->
-            <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
-                <p class="text-gray-500 line-through mb-2">Rp100.000</p>
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
-                </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
-            </div>
-            <!-- Kartu Produk 5 -->
-
-            <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
-                <p class="text-gray-500 line-through mb-2">Rp100.000</p>
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
-                </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
-            </div>
-            <!-- Kartu Produk 6 -->
-            <div class="bg-white shadow-md rounded-lg p-4 w-[14rem]">
-                <img src="img/pestisida-sample.jpeg" alt="Product Image" class="w-[8rem] rounded-md mb-0 mx-auto">
-                <h3 class="text-lg font-bold mb-0 text-black">Pestisida Cap Badak</h3>
-                <p class="text-gray-700 mb-0">Organik</p>
-                <div class="text-red-600 font-bold mb-0">Rp60.000</div>
-                <p class="text-gray-500 line-through mb-2">Rp100.000</p>
-                <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">100+ terjual</span>
-                </div>
-                <a href="#" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
-            </div>
-
-            <!-- Tambahkan kartu produk lainnya -->
+            @endforeach
           </div>
         </div>
       </section>
@@ -660,7 +603,6 @@
     <!-- Testimoni -->
       <section class="faq bg-gray-100 py-16">
         <div class="max-w-6xl mx-auto px-4">
-          <!-- Judul FAQ -->
           <div class="text-center mb-12">
             <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Pertanyaan Umum</h2>
             <p class="text-gray-600 text-lg">
@@ -668,7 +610,6 @@
             </p>
           </div>
 
-          <!-- Daftar FAQ -->
           <div class="space-y-4">
             <!-- Pertanyaan 1 -->
             <div class="bg-white shadow-lg rounded-lg p-4">

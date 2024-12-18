@@ -15,21 +15,30 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::with('category', 'user')->get();
-        return view('admin.mengelolaProduk', compact('products'));
+        return view('admin.mengelolaProduk', data: compact('products'));
     }
 
-    public function search(Request $request)
+    public function detailProduct($product_id)
     {
-        $search = $request->get('search');
-        $products = Product::with('category')
-            ->when($search, function($query, $search) {
-                return $query->where('product_name', 'like', "%{$search}%")
-                ->orWhereHas('category', function($query) use ($search) {
-                    $query->where('name', 'like', "%{$search}%");
-                });
-            })->get();
-        return view('admin.mengelolaProduk', compact('products'));
+        $product = Product::with('category', 'user')->find($product_id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produk tidak ditemukan.');
+        }
+        return view('detailProduk', ['product' => $product]);
     }
+
+    // public function search(Request $request)
+    // {
+    //     $search = $request->get('search');
+    //     $products = Product::with('category')
+    //         ->when($search, function($query, $search) {
+    //             return $query->where('product_name', 'like', "%{$search}%")
+    //             ->orWhereHas('category', function($query) use ($search) {
+    //                 $query->where('name', 'like', "%{$search}%");
+    //             });
+    //         })->get();
+    //     return view('admin.mengelolaProduk', compact('products'));
+    // }
 
     public function addProduct()
     {

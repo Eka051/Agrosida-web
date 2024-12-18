@@ -102,12 +102,35 @@
                         </div>
                     </div>
                 </div>
-                <form action="">
-                    <button type="submit" class="px-6 mt-4 py-2 bg-greenSecondary text-white font-semibold text-lg rounded-md hover:text-white hover:bg-greenHover">
-                        Konfirmasi Pesanan</button>
-                </form>
+                @if($order->shipment->status != 'delivered' && $order->shipment->status != 'canceled')
+                    <form id="confirmOrderForm" action="{{ route('user.order.confirm', $order->order_id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="button" id="confirmOrderButton" class="px-6 mt-4 py-2 bg-greenSecondary text-white font-semibold text-lg rounded-md hover:text-white hover:bg-greenHover">
+                            Konfirmasi Pesanan
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </section>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('confirmOrderButton').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Konfirmasi Pesanan?',
+            text: "Pastikan barang sudah sesuai. Anda tidak dapat mengembalikan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, konfirmasi!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('confirmOrderForm').submit();
+            }
+        })
+    });
+</script>
 @endsection

@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="max-w-lg mx-auto mt-20 bg-white p-8 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Tanaman</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Pestisida</h2>
 
     <form action="{{ route('admin.updatePesticide', $pesticide->id) }}" method="POST">
         @csrf

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\TransactionController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\UserManagementController;
 
 // Route::get('/', function () {
@@ -38,10 +39,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
     Route::post('admin/product/category', [CategoryController::class, 'store'])->name('admin.add-category');
 
-    Route::get('admin/profile', [AdminController::class, 'profile'])->name('profile-admin');
-    // Calculator
+    Route::get('admin/profile', [AdminController::class, 'profileAdmin'])->name('profile-admin');
+    Route::get('admin/profile/edit/{user_id}', [AdminController::class, 'editProfileAdmin'])->name('admin.profile.edit');
+    Route::put('admin/profile/update/{user_id}', [AdminController::class, 'updateProfileAdmin'])->name('admin.profile.update');
+
+    // detection
     Route::get('detect', [DetectionController::class, 'showForm'])->name('detect.form');
     Route::post('detect', [DetectionController::class, 'uploadImage'])->name('detect.upload');
+    // Calculator
     Route::get('pesticide', [CalculatorController::class, 'showForm'])->name('pesticide.form');
     Route::post('pesticide', [CalculatorController::class, 'addPesticide'])->name('addPesticide');
     Route::post('plant', [CalculatorController::class, 'addPlant'])->name('addPlant');
@@ -73,20 +78,26 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
     Route::get('seller/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
     Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
-    Route::put('seller/order/confirm', [OrderController::class, 'confirmOrder'])->name('seller.order.confirm');
+    
     
     // Address
     Route::get('seller/address/edit/{id}', [AddressController::class, 'editAddressSeller'])->name('seller.address.edit');
     Route::post('seller/address/save', [AddressController::class, 'storeAdressSeller'])->name('seller.address.save');
     
     // Profile
-    Route::get('seller/profile', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
-    Route::get('seller/profile/edit', [AddressController::class, 'editProfileSeller'])->name('seller.profile.edit');
-    Route::put('seller/profile/update', [SellerController::class, 'updateProfileSeller'])->name('seller.profile.update');
+    Route::get('seller/profile/address', [AddressController::class, 'indexAddressSeller'])->name('profile-seller');
+    Route::get('seller/profile/edit/{user_id}', [SellerController::class, 'editProfileSeller'])->name('seller.profile.edit');
+    Route::put('seller/profile/update/{user_id}', [SellerController::class, 'updateProfileSeller'])->name('seller.profile.update');
 
     // Shipment and order
     Route::put('seller/order/confirm/{order_id}', [ShipmentController::class, 'confirmShipment'])->name('seller.shipment.confirm');
     Route::put('seller/order/cancel/{order_id}', [OrderController::class, 'cancelOrder'])->name('seller.order.cancel');
+    // calculator
+    Route::get('seller/pesticide-calculator', [CalculatorController::class, 'showFormSeller'])->name('seller.kalkulasipestisida');
+
+    // detection
+    Route::get('seller/detect', [DetectionController::class, 'DetectionSeller'])->name('seller.detect.form');
+    Route::post('seller/detect', [DetectionController::class, 'uploadImage'])->name('seller.detect.upload');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -108,6 +119,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
     Route::post('payment/pending/{order_id}', [PaymentController::class, 'payPendingOrder'])->name('payment.pending');
     Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');
+    Route::put('user/order/confirm/{order_id}', [OrderController::class, 'confirmOrder'])->name('user.order.confirm');
 
     // address
     Route::get('user/address/add', [AddressController::class, 'index'])->name('user.add-address');
@@ -117,11 +129,27 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::delete('user/address/delete/{id}', [AddressController::class, 'deleteAddress'])->name('user.address.delete');
     
     // profile
-    Route::get('user/profile', [UserController::class, 'profile'])->name('profile-user');
+    Route::get('user/profile', [UserController::class, 'profileUser'])->name('profile-user');
     Route::get('user/profile/edit/{user_id}', [UserController::class, 'editProfile'])->name('user.profile.edit');
-    Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::put('user/profile/update/{user_id}', [UserController::class, 'updateProfileUser'])->name('user.profile.update');
+
+    // calculator
+    Route::get('pesticideUser', [CalculatorController::class, 'showFormUser'])->name('user.kalkulasipestisida');
+
+    // detection
+    Route::get('user/detect', [DetectionController::class, 'DetectionUser'])->name('user.detect.form');
+    Route::post('user/detect', [DetectionController::class, 'uploadImage'])->name('user.detect.upload');
 
 });
+
+Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/send-code', [PasswordResetController::class, 'sendVerificationCode'])->name('password.sendCode');
+Route::post('/verify-code', [PasswordResetController::class, 'verifyCode'])->name('password.verifyCode');
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.reset');
+Route::get('dosage/{id}', [CalculatorController::class, 'getPlant_by_Pesticide'])->name('getPlant_by_Pesticide');
+
+// product
+Route::get('product/detail/{product_id}', [ProductController::class, 'detailProduct'])->name('product.detail');
 
 Route::get('optimize', function () {
     Artisan::call('cache:clear');

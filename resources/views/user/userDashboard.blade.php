@@ -13,23 +13,28 @@
                 <p class="text-lg mb-6 text-green-100">
                     Temukan produk berkualitas untuk meningkatkan hasil pertanian Anda
                 </p>
-                <div class="flex max-w-xl mx-auto">
-                    <input 
-                        type="text" 
-                        placeholder="Cari pestisida..." 
-                        class="flex-grow text-black px-4 py-3 rounded-l-lg border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    >
-                    <button class="bg-white text-green-700 px-6 py-3 rounded-r-lg hover:bg-green-100 transition duration-300">
-                        Cari
-                    </button>
+                <div class="relative max-w-xl mx-auto">
+                    <div class="relative">
+                        <input type="text" 
+                               id="searchInput" 
+                               placeholder="Cari produk..." 
+                               class="w-full px-6 py-3 rounded-full text-gray-800 bg-white/95 backdrop-blur-sm border-2 border-green-100 focus:border-green-300 focus:ring-2 focus:ring-green-200 focus:outline-none transition-all duration-300"
+                        >
+                        <span class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+    <div id="productsGrid" class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
         @foreach ($products as $product)
-        <div class="bg-white rounded-xl max-w-60 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 transform">
+        <div class="product-card bg-white rounded-xl max-w-60 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 transform cursor-pointer"
+        data-name="{{ strtolower($product->product_name) }}" data-id="{{ $product->id }}">
             <div class="relative">
                 <img 
                     src="{{ asset('storage/' . $product->image_path) }}" 
@@ -45,17 +50,13 @@
             
             <div>
                 <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2 truncate">
+                    <h3 class="text-lg font-semibold text-gray-900 truncate">
                         {{ $product->product_name }}
                     </h3>
-                    <div class="block mb-1">
+                    <p class="text-base mb-4">{{ $product->category->name }}</p>
+                    <div class="block mb-2">
                         <span class="text-xl font-bold text-green-600">
                             Rp. {{ number_format($product->price, 0, ',', '.') }}
-                        </span>
-                    </div>
-                    <div class="block mb-3">
-                        <span class="text-sm text-gray-600">
-                            Terjual: {{ $sold[$product->id] ?? 0 }}
                         </span>
                     </div>
             
@@ -86,24 +87,76 @@
         </div>
         @endforeach
     </div>
-</div>
-@endsection
 
-@push('scripts')
-<script>
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.querySelector('input[type="text"]');
-        const searchButton = document.querySelector('button');
-        
-        searchButton.addEventListener('click', function() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const products = document.querySelectorAll('.grid > div');
-            
-            products.forEach(product => {
-                const productName = product.querySelector('h3').textContent.toLowerCase();
-                product.style.display = productName.includes(searchTerm) ? 'block' : 'none';
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const productId = this.getAttribute('data-id');
+                window.location.href = `/product/detail/${productId}`;
             });
         });
     });
+    </script>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const productCards = document.querySelectorAll('.product-card');
+    let debounceTimer;
+
+    const debounce = (callback, time) => {
+        window.clearTimeout(debounceTimer);
+        debounceTimer = window.setTimeout(callback, time);
+    };
+
+    searchInput.addEventListener('input', function() {
+        debounce(() => {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name');
+                
+                if (searchTerm === '' || productName.includes(searchTerm)) {
+                    card.style.display = '';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+
+            // Check if no results found
+            const visibleCards = Array.from(productCards).filter(card => 
+                card.style.display !== 'none'
+            );
+
+            const noResultsElement = document.getElementById('noResults');
+            if (visibleCards.length === 0) {
+                if (!noResultsElement) {
+                    const message = document.createElement('div');
+                    message.id = 'noResults';
+                    message.className = 'col-span-full text-center py-8 text-gray-500';
+                    message.innerHTML = `
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="mt-4 text-lg">Tidak ada produk yang ditemukan</p>
+                    `;
+                    document.getElementById('productsGrid').appendChild(message);
+                }
+            } else if (noResultsElement) {
+                noResultsElement.remove();
+            }
+        }, 300);
+    });
+});
 </script>
-@endpush
+@endsection

@@ -206,6 +206,28 @@ class OrderController extends Controller
         }
     }
 
+    public function confirmOrder($order_id) {
+        $shipment = Shipment::with('order')->where('order_id', $order_id)->first();
+        
+        try {
+            if ($shipment && $shipment->status === 'processing') {
+                $shipment->status = 'shipping';
+                $shipment->save();
+
+                $order = Order::find($shipment->order_id);
+                $order->status = 'shipped';
+                $order->save();
+
+                return redirect()->back()->with('success', 'Pesanan berhasil dikirim');
+            }
+
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan atau sudah dikirim');
+        } catch (\Exception $e) {
+            Log::error('Pengiriman pesanan eror: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Pesanan tidak dapat dikirim');
+        }
+    }
+
     public function history()
     {
         $orders = Order::with('order_detail', 'user', 'payment', 'shipment')

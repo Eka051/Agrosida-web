@@ -3,81 +3,80 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\VerificationCodeMail;
 
 class PasswordResetController extends Controller
 {
-    public function index()
+    public function showForgotPasswordForm()
     {
         return view('auth.password-reset');
     }
 
-    public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if ($user) {
-            $user->update([
-                'password' => bcrypt($request->password),
-            ]);
-
-            return redirect()->route('login')->with('success', 'Password berhasil diubah');
-        }
-
-        return back()->with('error', 'Email tidak ditemukan');
-    }
-
     public function sendVerificationCode(Request $request)
     {
+        // Log::info('Send Verification Code Called', [
+        //     'email' => $request->email,
+        //     'full_request' => $request->all()
+        // ]);
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:users,email'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        // $user = User::where('email', $request->email)->first();
+        
+        $verificationCode = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        if ($user) {
-            $verificationCode = sprintf('%04d', rand(0, 9999));
-            $user->update([
-                'verification_code' => $verificationCode,
-            ]);
+        $request->session()->put('password_reset_email', $request->email);
+        $request->session()->put('verification_code', $verificationCode);
+        $request->session()->put('verification_code_expires_at', now()->addMinutes(5));
 
-            Mail::to($user->email)->send(new VerificationCodeMail($verificationCode));
+        Mail::send('emails.verification-code', ['code' => $verificationCode], function($message) use ($request) {
+            $message->to($request->email)->subject('Password Reset Verification Code');
+        });
 
-            $user->update([
-                'verification_code' => $verificationCode,
-                'verification_code_expired_at' => now()->addMinutes(5),
-            ]);
-
-            return redirect()->route('password.reset')->with('success', 'Kode verifikasi telah dikirim ke email');
-        }
-
-        return back()->with('error', 'Email tidak ditemukan');
+        return response()->json(['success' => true]);
     }
 
     public function verifyCode(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'verification_code' => 'required|min:6|max:6',
+            'verification_code' => 'required|numeric'
         ]);
 
-        $user = User::where('email', $request->email)->where('verification_code', $request->verification_code)->first();
+        $storedCode = session('verification_code');
+        $codeExpiry = session('verification_code_expires_at');
 
-        if ($user) {
-            return redirect()->route('password.reset')->with('success', 'Kode verifikasi benar');
+        if ($request->verification_code == $storedCode && now()->lessThan($codeExpiry)) {
+            return response()->json(['success' => true]);
         }
 
-        return back()->with('error', 'Kode verifikasi salah');
+        return response()->json(['success' => false]);
     }
 
-    
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password'
+        ]);
+
+        $email = session('password_reset_email');
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            $request->session()->forget(['password_reset_email', 'verification_code', 'verification_code_expires_at']);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

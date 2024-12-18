@@ -19,16 +19,8 @@ Route::middleware('guest')->group(function () {
     Route::post('register/seller', [RegisterController::class, 'storeSeller'])->name('register.storeSeller');
     Route::get('forgot-password', [PasswordResetController::class, 'index'])->name('forgot.password');
 });
-Route::post('forgot-password/send', [PasswordResetController::class, 'sendVerificationCode'])->name('password.sendCode')->middleware('json.response');
-Route::get('forgot-password/verify', [PasswordResetController::class, 'verifyCode'])->name('password.verifyCode')->middleware('json.response');
-Route::post('forgot-password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.reset')->middleware('json.response');
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', action: [AuthController::class, 'logout'])->name('logout');
+    Route::post('logout',  [AuthController::class, 'logout'])->name('logout');
 });
 
-// Route::post('/password/sendCode', [PasswordResetController::class, 'sendVer'])->name('password.sendCode')->middleware('json.response');
-
-// Route::post('/password/verifyCode', 'PasswordController@verifyCode')->name('password.verifyCode')->middleware('json.response');
-
-// Route::post('/password/reset', 'PasswordController@reset')->name('password.reset')->middleware('json.response');

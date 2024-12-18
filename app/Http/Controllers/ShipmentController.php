@@ -14,7 +14,7 @@ class ShipmentController extends Controller
         
         try {
             if ($shipment && $shipment->status === 'processing') {
-                $shipment->status = 'delivered';
+                $shipment->status = 'shipping';
                 $shipment->save();
 
                 $order = Order::find($shipment->order_id);

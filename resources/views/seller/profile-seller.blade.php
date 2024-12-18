@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <label for="store_name" class="block text-base font-medium text-gray-700">Nomor Telepon</label>
-                        <p class="text-xl font-medium text-gray-900">{{ $user->addresses->first()->phone_number }}</p>
+                        <p class="text-xl font-medium text-gray-900">{{ $user->addresses->first()?->phone_number ?? '-' }}</p>
                     </div>
 
                     <div class="col-span-1 md:col-span-2">

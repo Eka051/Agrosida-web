@@ -13,30 +13,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="name" class="block text-base font-medium text-gray-700">Nama</label>
-                    <p class="text-xl font-medium text-gray-900">{{ $user->name ?? '-' }}</p>
-                </div>
-                <div>
-                    <label for="name" class="block text-base font-medium text-gray-700">Nomor Telepon</label>
-                    <p class="text-xl font-medium text-gray-900">{{ $user->addresses->first()->phone_number ?? '-' }}</p>
-                </div>
-                <div class="col-span-1 md:col-span-2">
-                    <hr class="border-gray-300">
+                    <p class="text-xl font-medium text-gray-900">{{ $admin->name ?? '-' }}</p>
                 </div>
                 <div>
                     <label for="username" class="block text-base font-medium text-gray-700">Username</label>
-                    <p class="text-xl font-medium text-gray-900">{{ $user->username ?? '-' }}</p>
-                </div>
-                <div>
-                    <label for="email" class="block text-base font-medium text-gray-700">Email</label>
-                    <p class="text-xl font-medium text-gray-900">{{ $user->email ?? '-' }}</p>
+                    <p class="text-xl font-medium text-gray-900">{{ $admin->username ?? '-' }}</p>
                 </div>
                 <div class="col-span-1 md:col-span-2">
                     <hr class="border-gray-300">
                 </div>
-                <div class="col-span-1 md:col-span-2">
-                    <label for="address" class="block text-base font-medium text-gray-700">Alamat</label>
-                    <p class="text-xl font-medium text-gray-900">{{ is_array($addresses) ? implode(', ', $addresses) : $addresses }}</p>
+                <div>
+                    <label for="email" class="block text-base font-medium text-gray-700">Email</label>
+                    <p class="text-xl font-medium text-gray-900">{{ $admin->email ?? '-' }}</p>
                 </div>
+                <div>
+                    <label for="password" class="block text-base font-medium text-gray-700">Password</label>
+                    <p class="text-base text-gray-900">{{ str_repeat('●', min(8, strlen($admin->password))) }}</p>
+                </div>
+                <div class="col-span-1 md:col-span-2">
+                    <hr class="border-gray-300">
+                </div>
+                <button class="col-span-1 md:col-span-2 text-right">
+                    <a href="{{ route('admin.profile.edit', $admin->user_id) }}"
+                        class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                        Edit Profil
+                    </a>
+                </button>
             </div>
         </div>
 

@@ -185,7 +185,7 @@
 
   async function updateQuantity(productId, quantity) {
     try {
-        const response = await fetch('/cart/update-quantity', {
+        const response = await fetch('cart/update-quantity', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

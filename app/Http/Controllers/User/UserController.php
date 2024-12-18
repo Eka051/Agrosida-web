@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\City;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\Product;
+use App\Models\Province;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -19,50 +22,37 @@ class UserController extends Controller
         $products = Product::with('category', 'user.store')
             ->where('discontinued', 0)
             ->get();
-            
-        $sold = OrderDetail::whereHas('order', function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                    ->where('status', 'paid');
-        })
-        ->select('product_id', DB::raw('SUM(quantity) as total_quantity'))
-        ->groupBy('product_id')
-        ->pluck('total_quantity', 'product_id');
-        // dd($sold);
-
-            
     
-        return view('user.userDashboard', compact('user', 'products', 'sold'));
-    }
-    public function orderProduct($id)
-    {
-        $product = Product::find($id);
-        $order = Order::with('order_detail')->where('user_id', auth()->user()->id)->get();
-
-        return view('user.order', compact('product'));
+        return view('user.userDashboard', compact('user', 'products'));
     }
 
-    public function profile()
+    public function profileUser()
     {
         $user = auth()->user();
-        $address = Address::where('user_id', $user->id)
+        $address = Address::where('user_id', $user->user_id)
             ->with('province', 'city', 'user')
             ->first();
-        $addresses = $address->getFullAddressAttribute();
+        $addresses = $address->getFullAddressAttribute() ?? null;
         return view('user.profile-user', compact('user', 'addresses'));
     }
-
-    public function updateProfile(Request $request)
+    
+    public function updateProfileUser(Request $request)
     {
         $user = User::find($request->user_id);
 
         $user->update([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password,
-            'phone' => $request->phone,
-            'address' => $request->address,
         ]);
 
-        return redirect()->route('user.userDashboard')->with('success', 'Profil berhasil diubah');
+        return redirect()->route('user.dashboard')->with('success', 'Profil berhasil diubah');
+    }
+
+    public function editProfile($user_id)
+    {
+        $user = User::find($user_id);
+        return view('user.editProfile', compact('user'));
     }
 }

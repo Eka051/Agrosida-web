@@ -123,17 +123,6 @@ class AddressController extends Controller
         return view('seller.edit-profile', compact('address'));
     }
 
-    public function updateAddressSeller(Request $request, $id)
-    {
-        $address = Address::find($id);
-
-        $address->update([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->route('seller.address.index')->with('success', 'Alamat berhasil diubah');
-    }
-
     public function saveAddress(Request $request)
     {
         $request->validate([

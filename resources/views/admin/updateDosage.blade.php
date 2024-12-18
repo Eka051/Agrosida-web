@@ -12,7 +12,7 @@
 
         <!-- Name Field -->
         <div class="mb-5">
-            <label for="name" class="block text-gray-700 font-semibold mb-2">Nama</label>
+            <label for="name" class="block text-gray-700 font-semibold mb-2">Dosis per Hektar</label>
             <input
                 type="text"
                 name="dosage_per_hectare"

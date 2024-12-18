@@ -1,28 +1,4 @@
-
-    {{-- <nav class="mt-6">
-        <ul class="space-y-2">
-            <li>
-                <a href="{{route('admin.dashboard')}}" class="block py-2 px-3 rounded hover:bg-green-500">Beranda</a>
-            </li>
-            <li>
-                <a href="{{ route('admin.userManagement') }}" class="block py-2 px-3 rounded hover:bg-green-500">Kelola Pengguna</a>
-            </li>
-            <li>
-                <a href="{{ route('admin.view-product') }}" class="block py-2 px-3 rounded hover:bg-green-500 ">Kelola Produk</a>
-            </li>
-            <li>
-                <a href="" class="block py-2 px-3 rounded hover:bg-green-500">Kelola Transaksi</a>
-            </li>
-            <li>
-                <a href="{{ route('admin.view-category') }}" class="block py-2 px-3 rounded hover:bg-green-500">Kelola Kategori Produk</a>
-            </li>
-            <li>
-                <a href="" class="block py-2 px-3 rounded hover:bg-green-500">Kelola Kalkulasi Pestisida</a>
-            </li>
-        </ul>
-    </nav> --}}
-
-    <aside class="w-56 h-screen bg-greenSecondary text-black fixed border-r border-gray-400 lg:w-64 md:w-48 sm:w-40 top-0 z-50">
+    <aside class="w-56 h-[100rem] bg-greenSecondary text-black fixed border-r border-gray-400 lg:w-64 md:w-48 sm:w-40 top-0 z-50">
         <div class="p-4 text-center font-bold text-xl border-b border-gray-400">
             <div class="flex items-center space-x-4">
                 <img src="{{ asset('img/LOGO-AGROSIDA.png') }}" alt="logo-agrosida" class="w-10">
@@ -45,7 +21,11 @@
                 </li>
                 <li class="flex items-center">
                     <span class="iconify text-3xl text-greenPrimary" data-icon="ic:twotone-calculate" data-inline="false"></span>
-                    <a href="{{ route('pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out">Kelola Kalkulasi</a>
+                    <a href="{{ route('pesticide.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out {{ request()->routeIs('pesticide.form') ? 'bg-green-600' : '' }}">Kelola Kalkulasi</a>
+                </li>
+                <li class="flex items-center">
+                    <span class="iconify text-3xl text-greenPrimary" data-icon="ant-design:security-scan-twotone" data-inline="false"></span>
+                    <a href="{{ route('detect.form') }}" class="block py-2 px-3 rounded hover:bg-green-500 transition duration-300 ease-in-out {{ request()->routeIs('detect.form') ? 'bg-green-600' : '' }}">Deteksi Penyakit</a>
                 </li>
                 <li class="flex items-center">
                     <span class="iconify text-3xl text-greenPrimary" data-icon="solar:logout-3-bold-duotone" data-inline="false"></span>
