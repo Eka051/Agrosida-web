@@ -4,11 +4,10 @@
 @section('title', 'Deteksi Penyakit Tanaman')
 
 @section('content')
-<div class="bg-gray-100 min-h-screen flex items-center justify-center">
+<div class="bg-gray-100 min-h-screen flex items-center justify-center mt-24">
     <div class="max-w-xl mx-auto p-6 bg-white rounded shadow-md">
         <h1 class="text-2xl font-bold text-center mb-4">Upload Foto untuk Deteksi</h1>
 
-        <!-- Form Upload -->
         <form action="{{ route('seller.detect.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
@@ -22,22 +21,25 @@
                 @enderror
             </div>
 
-            <!-- Preview Gambar -->
             <div class="mt-4">
                 <img id="imagePreview" src="" alt="Preview Gambar" class="hidden w-full rounded-md border" />
             </div>
 
             <button type="submit"
-                    class="w-full py-2 px-4 bg-Green-600 text-white rounded-md hover:bg-green-700">
+                    class="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700">
                 Upload dan Deteksi
             </button>
         </form>
 
-        <!-- Menampilkan Hasil Deteksi -->
-        @if(session('result'))
+        @if(session('result')) // hasil deteksi
             <div class="mt-6 p-4 bg-green-100 border border-green-500 rounded">
                 <h2 class="text-lg font-semibold">Hasil Deteksi</h2>
-                <ul class="mt-2 space-y-1">
+                <div class="mt-4">
+                    <img src="{{ asset('storage/' . session('result')['image_path']) }}"
+                         alt="Gambar Hasil Upload"
+                         class="w-full rounded-md border" />
+                </div>
+                <ul class="mt-4 space-y-1">
                     @foreach (session('result')['class_name'] as $class)
                         <li>{{ $class }}</li>
                     @endforeach
@@ -45,7 +47,6 @@
             </div>
         @endif
 
-        <!-- Menampilkan Error -->
         @if($errors->any())
         <div class="mt-6 p-4 bg-red-100 border border-red-500 rounded">
             <ul class="text-red-700 text-sm space-y-1">
@@ -58,8 +59,7 @@
     </div>
 </div>
 
-<!-- Tambahkan Script -->
-<script>
+<script> //buat preview gambar
     function previewImage() {
         const input = document.getElementById('image');
         const preview = document.getElementById('imagePreview');
