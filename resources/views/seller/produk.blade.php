@@ -43,7 +43,8 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="button"
-                                    class="bg-red-500 text-white font-medium text-center px-4 py-2 rounded hover:bg-red-700 focus:outline-none flex-1">
+                                    class="bg-red-500 text-white font-medium text-center px-4 py-2 rounded hover:bg-red-700 focus:outline-none flex-1"
+                                    onclick="deleteProduct({{ $product->id }})">
                                     Hapus
                                 </button>
                             </form>
