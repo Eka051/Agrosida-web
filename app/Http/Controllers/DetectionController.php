@@ -31,9 +31,15 @@ class DetectionController extends Controller
 
         try {
             $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('detection', $name, 'public'); // Perbaikan variabel dari $file ke $image
+            if (!$path) {
+                return redirect()->back()->with('error', 'Gagal menyimpan gambar.');
+            }
+
             $client = new Client();
 
-            $response = $client->post('http://109.123.234.250:8001/detect',[
+            $response = $client->post('http://109.123.234.250:8001/detect', [
                 'headers' => [
                     'X-API-Key' => 'akuGanteng',
                 ],
@@ -51,6 +57,7 @@ class DetectionController extends Controller
 
                 return redirect()->back()->with('result', [
                     'class_name' => $result['detected_classes'] ?? ['Tidak ada objek terdeteksi'],
+                    'image_path' => $path,
                 ]);
             }
 
@@ -59,5 +66,4 @@ class DetectionController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-
 }
