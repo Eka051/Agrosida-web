@@ -7,15 +7,12 @@
     @include('components.nav2')
     <div class="flex mt-12 justify-center">
         <div class="flex-1 max-w-[80rem] p-4 bg-white shadow-lg mt-20 mb-10 rounded-lg">
-            <!-- Breadcrumb -->
             <nav class="text-sm text-gray-500 mb-4">
                 <a href="{{ route('user.dashboard') }}" class="hover:underline text-green-500">Dashboard</a> >
                 <a href="#" class="hover:underline">Detail Produk</a>
             </nav>
 
-            <!-- Product Details -->
             <div class="flex flex-col lg:flex-row gap-6">
-                <!-- Product Images -->
                 <div class="flex-1">
                     <img src="{{ asset('storage/' . $product->image_path) }}" 
                     alt="{{ $product->product_name }}" class="w-full border rounded-lg mb-4">

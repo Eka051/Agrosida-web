@@ -3,7 +3,6 @@
 @section('title', 'Kalkulasi Pestisida')
 @section('content')
 <div class="ml-56 flex-1">
-    {{-- Header Section --}}
     <section class="bg-gradient-to-r from-green-600 to-green-700 p-8 text-center mt-16">
         <h1 class="text-2xl font-bold text-white lg:text-5xl">Kalkulasi Kebutuhan Pestisida</h1>
         <p class="text-gray-100 mt-4 lg:text-xl">Kelola kalkulasi pestisida untuk mengurangi pencemaran lingkungan</p>
@@ -11,51 +10,56 @@
 
     <div class="container mx-auto px-4 py-8 w-full">
         <div class="flex justify-center space-x-6">
-            {{-- Calculator Section --}}
             <div class="w-1/2 bg-white shadow-lg rounded-lg p-6 border border-gray-200">
                 <h2 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b">Kalkulator Pestisida</h2>
                 <form class="space-y-6" id="pesticide-form">
                     <div class="space-y-4">
-                        {{-- Original calculation form fields --}}
                         <div>
-                            <label for="pestisida" class="block text-sm font-medium text-gray-700">Nama Pestisida</label>
-                            <select id="pestisida_select" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <label for="pestisida" class="block text-sm font-medium text-gray-700">Nama
+                                Pestisida</label>
+                            <select id="pestisida_select" required
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                                 <option value="" disabled selected>Pilih Pestisida</option>
                                 @foreach($pesticides as $pesticide)
-                                    <option value="{{ $pesticide->id }}">{{ $pesticide->name }}</option>
+                                <option value="{{ $pesticide->id }}">{{ $pesticide->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tanaman</label>
-                            <select id="selected_tanaman" name="plant_id" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <select id="selected_tanaman" name="plant_id" required
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                                 <option value="" disabled selected>Pilih Tanaman</option>
                                 @foreach($plants as $plant)
-                                    <option value="{{ $plant->id }}">{{ $plant->name }}</option>
+                                <option value="{{ $plant->id }}">{{ $plant->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div>
-                            <label for="land_area" class="block text-sm font-medium text-gray-700">Luas Lahan (m<sup>2</sup>)</label>
-                            <input type="text" id="land_area_value" name="luas_lahan" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <label for="land_area" class="block text-sm font-medium text-gray-700">Luas Lahan
+                                (m<sup>2</sup>)</label>
+                            <input type="text" id="land_area_value" name="luas_lahan" required
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
 
                         <div>
-                            <input type="hidden" id="dosage" required min="0" step="0.1" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300" placeholder="Dosis">
+                            <input type="hidden" id="dosage" required min="0" step="0.1" readonly
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                                placeholder="Dosis">
                         </div>
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="button" id="calculate-btn" class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
+                        <button type="button" id="calculate-btn"
+                            class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
                             Hitung
                         </button>
                     </div>
                 </form>
             </div>
 
-            {{-- Results Card --}}
             <div class="w-1/2 bg-white shadow-lg rounded-lg p-6 border border-gray-200">
                 <h2 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b">Hasil Kalkulasi</h2>
                 <div class="space-y-4">
@@ -148,7 +152,6 @@
         } else {
             $('#land_area_value, #dosage').removeClass('border-red-500');
         }
-        
 
         const totalPesticide = landArea * dosage;
         const totalWater = landArea / 4;

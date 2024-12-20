@@ -5,7 +5,6 @@
 <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
 <div class="ml-64 flex-1">
-    <!-- Hero Section -->
     <section class="bg-primaryBg p-8 text-center mt-20">
         <h1 class="text-2xl font-bold text-gray-800 lg:text-4xl">Checkout Produk</h1>
         <p class="text-gray-600 mt-2 lg:text-lg">Konfirmasi pesanan Anda dan isi detail pengiriman</p>

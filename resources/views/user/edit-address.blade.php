@@ -3,13 +3,11 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 mt-20">
     <div class="max-w-4xl mx-auto space-y-8">
-        {{-- Edit Address Header --}}
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Edit Alamat</h1>
             <p class="text-gray-600">Perbarui alamat pengiriman dan penagihan Anda</p>
         </div>
 
-        {{-- Edit Address Card --}}
         <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Perbarui Alamat</h2>
@@ -28,7 +26,6 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Recipient Name --}}
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Penerima</label>
                         <input type="text" id="name" name="name" value="{{ old('name', $address->name) }}"
@@ -39,7 +36,6 @@
                         @enderror
                     </div>
 
-                    {{-- Province --}}
                     <div>
                         <label for="province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
                         <select id="province" name="province"
@@ -58,7 +54,6 @@
                         <input type="hidden" name="province_name" id="province_name" value="{{ $address->province->province_name }}">
                     </div>
 
-                    {{-- City --}}
                     <div>
                         <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
                         <select id="city" name="city"
@@ -77,7 +72,6 @@
                         <input type="hidden" name="city_name" id="city_name" value="{{ $address->city->city_name }}">
                     </div>
 
-                    {{-- Street Address --}}
                     <div>
                         <label for="detail_address" class="block text-sm font-medium text-gray-700 mb-2">Alamat
                             Lengkap</label>
