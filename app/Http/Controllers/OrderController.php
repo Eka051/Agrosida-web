@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Address;
@@ -145,22 +145,35 @@ class OrderController extends Controller
     
     public function showOrderFromUser()
     {
-        $orders = Order::with(['order_detail', 'user', 'payment'])
+        $seller = Auth::user();
+        if (!$seller->hasRole('seller')) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melihat pesanan ini');
+        }
+
+        $orders = Order::whereHas('order_detail.product', function ($query) use ($seller) {
+            $query->where('created_by', $seller->user_id);
+        })->with(['order_detail.product', 'user', 'payment'])
         ->orderBy('created_at', 'desc')
         ->get();
+
         return view('seller.pesananSeller', compact('orders'));
     }
 
     public function showOrderDetail($id)
     {
-        $order = Order::with('order_detail', 'user', 'payment', 'shipment')->find($id);
+        $seller = Auth::user();
+        if (!$seller->hasRole('seller')) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melihat detail pesanan ini');
+        }
+
+        $order = Order::with('order_detail.product', 'user', 'payment', 'shipment')->find($id);
         if (!$order) {
             return redirect()->back()->with('error', 'Order details not found');
         }
 
-        $product = Product::find($order->order_detail->first()->product_id);
-        if ($product->created_by !== Auth::id()) {
-            return redirect()->back()->with('error', 'You do not have permission to view this order');
+        $product = $order->order_detail->first()->product;
+        if ($product->created_by !== $seller->user_id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melihat detail pesanan ini');
         }
 
         $address = Address::find($order->address_id);

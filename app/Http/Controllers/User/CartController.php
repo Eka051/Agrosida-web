@@ -16,7 +16,11 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::where('user_id', auth()->user()->user_id)->with('product', 'user')->get();
+        $carts = Cart::where('user_id', auth()->user()->user_id)
+            ->with(['product' => function ($query) {
+                $query->whereNotNull('created_by');
+            }, 'user'])
+            ->get();
         return view('user.keranjang', compact('carts'));
     }
 
@@ -70,40 +74,41 @@ class CartController extends Controller
     {
         $request->validate([
             'cart_items' => 'required|array',
-            'cart_items.*.product_id' => 'required|exists:products,id',
+            'cart_items.*.cart_id' => 'required|exists:carts,id',
             'cart_items.*.quantity' => 'required|integer|min:1',
         ]);
-    
+
         $userId = auth()->id();
-    
+
         DB::beginTransaction();
         try {
             $updatedCartItems = [];
             foreach ($request->cart_items as $item) {
-                $product = Product::findOrFail($item['product_id']);
-    
+                $cart = Cart::where('id', $item['cart_id'])
+                            ->where('user_id', $userId)
+                            ->firstOrFail();
+
+                $product = $cart->product;
+
                 if ($item['quantity'] > $product->stock) {
                     return response()->json([
                         'message' => "Stok untuk {$product->product_name} tidak mencukupi.",
                     ], 422);
                 }
-    
-                $cart = Cart::where('product_id', $item['product_id'])
-                            ->where('user_id', $userId)
-                            ->firstOrFail();
-    
+
                 $cart->quantity = $item['quantity'];
                 $cart->save();
-    
+
                 $updatedCartItems[] = [
-                    'product_id' => $cart->product_id,
+                    'cart_id' => $cart->id,
+                    'product_id' => $product->id,
                     'quantity' => $cart->quantity,
-                    'subtotal' => $cart->quantity * $cart->product->price,
+                    'subtotal' => $cart->quantity * $product->price,
                 ];
             }
-    
+
             DB::commit();
-    
+
             return response()->json([
                 'message' => 'Kuantitas berhasil diperbarui.',
                 'cart_items' => $updatedCartItems,
@@ -111,11 +116,9 @@ class CartController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
-                'message' => $e->getMessage(),
+                'message' => 'Gagal memperbarui kuantitas: ' . $e->getMessage(),
             ], 500);
         }
     }
-    
-    
     
 }

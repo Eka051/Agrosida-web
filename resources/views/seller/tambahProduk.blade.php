@@ -29,25 +29,34 @@
                     <div class="flex flex-col">
                         <label for="image" class="block text-xl font-medium text-gray-700">Gambar Produk</label>
                         <img id="imgPreview" class="mt-4 w-32 h-32 object-contain rounded-md border">
-                        <input type="file" name="image" id="image" 
+                        <input type="file" name="image" id="image" accept="image/*"
                             class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
                         <label for="product_name" class="block text-xl font-medium mt-[9.5rem] text-gray-700">Nama Produk</label>
                         <input type="text" name="product_name" id="product_name" placeholder="Masukkan nama produk" 
                             class="w-full text-base p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                        @error('product_name')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label for="stock" class="block text-xl font-medium text-gray-700">Stok Produk</label>
                         <input type="number" name="stock" id="stock" required 
                             class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                             placeholder="Masukkan jumlah stok produk">
+                        @error('stock')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label for="weight" class="block text-xl font-medium text-gray-700">Berat (gram)</label>
                         <input type="number" name="weight" id="weight" required
                             class="mt-1 block w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                             placeholder="Masukkan berat produk (gram) produk">
+                        @error('weight')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label for="category" class="block text-xl font-medium text-gray-700">Kategori Produk</label>

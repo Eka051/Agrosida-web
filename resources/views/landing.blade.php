@@ -118,20 +118,14 @@
 </style>
 
 <div class="landing-page bg-gray-100 min-h-screen">
-    <!-- Hero Section -->
     <section class="hero-section relative min-h-screen flex items-center overflow-hidden" id="hero-section">
-        <!-- Background gradient overlay with fade-in animation -->
         <div class="absolute inset-0 bg-gradient-to-r from-green-600/80 to-green-100/50 z-10 animate-fadeIn"></div>
-
-        <!-- Background image with subtle zoom effect -->
         <div class="absolute inset-0 animate-slowZoom">
             <img src="img/FARMER.png" alt="Healthy Farm" class="w-full h-full object-cover">
         </div>
 
-        <!-- Content with slide-up animation -->
         <div class="container mx-auto px-4 sm:px-6 relative z-20">
             <div class="flex flex-col md:flex-row items-center max-w-4xl mx-auto animate-slideUp space-y-8 md:space-y-0 md:space-x-8">
-                <!-- Text Content -->
                 <div class="md:w-1/2 text-white text-center md:text-left">
                   <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4 sm:mb-6 animate-slideInLeft hover:animate-float hover:text-yellow-400 transition duration-300">
                     Marketplace Pestisida dan Kalkulator Penggunaan yang Presisi
@@ -149,16 +143,12 @@
                   </div>
                 </div>
 
-                <!-- Image Section -->
                 <div class="md:w-1/2 animate-slideInRight delay-500 relative">
-                    <!-- Main Polaroid Frame -->
                     <div class="relative w-full h-[350px] sm:h-[400px] bg-white rounded-lg overflow-hidden shadow-xl p-4 transform hover:scale-105 transition-transform duration-500 z-30">
                         <div class="relative w-full h-full rounded-lg overflow-hidden">
                             <img src="img/hero.jpg" alt="Pestisida Alami" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                            <!-- Decorative Paint Splash Frame -->
                             <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-yellow-400 to-transparent opacity-50 rounded-lg pointer-events-none"></div>
                         </div>
-                        <!-- Polaroid Border -->
                         <div class="absolute inset-0 border-4 border-white rounded-lg pointer-events-none"></div>
                         <div class="absolute bottom-0 left-0 w-full h-16 bg-white"></div>
                     </div>
@@ -170,9 +160,7 @@
         </div>
     </section>
 
-    <!-- Tentang Kami -->
     <section class="about-us relative py-16 overflow-hidden" id="about-us">
-        <!-- Latar Belakang dengan Efek Gradient dan Ornamen -->
         <div class="absolute inset-0 pointer-events-none"></div>
         <div class="absolute top-0 right-0 transform translate-x-20 -translate-y-20 opacity-10">
           <svg width="300" height="300" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -180,9 +168,7 @@
           </svg>
         </div>
 
-        <!-- Kontainer Utama -->
         <div class="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <!-- Judul Bagian -->
           <div class="py-16">
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-4xl mx-auto space-y-6">
@@ -270,12 +256,9 @@
             }
         </style>
 
-          <!-- Konten Utama -->
           <div class="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0 md:space-x-8">
-            <!-- Gambar -->
             <div class="md:w-1/2 relative">
               <img src="img/klien.jpg" alt="Tentang Kami" class="w-full h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 animate-fade-in-left">
-              <!-- Overlay Ornamen -->
               <div class="absolute top-0 left-0 bg-green-500 text-white p-3 rounded-br-lg shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
@@ -283,7 +266,6 @@
               </div>
             </div>
 
-            <!-- Teks Penjelasan -->
             <div class="md:w-1/2 animate-fade-in-right bg-white p-8 rounded-lg shadow-lg">
               <p class="text-gray-700 text-lg leading-relaxed mb-6">
                 Kami berdedikasi untuk membantu petani dengan teknologi modern dan solusi organik terbaik. Dengan pendekatan inovatif, kami menyediakan <span class="text-green-600 font-semibold">kalkulasi pestisida</span> yang tepat, produk berkualitas, dan layanan konsultasi untuk meningkatkan hasil panen Anda.
@@ -314,7 +296,6 @@
                   <span class="text-gray-700 text-lg">Panduan dan dukungan berkelanjutan</span>
                 </li>
               </ul>
-              <!-- Tombol -->
               <a href="#" class="inline-block bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-green-500 transition duration-300 transform hover:-translate-y-1 hover:scale-110">
                 Pelajari Lebih Lanjut
               </a>
@@ -323,10 +304,8 @@
         </div>
       </section>
 
-    <!-- Kalkulator -->
     <section class="py-8 mx-4 bg-green-100 rounded-lg" id="calculator-pesticide">
         <div class="container mx-auto px-6">
-            <!-- Judul Bagian -->
           <div class="text-center mb-12 mt-16">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4 animate-fade-in-down">
               Hitung Dengan Kalkulator Pestisida
@@ -336,10 +315,8 @@
             </p>
           </div>
 
-            {{-- kalkulasi --}}
             <div class="bg-white shadow-lg rounded-lg p-6 w-full">
                 <form class="space-y-6" id="pesticide-form">
-                    <!-- Nama Pestisida -->
                     <div>
                         <label for="pestisida" class="block text-xl font-medium text-gray-700">Nama Pestisida</label>
                         <select id="pestisida_select" required
@@ -351,7 +328,6 @@
                         </select>
                     </div>
 
-                    <!-- Nama Tanaman -->
                     <div>
                         <label for="tanaman" class="block text-xl font-medium text-gray-700">Nama Tanaman</label>
                         <select id="selected_tanaman" required
@@ -359,26 +335,22 @@
                             <option value="" disabled selected>Jenis Tanaman</option>
                         </select>
                     </div>
-
-                    <!-- Luas Lahan -->
                     <div>
                         <label for="land_area" class="block text-xl font-medium text-gray-700">Luas Lahan (m<sup>2</sup>)</label>
                         <input type="number" id="land_area_value" name="luas_lahan" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
-                            placeholder="Ketik luas lahan">
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                          placeholder="Masukkan luas lahan">
+                        <span id="land_area_error" class="text-red-500 text-sm hidden"></span>
+                    
                     </div>
-
-                    <!-- Dosis -->
                     <div>
                         <input type="hidden" id="dosage" required min="0" step="0.1"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
-                            placeholder="Ketik Dosis">
+                            placeholder="Dosis">
                     </div>
-
-                    <!-- Tombol Hitung -->
                     <div class="flex justify-end">
                         <button type="button" id="calculate-btn"
-                                class="bg-green-500 text-white px-6 py-2 rounded-md text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                class="bg-green-500 text-white px-8 py-4 rounded-lg text-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
                             Hitung
                         </button>
                     </div>
@@ -417,63 +389,8 @@
       </div>
     </section>
 
-    <script>
-        $('#pestisida_select').on('change', function () {
-            const pestisidaId = $(this).val();
 
-            $.ajax({
-                type: 'GET',
-                url: `/dosage/${pestisidaId}`,
-                success: function (data) {
-                    $('#selected_tanaman').empty().append('<option value="" disabled selected>Jenis Tanaman</option>');
 
-                    data.forEach(item => {
-                        $('#selected_tanaman').append(
-                            `<option value="${item.id}" data-dose="${item.dosage_per_hectare}">${item.name}</option>`
-                        );
-                    });
-                },
-                error: function () {
-                    alert('Terjadi kesalahan saat mengambil data tanaman');
-                }
-            });
-        });
-
-        $('#selected_tanaman').on('change', function () {
-            const selectedDose = $(this).find('option:selected').data('dose');
-            $('#dosage').val(selectedDose || '');
-        });
-
-        $('#calculate-btn').on('click', function () {
-            const landArea = parseFloat($('#land_area_value').val());
-            const dosage = parseFloat($('#dosage').val());
-            const pesticideName = $('#pestisida_select option:selected').text();
-
-            if (!$('#pestisida_select').val() || !$('#selected_tanaman').val()) {
-                alert('Pilih pestisida dan tanaman terlebih dahulu.');
-                return;
-            }
-
-            if (isNaN(landArea) || isNaN(dosage)) {
-                alert('Masukkan nilai valid untuk luas lahan dan dosis.');
-                $('#land_area_value, #dosage').addClass('border-red-500');
-                return;
-            } else {
-                $('#land_area_value, #dosage').removeClass('border-red-500');
-            }
-
-            const totalPesticide = landArea * dosage;
-            const totalWater = landArea / 4;
-
-            $('#pesticide-name').text(pesticideName);
-            $('#land-area').text(landArea.toFixed(2));
-            $('#dosage-value').text(dosage.toFixed(2));
-            $('#total-pesticide').text(totalPesticide.toFixed(2));
-            $('#water-value').text(totalWater.toFixed(2));
-        });
-    </script>
-
-    <!-- Layanan -->
     <section class="client" id="services">
         <div class="bg-green-50 py-16">
           <div class="text-center mb-12 mt-16">
@@ -569,12 +486,10 @@
           </div>
         </div>
       </section>
-
-    <!--Produk-->
     <section class="bg-white py-12" id="products">
         <div class="container m-auto px-4">
           <div class="text-center mb-12">
-            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Produk Rekomendasi kami</h2>
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Produk Rekomendasi Kami</h2>
             <p class="text-gray-600 text-lg">
                 Temukan produk rekomendasi kami yang telah terbukti efektif dan ramah lingkungan untuk mendukung pertanian Anda.
             </p>
@@ -596,11 +511,6 @@
           </div>
         </div>
       </section>
-
-
-
-
-    <!-- Testimoni -->
       <section class="faq bg-gray-100 py-16">
         <div class="max-w-6xl mx-auto px-4">
           <div class="text-center mb-12">
@@ -611,7 +521,6 @@
           </div>
 
           <div class="space-y-4">
-            <!-- Pertanyaan 1 -->
             <div class="bg-white shadow-lg rounded-lg p-4">
               <button
                 class="flex justify-between items-center w-full text-left text-gray-800 font-medium focus:outline-none"
@@ -627,7 +536,6 @@
               </div>
             </div>
 
-            <!-- Pertanyaan 2 -->
             <div class="bg-white shadow-lg rounded-lg p-4">
               <button
                 class="flex justify-between items-center w-full text-left text-gray-800 font-medium focus:outline-none"
@@ -643,7 +551,6 @@
               </div>
             </div>
 
-            <!-- Pertanyaan 3 -->
             <div class="bg-white shadow-lg rounded-lg p-4">
               <button
                 class="flex justify-between items-center w-full text-left text-gray-800 font-medium focus:outline-none"
@@ -659,7 +566,6 @@
               </div>
             </div>
 
-            <!-- Pertanyaan 4 -->
             <div class="bg-white shadow-lg rounded-lg p-4">
               <button
                 class="flex justify-between items-center w-full text-left text-gray-800 font-medium focus:outline-none"
@@ -675,7 +581,6 @@
               </div>
             </div>
 
-            <!-- Pertanyaan 5 -->
             <div class="bg-white shadow-lg rounded-lg p-4">
               <button
                 class="flex justify-between items-center w-full text-left text-gray-800 font-medium focus:outline-none"
@@ -694,15 +599,94 @@
         </div>
       </section>
 
-      <script>
-        function toggleFaq(id) {
-          const faqContent = document.getElementById(`faq-${id}`);
-          const icon = document.getElementById(`icon-${id}`);
-          faqContent.classList.toggle("hidden");
-          icon.classList.toggle("rotate-180");
-        }
-      </script>
 </div>
+<script>
+  function toggleFaq(id) {
+    const faqContent = document.getElementById(`faq-${id}`);
+    const icon = document.getElementById(`icon-${id}`);
+    faqContent.classList.toggle("hidden");
+    icon.classList.toggle("rotate-180");
+  }
+  $('#pestisida_select').on('change', function () {
+    const pestisidaId = $(this).val();
 
+    $.ajax({
+      type: 'GET',
+      url: `/dosage/${pestisidaId}`,
+      success: function (data) {
+        $('#selected_tanaman').empty().append('<option value="" disabled selected>Jenis Tanaman</option>');
+
+        data.forEach(item => {
+          $('#selected_tanaman').append(
+            `<option value="${item.id}" data-dose="${item.dosage_per_hectare}">${item.name}</option>`
+          );
+        });
+      },
+      error: function () {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Terjadi kesalahan saat mengambil data tanaman',
+        });
+      }
+    });
+  });
+
+  document.getElementById('land_area_value').addEventListener('input', function (e) {
+      if (e.target.value < 0 || e.target.value.includes('-')) {
+          e.target.value = '';
+      }
+  });
+
+  $('#land_area_value').on('input', function () {
+    const landArea = parseFloat($(this).val());
+    if (isNaN(landArea) || landArea <= 0) {
+      $('#land_area_error').text('Luas lahan harus lebih dari 0 dan tidak boleh kosong.').removeClass('hidden');
+    } else {
+      $('#land_area_error').addClass('hidden');
+    }
+  });
+
+  $('#selected_tanaman').on('change', function () {
+    const selectedDose = $(this).find('option:selected').data('dose');
+    $('#dosage').val(selectedDose || '');
+  });
+
+  $('#calculate-btn').on('click', function () {
+    const landArea = parseFloat($('#land_area_value').val());
+    const dosage = parseFloat($('#dosage').val());
+    const pesticideName = $('#pestisida_select option:selected').text();
+
+    if (!$('#pestisida_select').val() || !$('#selected_tanaman').val()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Pilih pestisida dan tanaman terlebih dahulu.',
+      });
+      return;
+    }
+
+    if (isNaN(landArea) || isNaN(dosage) || landArea <= 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Masukkan nilai yang valid untuk luas lahan. \n Luas lahan tidak boleh 0 atau negatif.',
+      });
+      $('#land_area_value, #dosage').addClass('border-red-500');
+      return;
+    } else {
+      $('#land_area_value, #dosage').removeClass('border-red-500');
+    }
+
+    const totalPesticide = landArea * dosage;
+    const totalWater = landArea / 4;
+
+    $('#pesticide-name').text(pesticideName);
+    $('#land-area').text(landArea.toFixed(2));
+    $('#dosage-value').text(dosage.toFixed(2));
+    $('#total-pesticide').text(totalPesticide.toFixed(2));
+    $('#water-value').text(totalWater.toFixed(2));
+  });
+</script>
 @include('components.footer')
 @endsection

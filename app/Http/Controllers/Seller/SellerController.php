@@ -15,7 +15,9 @@ class SellerController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $totalProduct = Product::where('created_by', $user->user_id)->count();
+        $totalProduct = Product::where('created_by', $user->user_id)
+        ->where('discontinued', 0)
+        ->count();
         $totalOrder = Order::whereHas('order_detail.product', function ($query) use ($user) {
             $query->where('created_by', $user->user_id);
         })->count();

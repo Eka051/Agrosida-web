@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\PaymentController;
 
 

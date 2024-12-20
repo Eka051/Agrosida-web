@@ -21,6 +21,7 @@ class UserController extends Controller
         $user = auth()->user();
         $products = Product::with('category', 'user.store')
             ->where('discontinued', 0)
+            ->whereNotNull('created_by')
             ->get();
     
         return view('user.userDashboard', compact('user', 'products'));

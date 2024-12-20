@@ -26,20 +26,34 @@
                 Informasi Pesanan
             </div>
             <div class="p-4">
-                <div class="mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">ID Pesanan: {{ $order->order_id }}</h2>
-                    <p class="text-gray-600 text-lg mt-2">Tanggal: {{ $order->created_at->format('d F Y H:i') }}</p>
-                    <p class="text-gray-600 text-lg mt-2">Status Pesanan:
-                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'processed' ? 'bg-yellow-500' : ($order->status == 'shipped' ? 'bg-green-500' : 'bg-red-500') }} text-white">
-                            {{ ucfirst($order->status) }}
-                        </span>
-                    </p>
-                   
-                    <p class="text-gray-600 text-lg mt-2">Status Pembayaran:
-                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->payment->status == 'paid' ? 'bg-green-500' : ($order->payment->status == 'pending' ? 'bg-yellow-500' : ($order->payment->status == 'failed' ? 'bg-red-500' : 'bg-gray-500')) }} text-white">
-                            {{ ucfirst($order->payment->status) }}
-                        </span>
-                    </p>
+                <div class="flex">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">ID Pesanan: {{ $order->order_id }}</h2>
+                        <p class="text-gray-600 text-lg mt-2">Tanggal: {{ $order->created_at->format('d F Y H:i') }}</p>
+                        <p class="text-gray-600 text-lg mt-2">Status Pesanan:
+                            <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'processed' ? 'bg-yellow-500' : ($order->status == 'shipped' ? 'bg-green-500' : 'bg-red-500') }} text-white">
+                                {{ ucfirst($order->status) }}
+                            </span>
+                        </p>
+                       
+                        <p class="text-gray-600 text-lg mt-2">Status Pembayaran:
+                            <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->payment->status == 'paid' ? 'bg-green-500' : ($order->payment->status == 'pending' ? 'bg-yellow-500' : ($order->payment->status == 'failed' ? 'bg-red-500' : 'bg-gray-500')) }} text-white">
+                                {{ ucfirst($order->payment->status) }}
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        @if ($order->status !== 'shipped' && $order->status !== 'canceled' && $order->payment->status == 'paid')
+                                <form action="{{ route('user.order.cancel', $order->shipment->order_id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                        Batalkan
+                                    </button>
+                                </form>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="mb-4 mt-4 border-t-2">
@@ -102,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                @if($order->shipment->status != 'delivered' && $order->shipment->status != 'canceled')
+                @if($order->shipment->status != 'delivered' && $order->shipment->status != 'canceled' && $order->payment->status == 'paid')
                     <form id="confirmOrderForm" action="{{ route('user.order.confirm', $order->order_id) }}" method="POST">
                         @csrf
                         @method('PUT')

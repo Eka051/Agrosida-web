@@ -58,7 +58,7 @@
                                        class="bg-green-500 text-white px-4 py-2 rounded text-sm hover:bg-green-600">
                                         Lihat Detail
                                     </a>
-                                    @if($order->payment->status == 'pending')
+                                    @if($order->payment->status == 'pending' && $order->status != 'canceled')
                                     <form action="{{ route('payment.pending', ['order_id' => $order->order_id]) }}" method="POST">
                                         @csrf
                                         <button class="bg-blue-500 text-white px-4 py-2 rounded text-sm mt-[0.8rem] hover:bg-blue-600">

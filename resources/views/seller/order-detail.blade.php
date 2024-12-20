@@ -29,7 +29,7 @@
                     </p>
                 </div>
                 <div class="flex">
-                    @if ($order->status == 'processed')
+                    @if ($order->status == 'processed' & $order->payment->status == 'paid')
                         <form action="{{ route('seller.order.cancel', $order->shipment->order_id) }}" method="POST">
                             @csrf
                             @method('PUT')

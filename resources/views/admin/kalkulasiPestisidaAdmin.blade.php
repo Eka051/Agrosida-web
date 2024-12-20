@@ -51,7 +51,7 @@
 
                         <div class="flex justify-end">
                             <button type="button" id="calculate-btn"
-                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
+                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base focus:outline-none hover:bg-green-700 transition duration-300">
                                 Hitung
                             </button>
                         </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
+                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base focus:outline-none hover:bg-green-700 transition duration-300">
                                 Tambah Pestisida
                             </button>
                         </div>
@@ -198,7 +198,7 @@
                         </div>
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
+                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base focus:outline-none hover:bg-green-700 transition duration-300">
                                 Tambah Tanaman
                             </button>
                         </div>
@@ -273,11 +273,14 @@
                                 <label class="block text-sm font-medium text-gray-700">Dosis (ml/m<sup>2</sup>)</label>
                                 <input type="number" name="dosage_per_hectare" required step="0.01"
                                     class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                                @error('dosage_per_hectare')
+                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base hover:bg-green-700 transition duration-300">
+                                class="bg-green-600 text-white px-8 py-4 rounded-md text-base focus:outline-none hover:bg-green-700 transition duration-300">
                                 Tambah Formula
                             </button>
                         </div>
@@ -292,6 +295,15 @@
     document.getElementById('land_area_value').addEventListener('input', function (e) {
         if (e.target.value < 0 || e.target.value.includes('-')) {
             e.target.value = '';
+        }
+    });
+
+    $('#land_area_value').on('input', function () {
+        const landArea = parseFloat($(this).val());
+        if (isNaN(landArea) || landArea <= 0) {
+        $('#land_area_error').text('Luas lahan harus lebih dari 0 dan tidak boleh kosong.').removeClass('hidden');
+        } else {
+        $('#land_area_error').addClass('hidden');
         }
     });
     $(document).ready(function () {

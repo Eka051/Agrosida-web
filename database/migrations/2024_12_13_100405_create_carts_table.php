@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products', 'id');
+            $table->foreignId('product_id')->constrained('products', 'id')->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Shipment;
-use Http;
 use Midtrans\Snap;
 use App\Models\Cart;
 use App\Models\User;

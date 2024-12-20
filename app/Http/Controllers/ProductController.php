@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,18 +27,6 @@ class ProductController extends Controller
         return view('detailProduk', ['product' => $product]);
     }
 
-    // public function search(Request $request)
-    // {
-    //     $search = $request->get('search');
-    //     $products = Product::with('category')
-    //         ->when($search, function($query, $search) {
-    //             return $query->where('product_name', 'like', "%{$search}%")
-    //             ->orWhereHas('category', function($query) use ($search) {
-    //                 $query->where('name', 'like', "%{$search}%");
-    //             });
-    //         })->get();
-    //     return view('admin.mengelolaProduk', compact('products'));
-    // }
 
     public function addProduct()
     {
@@ -67,7 +55,6 @@ class ProductController extends Controller
             if (!$path) {
                 return redirect()->back()->with('error', 'Gagal menyimpan gambar produk.');
             }
-            // dd($validated);
             $validated['price'] = (float) str_replace(['Rp', '.', ' '], '', $validated['price']);
             
             $category = $validated['category_id'] ?? 
@@ -120,7 +107,7 @@ class ProductController extends Controller
             $product->discontinued = 1;
             $product->save();
             DB::commit();
-            return redirect()->route('seller.dashboard')->with('success', 'Produk berhasil dihapus');
+            return redirect()->route('seller.view-product')->with('success', 'Produk berhasil dihapus');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menghapus produk');

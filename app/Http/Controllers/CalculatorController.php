@@ -7,6 +7,7 @@ use App\Models\Pesticide;
 use App\Models\Plant;
 use App\Models\Dosage;
 use App\Models\Product;
+use Illuminate\Validation\ValidationException;
 
 class CalculatorController extends Controller
 {
@@ -15,7 +16,11 @@ class CalculatorController extends Controller
         $pesticides = Pesticide::all();
         $plants = Plant::all();
         $dosages = Dosage::with(['plant', 'pesticide'])->get();
-        $products = Product::all()->take(6);
+        $products = Product::with('category')
+            ->where('discontinued', 0)
+            ->whereNotNull('created_by')
+            ->take(6)
+            ->get();
 
         return view('landing', compact('pesticides', 'plants', 'dosages', 'products'));
     }
@@ -39,7 +44,7 @@ class CalculatorController extends Controller
         $plants = Plant::all();
         $dosages = Dosage::with(['plant', 'pesticide'])->get();
 
-        return view('seller.kalkulasiPestisida', [
+        return view('seller.kalkulasiPestisidaSeller', [
             'pesticides' => $pesticides,
             'plants' => $plants,
             'dosages' => $dosages
@@ -61,45 +66,59 @@ class CalculatorController extends Controller
 
     public function addPesticide(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|min:3|max:255',
+            ]);
 
-        Pesticide::create([
-            'name' => $validatedData['name'],
-        ]);
+            Pesticide::create([
+                'name' => $validatedData['name'],
+            ]);
 
-        return redirect()->back()->with('success', 'Pestisida Berhasil Ditambah!!');
+            return redirect()->back()->with('success', 'Pestisida Berhasil Ditambah!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Input tidak sesuai! Pestisida Gagal Ditambah!!');
+        }
     }
 
     public function addPlant(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|min:3|max:255',
+            ]);
 
-        Plant::create([
-            'name' => $validatedData['name'],
-        ]);
+            Plant::create([
+                'name' => $validatedData['name'],
+            ]);
 
-        return redirect()->back()->with('success', 'Tanaman Berhasil Ditambah!!');
+            return redirect()->back()->with('success', 'Tanaman Berhasil Ditambah!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Input tidak sesuai! Tanaman Gagal Ditambah!!');
+        }
     }
 
     public function addDosage(Request $request)
     {
-        $validatedData = $request->validate([
-            'pesticide_id' => 'required|exists:pesticides,id',
-            'plant_id' => 'required|exists:plants,id',
-            'dosage_per_hectare' => 'required|numeric|min:0',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'pesticide_id' => 'required|exists:pesticides,id',
+                'plant_id' => 'required|exists:plants,id',
+                'dosage_per_hectare' => 'required|numeric|min:1',
+            ]);
 
-        Dosage::create([
-            'plant_id' => $validatedData['plant_id'],
-            'pesticide_id' => $validatedData['pesticide_id'],
-            'dosage_per_hectare' => $validatedData['dosage_per_hectare'],
-        ]);
+            Dosage::create([
+                'plant_id' => $validatedData['plant_id'],
+                'pesticide_id' => $validatedData['pesticide_id'],
+                'dosage_per_hectare' => $validatedData['dosage_per_hectare'],
+            ]);
 
-        return redirect()->back()->with('success', 'Dosis Berhasil Ditambah!!');
+            return redirect()->back()->with('success', 'Dosis Berhasil Ditambah!!');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Dosis Gagal Ditambah!!<br>Pastikan data yang diinputkan benar');
+        }
     }
 
     public function deletePesticide($id)
@@ -167,18 +186,21 @@ class CalculatorController extends Controller
 
     public function updatePlant(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+        ]);
+
         $updated_plant = Plant::find($id);
 
         if (!$updated_plant) {
-            return back()->with('error', 'Tanaman Gagal Terupdate!');
+            return back()->with('error', 'Tanaman Gagal Terupdate! Nama tanaman tidak sesuai');
         }
 
         $updated_plant->update([
-            'name' => $request->name,
+            'name' => $validatedData['name'],
         ]);
 
         return redirect()->route('pesticide.form')->with('success', 'Tanaman Terupdate!');
-
     }
 
     public function editPesticide($id)
@@ -216,7 +238,7 @@ class CalculatorController extends Controller
     public function updateDosage(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'dosage_per_hectare' => 'required|numeric|min:0',
+            'dosage_per_hectare' => 'required|numeric|min:1',
         ]);
 
         $dosage = Dosage::with(['plant', 'pesticide'])->find($id);

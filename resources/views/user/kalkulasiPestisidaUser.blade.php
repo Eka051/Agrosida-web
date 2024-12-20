@@ -116,6 +116,21 @@
         $('#dosage').val(selectedDose || '');
     });
 
+    document.getElementById('land_area_value').addEventListener('input', function (e) {
+        if (e.target.value < 0 || e.target.value.includes('-')) {
+            e.target.value = '';
+        }
+    });
+
+    $('#land_area_value').on('input', function () {
+        const landArea = parseFloat($(this).val());
+        if (isNaN(landArea) || landArea <= 0) {
+        $('#land_area_error').text('Luas lahan harus lebih dari 0 dan tidak boleh kosong.').removeClass('hidden');
+        } else {
+        $('#land_area_error').addClass('hidden');
+        }
+    });
+
     $('#calculate-btn').on('click', function () {
         const landArea = parseFloat($('#land_area_value').val());
         const dosage = parseFloat($('#dosage').val());
@@ -126,13 +141,14 @@
             return;
         }
 
-        if (isNaN(landArea) || isNaN(dosage)) {
+        if (isNaN(landArea) && landArea < 0 || isNaN(dosage)) {
             alert('Masukkan nilai valid untuk luas lahan dan dosis.');
             $('#land_area_value, #dosage').addClass('border-red-500');
             return;
         } else {
             $('#land_area_value, #dosage').removeClass('border-red-500');
         }
+        
 
         const totalPesticide = landArea * dosage;
         const totalWater = landArea / 4;

@@ -10,7 +10,7 @@ use App\Http\Controllers\DetectionController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\CalculatorController;
-use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\Seller\SellerController;
@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::post('seller/product/save', [ProductController::class, 'store'])->name('seller.save-product');
     Route::get('seller/edit-product/{id}', [ProductController::class, 'editProduk'])->name('seller.edit-product');
     Route::put('seller/product/update/{id}', [ProductController::class, 'update'])->name('seller.update-product');
-    Route::post('seller/product/delete/{id}', [ProductController::class, 'discontinue'])->name('seller.delete-product');
+    Route::delete('seller/product/delete/{id}', [ProductController::class, 'discontinue'])->name('seller.delete-product');
 
     // Order
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
@@ -109,7 +109,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('user/cart/add/{product_id}', [CartController::class, 'add'])->name('user.cart.add');
     Route::delete('user/cart/remove/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('user/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-    // Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
     Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::delete('cart/clear/{user_id}', [CartController::class, 'clearCartAfterPayment'])->name('cart.clear');
     
@@ -121,6 +120,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('payment/pending/{order_id}', [PaymentController::class, 'payPendingOrder'])->name('payment.pending');
     Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');
     Route::put('user/order/confirm/{order_id}', [OrderController::class, 'confirmOrder'])->name('user.order.confirm');
+    Route::put('seller/order/cancel/{order_id}', [OrderController::class, 'cancelOrder'])->name('user.order.cancel');
 
     // address
     Route::get('user/address/add', [AddressController::class, 'index'])->name('user.add-address');

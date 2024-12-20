@@ -38,27 +38,43 @@ class OauthController extends Controller
                     return redirect()->route('user.dashboard');
                 }
             } else {
-                DB::beginTransaction();
-                try {
-                    $newUser = User::create([
-                        'user_id' => Str::uuid(),
-                        'name' => $googleUser->name,
-                        'email' => $googleUser->email,
+                $existingUser = User::where('email', $googleUser->email)->first();
+
+                if ($existingUser) {
+                    $existingUser->update([
                         'gauth_id' => $googleUser->id,
                         'gauth_type' => 'google',
-                        'password' => bcrypt(Str::random(16)),
                     ]);
 
-                    $newUser->assignRole('user');
+                    Auth::login($existingUser);
 
-                    DB::commit();
+                    if ($existingUser->hasRole('admin')) {
+                        return redirect()->route('admin.dashboard');
+                    } elseif ($existingUser->hasRole('seller')) {
+                        return redirect()->route('seller.dashboard');
+                    } else {
+                        return redirect()->route('user.dashboard');
+                    }
+                } else {
+                    DB::beginTransaction();
+                    try {
+                        $newUser = User::create([
+                            'user_id' => Str::uuid(),
+                            'name' => $googleUser->name,
+                            'email' => $googleUser->email,
+                            'gauth_id' => $googleUser->id,
+                            'gauth_type' => 'google',
+                            'password' => bcrypt(Str::random(16)),
+                        ]);
 
-                    Auth::login($newUser, true);
-
-                    return redirect()->route('user.dashboard')->with('success', 'Selamat datang! ' . auth()->user()->name);
-                } catch (Exception $e) {
-                    DB::rollBack();
-                    throw $e;
+                        $newUser->assignRole('user');
+                        DB::commit();
+                        Auth::login($newUser, true);
+                        return redirect()->route('user.dashboard')->with('success', 'Selamat datang! ' . auth()->user()->name);
+                    } catch (Exception $e) {
+                        DB::rollBack();
+                        throw $e;
+                    }
                 }
             }
         } catch (Exception $e) {

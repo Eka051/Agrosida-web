@@ -18,29 +18,38 @@
         <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-6 mx-8">
             @foreach ($products as $product)
             <div class="product-item border rounded-lg p-4 bg-white shadow-lg flex flex-col h-full">
-            <div class="flex justify-center">
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
-                class="w-full h-48 size-48 object-cover rounded-t-lg">
-            </div>
-            <div class="mt-4 flex-1 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-lg text-gray-800 text-left">{{ $product->product_name }}</h3>
+                <div class="flex justify-center">
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->product_name }}"
+                        class="w-full h-48 size-48 object-cover rounded-t-lg">
                 </div>
-                <div class="flex flex-col justify-between h-full">
+                <div class="mt-4 flex-1 flex flex-col justify-between">
                     <div>
-                        <p class="font-bold text-xl text-left">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
-                        <p class="text-base font-medium text-left mt-2">Stok: {{ $product->stock }}</p>
+                        <h3 class="text-lg text-gray-800 text-left">{{ $product->product_name }}</h3>
                     </div>
-                    <div class="flex space-x-2 mt-4">
-                        <a href="{{ route('seller.edit-product', $product->id) }}"
-                            class="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600 transition duration-300">Edit</a>
-                        <button type="button" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition duration-300"
-                            onclick="deleteProduct('{{ route('seller.delete-product', $product->id) }}')">
-                            Delete
-                        </button>
+                    <div class="flex flex-col justify-between h-full">
+                        <div>
+                            <p class="font-bold text-xl text-left">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="text-base font-medium text-left mt-2">Stok: {{ $product->stock }}</p>
+                        </div>
+                        <div class="flex space-x-2 mt-4">
+                            <div class="mt-2">
+                                <a href="{{ route('seller.edit-product', $product->id) }}"
+                                    class="bg-yellow-500 text-white px-6 py-[0.7rem] font-medium rounded hover:bg-yellow-600 transition duration-300 flex-1 text-center">
+                                    Edit
+                                </a>
+                            </div>
+                            <form action="{{ route('seller.delete-product', $product->id) }}" method="POST" id="delete-product-{{ $product->id }}"
+                                class="flex-1">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="bg-red-500 text-white font-medium text-center px-4 py-2 rounded hover:bg-red-700 focus:outline-none flex-1">
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             @endforeach
         </div>
@@ -58,6 +67,23 @@
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
+            }
+        });
+    }
+
+    function deleteProduct(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Produk yang dihapus tidak dapat dikembalikan!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus produk!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-product-' + id).submit();
             }
         });
     }

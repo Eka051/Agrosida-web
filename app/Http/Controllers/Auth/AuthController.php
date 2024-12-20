@@ -41,14 +41,14 @@ class AuthController extends Controller
             $user = Auth::user();
            
             if ($user->hasRole('admin')) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.dashboard')->with('success', "Login Berhasil. \n Selamat datang, $user->name");
             } elseif ($user->hasRole('seller')) {
                 if ($user->addresses()->count() == 0) {
                     return redirect()->route('profile-seller', compact('user'))->with('warning', 'Isi alamat toko terlebih dahulu');
                 }
-                return redirect()->route('seller.dashboard');
+                return redirect()->route('seller.dashboard')->with('success', "Berhasil. \n Selamat datang, $user->name");
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('user.dashboard')->with('success', "Berhasil. \n Selamat datang, $user->name");
             }
         }
 
