@@ -158,6 +158,11 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order details not found');
         }
 
+        $product = Product::find($order->order_detail->first()->product_id);
+        if ($product->created_by !== Auth::id()) {
+            return redirect()->back()->with('error', 'You do not have permission to view this order');
+        }
+
         $address = Address::find($order->address_id);
         return view('seller.order-detail', compact('order', 'address'));
     }
@@ -209,6 +214,7 @@ class OrderController extends Controller
     public function confirmOrder($order_id) {
         $shipment = Shipment::with('order')->where('order_id', $order_id)->first();
         
+        try {
             if ($shipment && $shipment->status === 'processing') {
                 $shipment->status = 'shipping';
                 $shipment->save();
