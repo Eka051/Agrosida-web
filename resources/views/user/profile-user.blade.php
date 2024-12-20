@@ -37,6 +37,12 @@
                     <label for="address" class="block text-base font-medium text-gray-700">Alamat</label>
                     <p class="text-xl font-medium text-gray-900">{{ is_array($addresses) ? implode(', ', $addresses) : $addresses }}</p>
                 </div>
+                <button class="col-span-1 md:col-span-2 text-right">
+                    <a href="{{ route('user.profile.edit', $user->user_id) }}"
+                        class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                        Edit Profil
+                    </a>
+                </button>
             </div>
         </div>
 

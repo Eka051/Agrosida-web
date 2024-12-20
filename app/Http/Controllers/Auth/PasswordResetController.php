@@ -19,15 +19,15 @@ class PasswordResetController extends Controller
 
     public function sendVerificationCode(Request $request)
     {
-        // Log::info('Send Verification Code Called', [
-        //     'email' => $request->email,
-        //     'full_request' => $request->all()
-        // ]);
+        Log::info('Send Verification Code Called', [
+            'email' => $request->email,
+            'full_request' => $request->all()
+        ]);
         $request->validate([
             'email' => 'required|email|exists:users,email'
         ]);
 
-        // $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
         
         $verificationCode = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 

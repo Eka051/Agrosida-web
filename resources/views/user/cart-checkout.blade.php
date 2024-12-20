@@ -50,7 +50,7 @@
                                             <span class="iconify" data-icon="mynaui:plus" data-inline="false" style="width: 24px; height: 24px; color: #000;"></span>
                                         </button>
                                     </div>
-                                    <p class="text-gray-800 text-lg mt-4 font-medium"> Total: Rp. <span class="product-total" data-id="{{ $item->product->id }}">{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</span></p>
+                                    {{-- <p class="text-gray-800 text-lg mt-4 font-medium"> Total: Rp. <span class="product-total" data-id="{{ $item->product->id }}">{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</span></p> --}}
                                 </div>
                             </div>
                         @endif
@@ -72,7 +72,7 @@
                             <p>Biaya Layanan</p>
                             <p>Rp. 2.000</p>
                         </div>
-                        <div class="flex justify-between font-bold text-gray-800 mt-4">
+                        <div class="flex text-xl justify-between font-bold text-gray-800 mt-4">
                             <p>Total</p>
                             <p>Rp. <span id="total">{{ number_format($cartItems->sum(function($item) { return $item->product->price * $item->quantity; }) + 2000, 0, ',', '.') }}</span></p>
                         </div>

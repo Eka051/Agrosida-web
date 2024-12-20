@@ -48,7 +48,7 @@
                                 number_format($order->order_detail->first()->total, 0, ',', '.') }}</td>
                             <td class="px-4 py-2 border text-gray-800">
                                 <span
-                                    class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'shipped' ? 'bg-green-500' : ($order->status == 'pending' ? 'bg-yellow-500' : 'bg-red-500') }} text-white">
+                                    class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->status == 'shipped' ? 'bg-green-500' : ($order->status == 'processed' ? 'bg-yellow-500' : 'bg-red-500') }} text-white">
                                     {{ ucfirst($order->status) }}
                                 </span>
                             </td>

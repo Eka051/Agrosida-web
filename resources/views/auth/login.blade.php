@@ -9,7 +9,7 @@
     <div class="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-green-400 to-green-600">
         <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         <div class="relative z-10 p-12 text-white flex flex-col justify-center">
-            <img src="{{ asset('images/farmer.svg') }}" alt="Farmer Illustration" class="w-3/4 mx-auto mb-8 animate__animated animate__fadeIn">
+            <img src="{{ asset('Img/rb_757.png') }}" alt="Farmer Illustration" class="w-1/2 mx-auto mb-8 animate__animated animate__fadeIn">
             <h2 class="text-3xl font-bold mb-4 animate__animated animate__fadeIn animate__delay-1s">Solusi Terbaik untuk Pertanian Anda</h2>
             <ul class="space-y-4">
                 <li class="flex items-center animate__animated animate__fadeIn animate__delay-2s">
@@ -21,7 +21,7 @@
                     Marketplace pestisida terpercaya dengan pilihan lengkap
                 </li>
                 <li class="flex items-center animate__animated animate__fadeIn animate__delay-4s">
-                    <span class="iconify mr-3 text-lg text-yellow-400" data-icon="carbon:agriculture"></span>
+                    <span class="iconify mr-3 text-lg text-yellow-400" data-icon="grommet-icons:user-expert"></span>
                     Didukung oleh para ahli pertanian untuk solusi terbaik
                 </li>
             </ul>

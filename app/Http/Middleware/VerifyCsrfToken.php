@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
         '/get-provinces',
         '/order/get-courier',
         '/send-code',
+        'cart/update-quantity',
     ];
 }

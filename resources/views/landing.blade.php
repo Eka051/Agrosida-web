@@ -588,7 +588,7 @@
                 <div class="text-red-600 font-bold mb-0">Rp. {{ number_format($product->price, 0, '.',',') }}</div>
                 <p class="text-gray-500 line-through mb-2">Rp100.000</p>
                 <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">{{ $product->user->store->name }}</span>
+                    <span class="text-gray-700">{{ $product->user->store->name ?? '-'}}</span>
                 </div>
                 <a href="{{ route('user.dashboard') }}" class="block w-full text-center text-white bg-green-500 py-2 rounded-md hover:bg-yellow-400 hover:text-black border border-primary transition">Beli Sekarang</a>
             </div>

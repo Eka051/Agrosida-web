@@ -104,18 +104,19 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('user/order/{id}', [OrderController::class, 'order'])->name('user.order');
 
+    // cart
     Route::get('user/cart', [CartController::class, 'index'])->name('user.cart');
     Route::post('user/cart/add/{product_id}', [CartController::class, 'add'])->name('user.cart.add');
     Route::delete('user/cart/remove/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
-    // cart
     Route::get('user/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-    Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    // Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    Route::put('cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::delete('cart/clear/{user_id}', [CartController::class, 'clearCartAfterPayment'])->name('cart.clear');
     
     // order
     Route::post('user/order/payment', [OrderController::class, 'store'])->name('user.order.payment');
     Route::post('user/cart/payment', [PaymentController::class, 'cartPayment'])->name('cart.payment');
-    Route::get('user/history', [OrderController::class, 'history'])->name('user.history');
+    Route::get('user/history', action: [OrderController::class, 'history'])->name('user.history');
     Route::post('payment/process', [PaymentController::class, 'process'])->name('payment.process');
     Route::post('payment/pending/{order_id}', [PaymentController::class, 'payPendingOrder'])->name('payment.pending');
     Route::get('user/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('user.order-detail');

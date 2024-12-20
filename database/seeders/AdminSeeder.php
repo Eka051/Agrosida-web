@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
             'user_id' => Str::uuid(),
             'name' => 'Admin',
             'username' => 'admin',
-            'email' => 'agrosida@gmail.com',
+            'email' => 'agrosida2024@gmail.com',
             'password' => bcrypt('agrosida'),
             'created_at' => now(),
             'updated_at' => now(),

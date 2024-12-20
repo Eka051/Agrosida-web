@@ -28,7 +28,7 @@
                 </div>
                 <div>
                     <label for="password" class="block text-base font-medium text-gray-700">Password</label>
-                    <p class="text-base text-gray-900">{{ str_repeat('●', min(8, strlen($admin->password))) }}</p>
+                    <p class="text-base text-gray-900">{{ str_repeat('●', min(8, strlen(old('password', $admin->password)))) }}</p>
                 </div>
                 <div class="col-span-1 md:col-span-2">
                     <hr class="border-gray-300">

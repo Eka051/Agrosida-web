@@ -89,7 +89,7 @@ class SellerController extends Controller
             'password' => $request->password,
         ]);
         
-        return redirect()->route('admida')->with('success', 'Profil berhasil diubah');
+        return redirect()->route('seller.dashboard')->with('success', 'Profil berhasil diubah');
     }
 
 }

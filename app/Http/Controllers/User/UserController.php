@@ -47,7 +47,7 @@ class UserController extends Controller
             'password' => $request->password,
         ]);
 
-        return redirect()->route('user.dashboard')->with('success', 'Profil berhasil diubah');
+        return redirect()->route('profile-user')->with('success', 'Profil berhasil diubah');
     }
 
     public function editProfile($user_id)

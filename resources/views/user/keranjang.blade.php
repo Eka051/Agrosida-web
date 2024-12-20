@@ -185,19 +185,21 @@
 
   async function updateQuantity(productId, quantity) {
     try {
-        const response = await fetch('cart/update-quantity', {
+        const response = await fetch('/cart/update-quantity', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 cart_items: [{
                     product_id: productId,
                     quantity: quantity
                 }]
-            })
-        });
+              })
+            });
+            console.log(productId, quantity);
 
         if (response.ok) {
             const data = await response.json();

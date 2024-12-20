@@ -58,7 +58,7 @@
                     <p class="text-gray-600 text-base">{{ $order->shipment ? $order->shipment->detail_address : 'Alamat pengiriman tidak tersedia' }}</p>
                     <p class="text-gray-600 text-lg font-semibold mt-2">Kurir: {{ $order->shipment->courier_name }} - {{ $order->shipment->courier_service }}</p>
                     <p class="text-gray-600 text-lg font-semibold">Status Pengiriman:
-                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->shipment->status == 'processing' ? 'bg-yellow-500' : ($order->shipment->status == 'shipping' ? 'bg-blue-500' : ($order->shipment->status == 'delivered' ? 'bg-green-500' : 'bg-red-500')) }} text-white">
+                        <span class="inline-block rounded px-3 py-1 text-sm font-semibold {{ $order->shipment->status == 'processing' ? 'bg-yellow-500' : ($order->shipment->status == 'shipping' ? 'bg-green-500' : ($order->shipment->status == 'delivered' ? 'bg-green-500' : 'bg-red-500')) }} text-white">
                             {{ ucfirst($order->shipment->status) }}
                         </span>
                     </p>

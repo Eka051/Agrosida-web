@@ -209,7 +209,6 @@ class OrderController extends Controller
     public function confirmOrder($order_id) {
         $shipment = Shipment::with('order')->where('order_id', $order_id)->first();
         
-        try {
             if ($shipment && $shipment->status === 'processing') {
                 $shipment->status = 'shipping';
                 $shipment->save();
