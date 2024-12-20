@@ -3,13 +3,11 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 mt-20">
     <div class="max-w-4xl mx-auto space-y-8">
-        {{-- Address Management Header --}}
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">Manajemen Alamat</h1>
             <p class="text-gray-600">Atur dan kelola alamat pengiriman dan penagihan Anda</p>
         </div>
 
-        {{-- Button to Add New Address --}}
         <div class="text-right mb-4">
             <button id="add-address-btn"
                 class="px-8 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
@@ -17,7 +15,6 @@
             </button>
         </div>
 
-        {{-- Add New Address Card (Hidden by Default) --}}
         <div id="add-address-form" class="bg-white shadow-xl rounded-2xl p-6 border border-gray-100 hidden">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Tambah Alamat Baru</h2>
@@ -35,7 +32,6 @@
             <form action="{{ route('user.address.store') }}" method="POST" class="space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Recipient Name --}}
                     <div>
                         <label for="name" class="block text-base font-medium text-gray-700 mb-2">Nama Penerima</label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
@@ -46,7 +42,6 @@
                         @enderror
                     </div>
 
-                    {{-- Phone Number --}}
                     <div>
                         <label for="phone_number" class="block text-base font-medium text-gray-700 mb-2">Nomor Telepon</label>
                         <input type="number" id="phone_number" name="phone_number" value="{{ old('phone') }}"
@@ -57,7 +52,6 @@
                         @enderror
                     </div>
 
-                    {{-- Province --}}
                     <div>
                         <label for="province" class="block text-base font-medium text-gray-700 mb-2">Provinsi</label>
                         <select id="province" name="province"
@@ -73,7 +67,6 @@
                         <input type="hidden" name="province_name" id="province_name">
                     </div>
 
-                    {{-- City --}}
                     <div>
                         <label for="city" class="block text-base font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
                         <select id="city" name="city"
@@ -85,7 +78,6 @@
                         @enderror
                         <input type="hidden" name="city_name" id="city_name">
                     </div>
-                    {{-- Street Address --}}
                     <div>
                         <label for="detail_address" class="block text-base font-medium text-gray-700 mb-2">Alamat
                             Lengkap</label>
@@ -107,7 +99,6 @@
             </form>
         </div>
 
-        {{-- Saved Addresses --}}
         <div class="bg-white shadow-lg rounded-lg p-8 border border-gray-200">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-900">Alamat Tersimpan</h2>
@@ -153,7 +144,6 @@
             @endif
         </div>
 
-        {{-- Back Button --}}
         <div class="text-left mt-8">
             <button onclick="window.history.back()"
             class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">

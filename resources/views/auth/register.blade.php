@@ -26,35 +26,30 @@
                     </div>
 
                     <div class="px-16 mt-8">
-                        <!-- Toko Name Field -->
                         <div class="mt-4 mb-4 hidden" id="storeNameField">
                             <label for="store_name" class="block font-semibold text-lg">Nama Toko</label>
                             <input type="text" name="store_name" id="store_name" placeholder="Masukkan nama toko" 
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
 
-                        <!-- Full Name Field -->
                         <div>
                             <label for="name" class="block font-semibold text-lg">Nama Lengkap</label>
                             <input type="text" name="name" id="name" placeholder="Masukkan nama lengkap" required 
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
 
-                        <!-- Email Field -->
                         <div class="mt-4">
                             <label for="email" class="block font-semibold text-lg">Email</label>
                             <input type="email" name="email" id="email" placeholder="Masukkan alamat email" required 
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
 
-                        <!-- Username Field -->
                         <div class="mt-4">
                             <label for="username" class="block font-semibold text-lg">Username</label>
                             <input type="text" name="username" id="username" placeholder="Masukkan username" required 
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
 
-                        <!-- Password Field -->
                         <div class="mt-4">
                             <label for="password" class="block font-semibold text-lg">Password</label>
                             <div class="relative">
@@ -67,7 +62,6 @@
                             </div>
                         </div>
 
-                        <!-- Password Confirmation Field -->
                         <div class="mt-4">
                             <label for="password_confirmation" class="block font-semibold text-lg">Konfirmasi Password</label>
                             <div class="relative">
@@ -80,7 +74,6 @@
                             </div>
                         </div>
 
-                        <!-- Register Button -->
                         <div class="mt-8 flex justify-center">
                             <button type="submit"
                                 class="bg-greenSecondary w-[22rem] h-12 text-white text-lg font-medium rounded-lg hover:bg-blue-700 hover:text-white focus:outline-none focus:bg-blue-700">
@@ -88,7 +81,6 @@
                             </button>
                         </div>
 
-                        <!-- Google Register Button -->
                         <div class="mt-4 flex justify-center" id="googleRegister">
                             <a href="{{ route('oauth.google') }}" class="w-[22rem] h-12 bg-white border border-gray-300 text-lg font-medium rounded-lg hover:bg-gray-100 flex items-center justify-center focus:outline-gray-400">
                                 <span class="iconify mr-2" data-icon="logos:google-icon" data-width="24" data-height="24"></span>
@@ -96,7 +88,6 @@
                             </a>
                         </div>
 
-                        <!-- Login Redirect -->
                         <div class="text-center mt-2">
                             <p class="text-lg">Sudah memiliki akun? <a href="{{ route('login') }}"
                                     class="text-greenPrimary font-semibold hover:underline focus:outline-none focus:underline">Login</a>
