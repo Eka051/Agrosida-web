@@ -1,5 +1,5 @@
 
-<aside class="w-56 h-screen bg-greenSecondary text-black fixed border-r border-gray-400 lg:w-64 md:w-48 sm:w-40 top-0 z-50">
+<aside class="w-56 h-[100rem] bg-greenSecondary text-black fixed border-r border-gray-400 lg:w-64 md:w-48 sm:w-40 top-0 z-50">
     <div class="p-4 text-center font-bold text-xl border-b border-gray-400">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('img/LOGO-AGROSIDA.png') }}" alt="logo-agrosida" class="w-10">
