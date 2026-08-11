@@ -77,7 +77,6 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Order
     Route::get('seller/order', [OrderController::class, 'showOrderFromUser'])->name('seller.view-order');
     Route::get('seller/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('seller.view-order-detail');
-    Route::get('seller/transaction', [TransactionController::class, 'showTransactionFromUser'])->name('seller.view-transaction');
     
     
     // Address

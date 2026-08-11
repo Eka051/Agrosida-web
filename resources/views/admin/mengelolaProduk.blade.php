@@ -54,7 +54,7 @@
                         <tr class="hover:bg-gray-100">
                             <td class="px-4 py-2 border text-gray-800">{{ $product->user->store->name ?? '-' }}</td>
                             <td class="px-4 py-2 border">
-                                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
+                                <img src="{{ asset("storage/{$product->image_path}") }}" alt="{{ $product->name }}"
                                      class="w-full h-24 object-contain">
                             </td>
                             <td class="px-4 max-w-[20rem] py-2 border text-gray-800">{{ $product->product_name }}</td>
@@ -103,7 +103,6 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 document.body.appendChild(form);
                 form.submit();
             }

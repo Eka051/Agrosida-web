@@ -58,7 +58,7 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300">
                             <option value="" disabled selected>Pilih Provinsi</option>
                             @foreach($provinces as $province)
-                            <option value="{{ $province['province_id'] }}" data-province="{{ $province['province'] }}">{{ $province['province'] }}</option>
+                            <option value="{{ $province['id'] }}" data-province="{{ $province['name'] }}">{{ $province['name'] }}</option>
                             @endforeach
                         </select>
                         @error('province')
@@ -165,7 +165,7 @@
 
         document.getElementById('province_name').value = provinceName;
 
-        fetch(`/api/cities?province_id=${provinceId}`)
+        fetch(`/api/cities?id=${provinceId}`)
             .then(response => response.json())
             .then(data => {
             const citySelect = document.getElementById('city');

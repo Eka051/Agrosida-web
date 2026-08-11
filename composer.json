@@ -8,7 +8,7 @@
         "php": "^8.2",
         "azishapidin/indoregion": "^3.0",
         "guzzlehttp/guzzle": "^7.9",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.44.1",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "laravolt/indonesia": "^0.35.0",
@@ -22,7 +22,7 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1"
+        "phpunit/phpunit": "^11.5.50"
     },
     "autoload": {
         "psr-4": {
@@ -69,6 +69,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "ignore": ["PKSA-m5cs-t1y6-qpcs", "PKSA-3r5d-mb8f-1qw9", "PKSA-mdq4-51ck-6kdq"]
         }
     },
     "minimum-stability": "stable",

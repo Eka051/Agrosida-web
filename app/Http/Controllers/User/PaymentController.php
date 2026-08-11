@@ -164,7 +164,7 @@ class PaymentController extends Controller
 
         $payload = [
             'transaction_details' => [
-                'order_id' => $order->order_id,
+                'order_id' => Str::uuid(),
                 'gross_amount' => $order->order_detail->sum('total') + $order->shipment->shipping_cost + 2000,
             ],
             'customer_details' => [
@@ -222,7 +222,7 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Total pembayaran tidak valid');
         }
 
-        $user = auth()->user();
+        $user = Auth::user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'Login terlebih dahulu');
         }

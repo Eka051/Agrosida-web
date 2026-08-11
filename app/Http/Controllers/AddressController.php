@@ -26,10 +26,10 @@ class AddressController extends Controller
     {
         $response = Http::withHeaders([
             'key' => config('services.rajaongkir.api_key'),
-        ])->get('https://api.rajaongkir.com/starter/province');
+        ])->get('https://rajaongkir.komerce.id/api/v1/destination/province');
             
         if ($response->successful()) {
-            return $response->json()['rajaongkir']['results'];
+            return $response->json()['data'];
         }
     
         return [];
@@ -40,10 +40,10 @@ class AddressController extends Controller
         $provinceId = $request->input('province_id');
         $response = Http::withHeaders([
             'key' => config('services.rajaongkir.api_key'),
-        ])->get("https://api.rajaongkir.com/starter/city?province={$provinceId}");
+        ])->get("https://rajaongkir.komerce.id/api/v1/destination/city/{$provinceId}");
     
-        if ($response->successful() && isset($response['rajaongkir']['results'])) {
-            return response()->json($response['rajaongkir']['results']);
+        if ($response->successful() && isset($response['data'])) {
+            return response()->json($response['data']);
         }
     
         return response()->json(['error' => 'Failed to fetch cities'], 500);
